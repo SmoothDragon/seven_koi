@@ -53,15 +53,17 @@ Lock the math before committing to art, because if a claim is wrong the rules ch
 - **Card structure**: confirm the 64 cards are exactly the odd-weight binary vectors of length 7. Counts: C(7,1) + C(7,3) + C(7,5) + C(7,7) = 7 + 35 + 21 + 1 = 64. ✓ (combinatorially trivial)
 - **Match definition**: a "match" is a subset of cards whose bitwise XOR is the zero vector — equivalently, every koi appears an even number of times across the chosen cards.
 - **Minimum match size = 4**: every card has odd Hamming weight; sum of an odd number of odd weights is odd, so the smallest non-empty subset that can sum to even-weight (and zero in particular) has size 2 or 4. Size 2 would require two identical cards, which is impossible in this deck — so the minimum non-trivial match is 4. ✓
-- **Open: 4-card guarantee in any 9-card layout**. Pigeonhole gives a starting point: the C(9, 3) = 84 three-element XOR sums all live in the 64 odd-weight vectors of F_2^7, so two distinct three-subsets must share an XOR. Their symmetric difference has size 6, 4, or 2. Size 2 is impossible (no duplicate cards). Size 6 yields a 6-card match but not directly a 4-card one. Size 4 yields the desired 4-card match. **A clean argument or a brute-force check is needed to rule out the "always size 6" case.** A direct connection to the [7, 4, 3] Hamming code / extended [8, 4, 4] code is the most elegant route.
-- **Open: endgame split**. Verify that the final 8 cards always partition into two 4-card matches (and characterize what happens if a player misidentifies the split).
+- **4-card guarantee in any 9-card layout**: established per the proof at <https://chatgpt.com/share/69f67dcc-d818-832f-80a4-bb5e0c37e963> ("Subset sum to zero"). Equivalent statement: the maximum Sidon set among the 64 odd-weight vectors of F_2^7 has size ≤ 8. The natural 8-element Sidon set `{e_1, ..., e_7, 1111111}` is maximal — every additional odd-weight vector closes a 4-cycle:
+  - any weight-3 vector `e_i + e_j + e_k` closes with `{e_i, e_j, e_k}`;
+  - any weight-5 vector `v` closes with `{1111111, e_i, e_j}` where `e_i, e_j` are the two unit vectors absent from `v`.
+- **Endgame split**: verify that the final 8 cards always partition into two 4-card matches (and characterize what happens if a player misidentifies the split).
 - **Dealing arithmetic**. With initial layout L and final layout F, total cards passing through play satisfy `64 = L + 4M + F` where M is the number of mid-game matches. The user's stated `L = 9, F = 8` gives M = 11.75 (no integer solution). Resolutions:
   - **L = 8, F = 8** → M = 12. Cleanest; loses one card from initial spread.
   - **L = 12, F = 8** → M = 11. More cards visible from start (easier first match).
   - **L = 9, F = 8, deck empties mid-game** → after the deck runs out, claimed matches simply shrink the layout from 9 → 5 → ... etc. This is rule-elegant but the endgame is no longer guaranteed to be exactly 8 cards.
   - Pick one and update the rules document accordingly.
 
-**Deliverable**: `math/verify.py` (a small Python script using `itertools` and bitmask XOR to brute-force-check the 4-card guarantee on a sample of 9-card layouts, and to verify the endgame-split claim on every possible 8-card residual) plus `math/NOTES.md` with the writeup, the chosen dealing convention, and either a proof or a counterexample.
+**Deliverable**: `math/verify.py` (a small Python script using `itertools` and bitmask XOR for two independent checks: (a) enumerate Sidon sets among odd-weight F_2^7 vectors via branch-and-bound and confirm none reach size 9, which is equivalent to the 4-card guarantee; (b) verify the endgame-split claim on every reachable 8-card residual) plus `math/NOTES.md` with the writeup of the cited proof in our own words, the chosen dealing convention, and the verification results.
 
 ---
 

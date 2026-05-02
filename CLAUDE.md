@@ -33,13 +33,14 @@ Three tracked files exist; no source code, no art beyond the reference sheet, no
 6. Eventually 8 cards remain; due to the math, these split exactly into two groups of 4. Whichever player identifies one group of 4 collects both groups.
 7. **Score** = total number of koi (across all collected cards) for each player.
 
-## Math claim recorded (not yet verified)
+## Math claims
 
-The game relies on the following claims, which `PLAN.md` Phase 2 schedules for formal verification (proof or brute-force search) before art is committed:
+The game relies on the following claims. The 4-card guarantee has a proof recorded by the designer at <https://chatgpt.com/share/69f67dcc-d818-832f-80a4-bb5e0c37e963> ("Subset sum to zero"); `PLAN.md` Phase 2 still schedules an independent brute-force verification and a clean writeup before art is committed.
 
 - The 64 cards are exactly the odd-weight vectors in F_2^7. ✓ (combinatorially obvious)
 - A "match" = subset whose XOR is the zero vector.
-- **Every 9-card subset of the 64 contains a 4-element subset that XORs to 0.** Pigeonhole on C(9, 3) = 84 three-subsets vs 64 odd-weight targets forces a collision, but the resulting symmetric difference can be size 4 or size 6 — so the 4-card guarantee needs an explicit argument or brute-force check.
+- **Minimum match size = 4.** Every card has odd Hamming weight, so any non-empty subset that XORs to 0 must have even size. Size 2 would require two identical cards (impossible in this deck), so the smallest non-trivial match has 4 cards. ✓
+- **Every 9-card subset of the 64 contains a 4-element subset that XORs to 0.** Established per the cited proof. Equivalent to: the maximum Sidon set among the 64 odd-weight vectors in F_2^7 has size ≤ 8. Sanity-checked locally: the natural 8-element set {e_1, ..., e_7, 1111111} is Sidon and cannot be extended (every additional odd-weight vector closes a 4-cycle).
 - The final 8 cards always split exactly into two 4-card matches.
 
 ## Open decisions (must be resolved before later phases)
