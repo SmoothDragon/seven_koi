@@ -14,6 +14,7 @@ This file lets a fresh AI agent (Claude, Cursor, etc.) recreate the current stat
 - `PLAN.md` — 12-phase publication roadmap.
 - `CLAUDE.md` — this file.
 - `math/NOTES.md` — self-contained proof of the 4-card guarantee.
+- `koi_selection.md` — the seven chosen koi (Phase 1 deliverable, **done**).
 
 No source code yet (`math/verify.py` is the next planned artifact); no art beyond the reference sheet; no rules document yet.
 
@@ -50,7 +51,7 @@ The full self-contained proof of the 4-card guarantee is in [math/NOTES.md](math
 
 1. **Publication route** — print-on-demand, Kickstarter, pitch-to-publisher, or personal/hobby?
 2. **Dealing math reconciliation** — initial layout 9 + endgame 8 doesn't close: 64 = 9 + 4M + 8 gives M = 11.75. Likely fixes: deal 8 initially (clean), deal 12 initially (clean), or stop replenishing once the deck empties (residual handled explicitly).
-3. **Final 7-of-13 koi selection** — recommendation in `PLAN.md` Phase 1: Kohaku, Showa, Asagi, Ogon, Chagoi, Tancho, Kumonryu (max hue + pattern contrast, no near-duplicates).
+3. ~~**Final 7-of-13 koi selection**~~ — **resolved**: Kohaku, Showa, Asagi, Ogon, Chagoi, Tancho, Kumonryu. See [koi_selection.md](koi_selection.md) for English/Japanese names, flavor blurbs, and the primary-color palette.
 4. **Player count and turn structure** — real-time call-out vs turn-based scan; suggested 2–6 players.
 5. **Art pipeline** — commissioned illustrator, DIY, or AI-generated (with copyright implications).
 6. **Digital prototype** — whether to build a Tabletop Simulator mod or web prototype for remote playtesting.

@@ -12,7 +12,7 @@ These block later phases. Make them before sinking time into art or production.
 
 1. **Publication route** — print-on-demand, crowdfunding, pitch-to-publisher, or personal/hobby.
 2. **Dealing-math reconciliation** — see Phase 2; the stated "9 out / 8 left" arithmetic does not close over a 64-card deck. Pick: initial layout of 8, initial layout of 12, or "stop replenishing once the deck is empty" with the residual handled explicitly.
-3. **Final 7-of-13 koi** — recommendation in Phase 1.
+3. ~~**Final 7-of-13 koi**~~ — **resolved** (see [koi_selection.md](koi_selection.md)): Kohaku, Showa, Asagi, Ogon, Chagoi, Tancho, Kumonryu.
 4. **Player count and turn structure** — real-time call-out vs turn-based scan.
 5. **Art pipeline** — commissioned illustrator, DIY, or AI-generated.
 6. **Digital prototype** — Tabletop Simulator mod, web prototype, or none.
@@ -42,7 +42,7 @@ These block later phases. Make them before sinking time into art or production.
 
 **Dropped, with reason**: Shusui (too close to Asagi), Sanke (too close to Showa), Utsurimono / Utsuri / Bekko / Hariwake (cluster in black/yellow/white space; keeping all four hurts thumbnail readability).
 
-**Deliverable**: `koi_selection.md` with the seven chosen koi, English + Japanese (kanji + romaji) names, a 1–2 sentence flavor blurb each, and the primary color hex above for use in card design.
+**Deliverable**: [koi_selection.md](koi_selection.md) with the seven chosen koi, English + Japanese (kanji + romaji) names, a 1–2 sentence flavor blurb each, and the primary color hex above for use in card design. **Done.**
 
 ---
 
@@ -230,7 +230,7 @@ A short reference list of campaigns to study for pacing, video, reward tiers, an
 
 1. Publication route (print-on-demand / Kickstarter / publisher / personal).
 2. Reconcile dealing math (initial layout 8 or 12, or "stop replenishing once deck empty").
-3. Final 7-of-13 koi selection (recommendation in Phase 1).
+3. ~~Final 7-of-13 koi selection.~~ Resolved — see [koi_selection.md](koi_selection.md).
 4. Player count and turn structure (real-time call-out vs turn-based).
 5. Art pipeline (commissioned / DIY / AI-generated).
 6. Whether to build a digital prototype (Tabletop Simulator / web / none).
