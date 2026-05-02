@@ -8,11 +8,14 @@ This file lets a fresh AI agent (Claude, Cursor, etc.) recreate the current stat
 
 ## Repo state (as of this writing)
 
-Three tracked files exist; no source code, no art beyond the reference sheet, no rules document.
-
 - `README.md` — 3 lines: project name and the tagline "Matching card game".
 - `.gitignore` — the standard GitHub Python template (suggests Python tooling is fine for math verification and any card-layout scripts).
 - `ThirteenKoi.png` — reference grid of 13 popular koi varieties with English/Japanese names and one-line descriptions. The 13 varieties are: Kohaku, Showa, Asagi, Shusui, Ogon, Chagoi, Utsurimono, Tancho, Kumonryu, Hariwake, Sanke, Bekko, Utsuri. Seven of these will be selected for the game (see Open Decisions).
+- `PLAN.md` — 12-phase publication roadmap.
+- `CLAUDE.md` — this file.
+- `math/NOTES.md` — self-contained proof of the 4-card guarantee.
+
+No source code yet (`math/verify.py` is the next planned artifact); no art beyond the reference sheet; no rules document yet.
 
 ## Game spec (verbatim from designer)
 
@@ -35,13 +38,13 @@ Three tracked files exist; no source code, no art beyond the reference sheet, no
 
 ## Math claims
 
-The game relies on the following claims. The 4-card guarantee has a proof recorded by the designer at <https://chatgpt.com/share/69f67dcc-d818-832f-80a4-bb5e0c37e963> ("Subset sum to zero"); `PLAN.md` Phase 2 still schedules an independent brute-force verification and a clean writeup before art is committed.
+The full self-contained proof of the 4-card guarantee is in [math/NOTES.md](math/NOTES.md), which adapts the argument from the designer's reference at <https://chatgpt.com/share/69f67dcc-d818-832f-80a4-bb5e0c37e963> ("Subset sum to zero"). Independent computational verification (`math/verify.py`) is still pending — see `PLAN.md` Phase 2.
 
 - The 64 cards are exactly the odd-weight vectors in F_2^7. ✓ (combinatorially obvious)
 - A "match" = subset whose XOR is the zero vector.
-- **Minimum match size = 4.** Every card has odd Hamming weight, so any non-empty subset that XORs to 0 must have even size. Size 2 would require two identical cards (impossible in this deck), so the smallest non-trivial match has 4 cards. ✓
-- **Every 9-card subset of the 64 contains a 4-element subset that XORs to 0.** Established per the cited proof. Equivalent to: the maximum Sidon set among the 64 odd-weight vectors in F_2^7 has size ≤ 8. Sanity-checked locally: the natural 8-element set {e_1, ..., e_7, 1111111} is Sidon and cannot be extended (every additional odd-weight vector closes a 4-cycle).
-- The final 8 cards always split exactly into two 4-card matches.
+- **Minimum match size = 4.** Every card has odd Hamming weight, so any non-empty subset that XORs to 0 must have even size. Size 2 would require two identical cards (impossible in this deck), so the smallest non-trivial match has 4 cards. ✓ (proof in `math/NOTES.md` §2)
+- **Every 9-card subset of the 64 contains a 4-card match.** Equivalent to: the maximum Sidon set among the 64 odd-weight vectors of F_2^7 has size ≤ 8. The natural set {e_1, ..., e_7, 𝟙} achieves size 8 and is maximal (every additional odd-weight vector closes a 4-cycle). Proof in `math/NOTES.md` §3–6, modulo the cited classical bound `max Sidon in F_2^7 = 2^⌊7/2⌋ = 8`.
+- **Endgame split**: the final 8 cards always split exactly into two 4-card matches. *Not yet proven*; brute-force verification scheduled in Phase 2 (depends on which dealing convention is chosen).
 
 ## Open decisions (must be resolved before later phases)
 
