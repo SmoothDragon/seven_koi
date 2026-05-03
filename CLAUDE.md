@@ -17,6 +17,7 @@ This file lets a fresh AI agent (Claude, Cursor, etc.) recreate the current stat
 - `math/RESULTS.md` — Monte Carlo simulation report falsifying two of the original spec's claims.
 - `math/verify.py` — Python verifier with sanity asserts and Mode A / Mode B Monte Carlo (`python3 math/verify.py --help`).
 - `math/layout_stall_sweep.py` — Mode B stall rates vs layout size **`L`** across odd-weight decks (`n = 4`…`7`); see `math/RESULTS.md` §2.1.
+- `math/explore_sidon_odd_restricted/` — Rust CLI for strict Sidon maxima on odd / even / ambient slices (`cargo run --release` after `cd` there).
 - `bonus_web/` — Rust → WebAssembly stub for the Kickstarter digital bonus (`wasm-pack` build). See [bonus_web/README.md](bonus_web/README.md).
 
 ## Game spec (verbatim from designer)
