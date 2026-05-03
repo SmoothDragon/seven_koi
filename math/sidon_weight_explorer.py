@@ -25,7 +25,7 @@ Exact backtracking is fine for |U| ≤ ~35; the six-bit **odd** universe has
 naive exhaustive search often exceeds multi-minute wall clocks (e.g. `timeout 90`
 ends with exit 124 and no summary line) unless you add stronger pruning or a solver — use greedy for that row or raise the time limit. Seven-bit odd has |U|=64; exhaustive runs with `--risky-large-exhaust` have hit
 multi-minute timeouts (**exit 124** under `timeout 180` in CI-style checks) — treat
-exact max on that slice as "unknown here" without a stronger algorithm; greedy gave 9 historically on the game's actual 64-card Seven Koi deck.
+exact max on that slice as "unknown here" without a stronger algorithm; greedy gave 9 historically on the game's actual 64-card Expert deck.
 
 Run as a **script** (do not `import math.sidon_…` — Python's stdlib `math` wins).
 
@@ -196,7 +196,7 @@ def main() -> None:
     banner = """\
 Strict Sidon ( Lemma B XOR conditions ) slices:
 • all_nonzero         — playable mask if every nonzero n-bit glyph existed
-• odd_weight_only      — Seven Koi legal vectors (excluding omitted-koi analogue)
+• odd_weight_only      — Expert / Standard legal vectors (odd weight; Standard = omitted-koi analogue)
 • even_nonzero_only    — parity contrast slice"""
     print(banner)
 

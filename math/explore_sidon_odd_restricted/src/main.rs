@@ -1,6 +1,6 @@
 /*!
 Explore maximum strict Sidon set size inside GF(2)^n versus odd-weight subsets
-(Seven Koi card slice). Mirrors the former Python verifier with faster incremental XOR checks.
+(Seven Koi Expert-deck slice; `n=6` is the Standard six-koi slice). Mirrors the former Python verifier with faster incremental XOR checks.
 
 Definition ( Lemma B XOR conditions in math/NOTES.md ):
 • no distinct triple with a xor b xor c == 0
@@ -351,7 +351,7 @@ fn main() {
     println!(
         "Strict Sidon ( Lemma B XOR conditions ) slices:\n\
          • all_nonzero         — playable mask if every nonzero n-bit glyph existed\n\
-         • odd_weight_only      — Seven Koi legal vectors (excluding omitted-koi analogue)\n\
+         • odd_weight_only      — Expert / Standard legal vectors (odd weight; Standard = omitted-koi analogue)\n\
          • even_nonzero_only    — parity contrast slice"
     );
 

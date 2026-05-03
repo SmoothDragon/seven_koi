@@ -71,7 +71,7 @@ The same Mode B flow (shuffle, fixed layout size **L**, uniform random legal 4-m
 | 5 | 16 | **L = 6**: ~11% | **L₀ = 7** |
 | 4 | 8 | **L = 4**: ~80% (tiny deck — sanity only) | **L₀ = 5** |
 
-Seven Koi ships **seven koi (**`L₀ = 10`**) and six koi (**`L₀ = 8`**)** per **`PLAN.md`** Phase 0.
+Seven Koi ships **Expert seven koi (**`L₀ = 10`**) and Standard six koi (**`L₀ = 8`**)** per **`PLAN.md`** Phase 0.
 
 ```bash
 python3 math/layout_stall_sweep.py --trials 50000 --seed 2 --n-bits 5 6 7 --layout-min 5 --layout-max 10

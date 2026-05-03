@@ -23,6 +23,6 @@ Examples:
 ```bash
 cargo run --release -- --max-n 6 --exact-cutoff 63
 
-# Exact max on Seven Koi-sized odd universe (|U| = 64); may still take noticeable wall time:
+# Exact max on Expert (seven-koi) odd universe (|U| = 64); may still take noticeable wall time:
 cargo run --release -- --min-n 7 --max-n 7 --exact-cutoff 64
 ```
