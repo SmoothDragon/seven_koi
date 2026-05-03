@@ -60,7 +60,7 @@ Lock the math before committing to art, because if a claim is wrong the rules ch
 - **Minimum match size = 4**: every card has odd Hamming weight; sum of an odd number of odd weights is odd, so the smallest non-empty subset that can sum to even-weight (and zero in particular) has size 2 or 4. Size 2 would require two identical cards, which is impossible in this deck — so the minimum non-trivial match is 4. ✓
 - **4-card guarantee — original spec is BROKEN.** The cited classical bound `max Sidon in F_2^7 ≤ 2^⌊7/2⌋ = 8` is wrong for our deck. A 9-element Sidon set exists (`S₉ = {25, 28, 35, 47, 55, 70, 73, 100, 110}` in `math/NOTES.md` Lemma D), so a 9-card layout can fail to contain a 4-card match. Random-play simulation under `L = 9` stalls mid-game ~40% of the time (`math/RESULTS.md` §2). The minimum layout size that guarantees a 4-card match is **`L = 10`** (corollary, conditional on the empirical `max Sidon = 9`), at which random-play simulation stalls 0% of the time across 20,000 trials.
 - **Endgame structure**:
-  - **Proven** ([math/NOTES.md](math/NOTES.md) §7.1): the residual 8 cards always XOR to 0 (a single 8-card match in the parity sense).
+  - **Proven** ([math/NOTES.md](math/NOTES.md) §7.1): after the deck empties, the **F** cards left on the table satisfy Σ R = 0 (even koi-parity everywhere). With recommended **`L = F = 10`** dealing, **10** cards remain and their XOR is zero — not two automatic 4-card claims unless the multiset happens to admit them.
   - **Disproven** ([math/NOTES.md](math/NOTES.md) §7.2, `math/RESULTS.md` §3): the further claim that the residual splits into two 4-card matches is **false ~50% of the time** under random play. Both Mode A (50k trials, 51.7% unsplittable) and Mode B with `L = 10` (20k trials, 47.4% unsplittable) confirm this. The "claim one → claim both" endgame rule cannot be the default and the fallback would fire in nearly half of all games.
 - **Dealing arithmetic** (rewritten in light of `math/RESULTS.md`). With initial layout `L` and final layout `F`, total cards passing through play satisfy `64 = L + 4M + F`. The math results force `L ≥ 10` (smaller and the layout can stall). Clean choices:
   - **`L = 10, F = 10`** → `M = 11`. No mid-game stalls. Endgame begins with 10 cards on the table, which is more than the original "8 cards" intuition. Players continue real-time match-claiming on the 10-card residual until either it can't be reduced further or it reaches 0 / 2 cards. Simple and consistent with mid-game.
@@ -71,37 +71,38 @@ Lock the math before committing to art, because if a claim is wrong the rules ch
 
 - [math/NOTES.md](math/NOTES.md) — math claims with the corrected status table (the cited classical Sidon bound was wrong; max Sidon = 9; the 4-card guarantee requires `L ≥ 10`; endgame splittability is empirically ~50%). **Done.**
 - [math/RESULTS.md](math/RESULTS.md) — Monte Carlo simulation report (max-Sidon empirical search; mid-game stall sweep over `L ∈ {8, 9, 10}`; abstract reachability of unsplittable residuals). **Done.**
-- [math/verify.py](math/verify.py) — Python verifier with sanity asserts and Mode A / Mode B Monte Carlo. **Done** for the simulations; remaining work:
-  - **Formal proof that `max Sidon ≤ 9` in `D`.** Empirical evidence (50k random greedy trials, all max ≤ 9) is very strong but not a proof. Primary route: [CP24] bounds on `s_max(F_2^t)` and the sum-free Sidon ↔ `[n,k,5]` code correspondence (their §§4–5), combined with how the odd-parity deck sits in an affine translate of `F_2^{n-1}`; alternately SAT/ILP or symmetry breaking under `S_7` on weight-3/5 vectors.
-  - **Characterization of unsplittable 8-card residuals.** All 25k+ unsplittable residuals seen in Mode A are 8-element strict-Sidon sets. Counting and structurally describing them would let us tune the endgame rule precisely (e.g., dropping a small number of cards from the deck so that `max Sidon ≤ 7`, which would force every 8-card residual to split).
+- [math/verify.py](math/verify.py) — Python verifier with sanity asserts and Mode A / Mode B Monte Carlo. **Done** for the **standard 64-card** simulations; extensions still open:
+  - **Formal proof that `max Sidon ≤ 9` in the standard deck `D`.** Empirical evidence (50k random greedy trials, all max ≤ 9) is very strong but not a proof. Primary route: [CP24] bounds on `s_max(F_2^t)` and the sum-free Sidon ↔ `[n,k,5]` code correspondence (their §§4–5), combined with how the odd-parity deck sits in an affine translate of `F_2^{n-1}`; alternately SAT/ILP or symmetry breaking under `S_7` on weight-3/5 vectors.
+  - **Beginner deck (`|D| = 32`, six odd-weight subsets after one koi omitted).** Re-run analogous stall / `L` guarantee / residual-splittability checks before locking beginner-only rule copy.
+  - **Characterization of unsplittable residuals** (Mode A historically used residual size 8; with `L = F = 10` residuals have 10 cards). Counting and structurally describing unsplittable cases would let us tune endgame wording or decks precisely (e.g., dropping cards so maximal Sidon is smaller forces more splits).
 
 ---
 
 ## Phase 3 — Rules document
 
-- **Player count, age, time** — suggested 2–6 players, 10+, 15–25 min. Confirm via playtest.
-- **Setup** — shuffle, deal initial layout (number set in Phase 2).
+Ship one rulebook section for **standard (7 koi, 64 cards)** and **beginner (6 koi, 32 cards)** — same flow, different `|D|` and mid-game match count `M = (|D| − 20) / 4` with `L = F = 10`.
+
+- **Player count, age, time** — suggested 2–6 players, 10+, 15–25 min (beginner runs shorter). Confirm via playtest.
+- **Setup** — decide version; remove all cards that reference the **omitted koi** before shuffling (unless using a pre-sorted starter deck). See Phase 4 / Open decisions for sorting aids.
 - **Turn structure** — **real-time call-out** (locked in Phase 0): all players scan the layout simultaneously; the first to call a valid 4-card match claims it. Fits the matching-game lineage (cf. *SET*).
 - **Call protocol** (locked): the claiming player **shouts "Koi!" and then touches the four cards in order**. The shout is the time-stamp; the touches are the proof. Two players almost-tying is resolved by the shout, not by the touches.
-- **Match claim resolution** — once "Koi!" is called, all play pauses; the caller touches four cards in order and the group verifies that each of the seven koi appears 0, 2, or 4 times across them. If valid: caller takes the four cards. If invalid: invalid-claim penalty applies.
-- **Invalid-claim penalty** (locked): the caller is **locked out until the next 4-card match is claimed by someone else**. They keep all previously collected cards. In typical mid-game play, a successful match is followed by a 4-card replenishment, so the lockout ends as the new layout appears. In the endgame (deck empty, 8 cards on the table), the lockout still ends the moment another player claims one of the two 4-card groups — the locked-out player can then race for the remaining group. This is a soft penalty (no card loss) but a real tempo cost in a real-time game.
+- **Match claim resolution** — once "Koi!" is called, all play pauses; the caller touches four cards in order and the group verifies that each **active** koi appears 0, 2, or 4 times across them (seven in standard, six in beginner). If valid: caller takes the four cards. If invalid: invalid-claim penalty applies.
+- **Invalid-claim penalty** (locked): the caller is **locked out until the next 4-card match is claimed by someone else**. They keep all previously collected cards. In mid-game this typically ends when the next replenishment happens; in the endgame it ends when another player claims a match on the residual.
 - **Scoring** — collected cards go face-up in front of the claimer; final score = total koi pips across collected cards.
-- **Tiebreakers** — most cards collected, then most all-seven cards, then highest-weight single card.
+- **Tiebreakers** — most cards collected, then **most all-koi card(s)** (standard: 7-of-7; beginner: 6-of-6 among the active set), then highest-weight single card among active koi.
 - **Endgame** — needs redesign in light of `math/RESULTS.md`:
-  - **What's still true.** When the deck is exhausted, the residual cards always XOR to 0 (Lemma E, `math/NOTES.md` §7.1). With the recommended `L = 10, F = 10` dealing, the residual has 10 cards (not 8 as in the original spec).
-  - **What's no longer assumed.** The "claim one 4-card group → claim both" rule was based on the residual splitting into two 4-card matches, which fails ~50% of the time empirically. That rule is dropped.
-  - **Proposed new endgame rule (continued real-time play).** When the deck empties, real-time play simply continues on the residual: any player who calls a valid 4-card match claims those 4 cards. Repeat until either (a) the residual is reduced to 0, 2, or 6 cards by successful claims, or (b) no player can find a 4-card match (60-second silence). Any cards left at the end are split evenly (with leftover cards going to the player with the most cards collected so far, then by tiebreaker rules).
-  - **Why this works.** It preserves the matching-game pacing through the endgame, avoids leaning on a false splitting theorem, and has a deterministic terminator (the silence timer). In the lucky case where the residual happens to split into two 4-card matches, this rule plays out exactly like the original "claim one → claim both" intent (the second claim is racing against an empty layout). In the unlucky ~50% case, the players just take what they can claim.
-  - **Status:** locked as a working draft; revisit after the first round of playtesting.
+  - **What's still true.** When the deck is exhausted, the residual cards always XOR to 0 (Lemma E, `math/NOTES.md` §7.1). With `L = F = 10` dealing, **10** cards remain — not 8 as in the original designer spec.
+  - **What's no longer assumed.** The "claim one 4-card group → claim both" rule was based on false splittability (~50% failures; `math/RESULTS.md` §3). Dropped.
+  - **Proposed new endgame rule (continued real-time play).** When the deck empties, real-time play continues on the residual: any player who calls a valid 4-card match claims those 4 cards. Repeat until either (a) the residual is reduced to 0, 2, or 6 cards by successful claims, or (b) no player finds a match for 60 seconds. Split leftover cards evenly (remainder per tiebreaker order).
+  - **Why this works.** Preserves pacing; terminator is the silence window. Lucky splits still behave like intuitive two-claim endings.
+  - **Status:** working draft pending playtests.
 - **Mixed-skill handicap variant** — the rulebook should suggest a "house handicap" (e.g. faster players sit on their hands for the first N seconds of each layout) for mixed-skill groups, since real-time inherently penalizes slower scanners.
 - **Edge cases** — simultaneous "Koi!" shouts (rule: nearest-shouter as judged by the table; fall back to rock-paper-scissors), accidental over/under-deal, mid-touch reveal of an obviously invalid match (caller still pays the penalty).
-- **Variants**:
-  - Solitaire/timed: how fast can you clear the deck?
-  - Cooperative: find all matches in N seconds.
-  - Teaching variant: play with only 5 koi (32 cards = odd-weight vectors of length 5; same math structure, smaller deck).
+- **Variants:**
+  - **Beginner:** already a first-class **32-card six-koi** deck — duplicate rules text there instead of burying under "variants only."
+  - Solitaire/timed, cooperative drills, optional future "five-koi sandbox" (`|D|=16`) only after separate math review.
 
 **Deliverable**: `rules/RULES.md` v0.1.
-
 ---
 
 ## Phase 4 — Card design (graphic design, not yet illustration)
@@ -112,8 +113,8 @@ Lock the math before committing to art, because if a claim is wrong the rules ch
 - **Quintuple card layout** — five koi in a pentagonal/pentagram arrangement; consider a slight rotational offset so each koi remains identifiable.
 - **All-seven card** — unique heptagonal/mandala arrangement.
 - **Card back** — single shared design (water + seigaiha wave pattern).
-- **Quick-ID system** — every card carries a row of seven small filled/unfilled circles in a corner (one per koi, filled = present). This is the visual analogue of the underlying bit vector and is the single most important playability decision: without it, scanning a 9-card layout for matches is brutal. The corner code is what lets players actually compute the XOR by eye.
-- **Color palette** — derive accent colors from the seven primary hexes in Phase 1; pick a neutral background (off-white parchment or muted pond-water blue).
+- **Quick-ID system** — every card carries a row of seven small filled/unfilled circles in a corner (one per koi, filled = present). This is the visual analogue of the underlying bit vector and is the single most important playability decision: without it, scanning a dense layout for matches is brutal.
+- **Beginner-friendly deck split cue** — if one physical deck serves **both** 64-card standard and **32-card** beginner games, pick a conspicuous **corner registration mark** (e.g. a screen-printed dot, foil hit, micro-icon, or color tick) keyed to "include this sheet in beginner" vs "standard only". Document placement in `design/style_guide.md`; align with tuck-box divider / insert copy.- **Color palette** — derive accent colors from the seven primary hexes in Phase 1; pick a neutral background (off-white parchment or muted pond-water blue).
 - **Typography** — pair a Latin serif/display font with a Japanese font supporting kanji (e.g. Noto Serif JP, Klee, or Yuji Syuku); confirm commercial-use license.
 
 **Deliverable**: `design/templates/` with one InDesign / Affinity Publisher / SVG template per card type plus `design/style_guide.md` (palette, typography, glyph spec, bleed/safe diagrams).
@@ -185,7 +186,7 @@ Lock the math before committing to art, because if a claim is wrong the rules ch
 | [LongPack Games](https://www.longpackgames.com/)               | ~500     | $4–7         | Bulk, China-based                  |
 | [Ninja Print](https://ninoprint.de/en/)                        | ~250     | $5–9         | Bulk, EU-based                     |
 
-- **Components** — 64 cards + rulebook + tuckbox or 2-piece box. Optional: score pad, wooden scoring tokens, drawstring bag.
+- **Components** — standard SKU: **64** cards + rulebook + tuckbox or 2-piece box. Variant: **single print run carrying both modes** uses the same fronts with registration marks segregating beginner (32 usable) vs standard piles; tuck-box divider or leaflet explains removal. Separate **32-card** beginner-only SKU optional. Accessories: score pad, wooden scoring tokens, drawstring bag.
 - **Pre-press checklist** — bleed, safe zone, color profile (CMYK with manufacturer's ICC), file naming convention, single combined proof PDF, font outlining.
 - **Always order one physical proof** before any bulk run — colors and finishes shift between screen and print.
 

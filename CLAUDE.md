@@ -4,7 +4,7 @@ This file lets a fresh AI agent (Claude, Cursor, etc.) recreate the current stat
 
 ## Project
 
-**Seven Koi** is a 64-card matching card game built around XOR/parity matches across 7 koi varieties. Cards correspond to the 64 odd-weight binary vectors of length 7 (i.e. all subsets of size 1, 3, 5, or 7 from a 7-element set: 7 + 35 + 21 + 1 = 64). A "match" is a set of cards whose XOR is zero — every koi appears an even number of times.
+**Seven Koi** is a matching card game around XOR / parity matches. The **standard** deck has **seven** listed koi; a **beginner** mode uses exactly **six** of those seven (one koi omitted) and **half** as many cards (32)—the printable deck can carry both halves on shared artwork with a mechanical way to partition (see Open decisions). Cards are sized as Magic-style (2.5" × 3.5").
 
 ## Repo state (as of this writing)
 
@@ -27,20 +27,43 @@ This file lets a fresh AI agent (Claude, Cursor, etc.) recreate the current stat
 - **1 all-seven card**: all 7 koi together.
 - **Card count check**: 7 + 35 + 21 + 1 = 64. ✓
 
-## Rules (current working version, after math correction)
+- **Beginner variant**: 32-card subdeck = odd-weight subsets of **six** koi once one canonical koi has been omitted (see Open decisions): C(6,1) + C(6,3) + C(6,5) = 32. Same card size.
 
-The original spec said "lay out 9 cards" and "the final 8 cards split into two 4-card matches". Both are mathematically false; see `math/RESULTS.md` §4. The current working rules are:
+## Rules (current working — standard + beginner)
 
-1. Shuffle the deck.
-2. **Lay out 10 cards** (was 9). Smaller layouts can stall — `math/RESULTS.md` §2 shows L=9 stalls 40% of trials, L=8 stalls 96%.
-3. **Match definition**: a *match* is 4 cards in which every koi appears an even number of times (equivalently, the 4 cards XOR to 0). The minimum match size is 4 (proven in `math/NOTES.md` §2). With L=10 every layout is guaranteed to contain at least one 4-card match (`math/NOTES.md` §6, conditional on the empirical max-Sidon = 9).
-4. **Real-time call-out** (locked, decision #4): all players scan simultaneously; the first to shout "Koi!" and touch four cards in order claims them. Invalid claim → caller is locked out until another player claims a valid match.
-5. After a successful claim, deal 4 cards from the deck to bring the layout back to 10. Repeat.
-6. **Endgame**: when the deck empties, 10 cards remain on the table (with `L=10, F=10` dealing; `M=11` mid-game matches). The residual XORs to 0 (Lemma E in `math/NOTES.md` §7.1) but does **not** reliably split into clean 4-card pieces (~50% of residuals are unsplittable per `math/RESULTS.md` §3). Real-time play simply continues on the residual until either (a) successful claims reduce it to 0, 2, or 6 cards, or (b) no player can find a match within a 60-second silence. Any cards left at the end are split evenly.
-7. **Score** = total number of koi (across all collected cards) for each player. Tiebreakers: most cards collected, then most all-seven cards, then highest-weight single card.
+The designer's earliest spec overstated splitting the residual; details in `math/RESULTS.md` §4.
+
+**Choose a version before setup.** Same turn structure for both unless noted.
+
+### Shared mechanics
+
+1. **Prepare the deck.** Use only cards legal for that version (64 standard / 32 beginner)—see Open decisions about physically splitting a single print run.
+
+2. **Shuffle.**
+
+3. **Layout size** `L = 10`; **replenish to 10** after each claimed match (**`L = F = 10`** dealing). Smaller layouts can stall on standard (`math/RESULTS.md` §2). Beginner Monte Carlo parity is pending in `math/verify.py`; keep `L = 10` until numbers say otherwise.
+
+4. **Match:** four distinct active cards XOR to **0** ↔ every depicted koi appears **0 / 2 / 4** times (minimum four cards holds on odd-only decks — `math/NOTES.md` §2).
+
+5. **Claim:** shout **"Koi!"**, then touch **four distinct cards** in order. Invalid claim — caller is locked out until **another** player claims a valid 4-card match (mid-game lockout clears with the next replenishment).
+
+6. **Endgame:** when the deck is empty **10 cards** remain on the table (**`64 = L + 4M + F`** with **`L = F = 10`** ⇒ **`M = 11`** standard matches; **`32 = L + 4M + F`** ⇒ **`M = 3`** beginner matches). The residual XORs to 0 (`math/NOTES.md` §7.1) but rarely decomposes into two clean 4-card matches (`math/RESULTS.md` §3). Continue real-time play on the residual: claim 4-card matches while they exist until the layout has 0, 2, or 6 cards, or until **60 seconds** pass with no successful claim; split any leftover cards evenly (remainder by tiebreaker order below).
+
+7. **Score:** total koi glyphs on collected cards (count each koi once per glyph on each card taken). Tiebreakers: most cards collected, then **most copies of the "all-koi" card** (`|K|=7` standard, `|K|=6` beginner), then **highest singleton card weight among active koi** (e.g. a sole quint beats a sole triple).
+
+### Standard — seven koi
+
+- **`|D| = 64`:** all odd-weight bit vectors over the seven chosen koi (`C(7,1) + C(7,3) + C(7,5) + C(7,7)`).
+
+### Beginner — six koi
+
+- **`|D| = 32`:** fix one omitted koi; keep only cards that **never** depict that species. Equivalently, all odd-cardinality subsets drawn from the other six (`C(6,1)+C(6,3)+C(6,5)=32`).
+- Glyph row on templates uses **six** filled circles plus one muted column for the dormant species—or omit that column entirely once the omission is finalized.
+- Graphic production still needs an **inventory split aid** so players can sort a unified print run quickly (corner **dot / icon / color nib** proposals live in Open decisions).
 
 ## Math claims (status table)
 
+Applies **as written** to the **seven-koi standard deck.** The **six-koi beginner deck** inherits the XOR / parity lemmas on its own affine slice; rerun `math/verify.py` for its stall / splittability numbers before tightening layout size.
 Detail in [math/NOTES.md](math/NOTES.md); empirical justification in [math/RESULTS.md](math/RESULTS.md). Two of the original spec's claims have been falsified by Monte Carlo simulation.
 
 | Claim                                                                                | Status |
@@ -63,8 +86,7 @@ The cited classical bound `max Sidon in F_2^k = 2^⌊k/2⌋` is wrong for our se
 3. ~~**Final 7-of-13 koi selection**~~ — **resolved**: Kohaku, Showa, Asagi, Ogon, Chagoi, Tancho, Kumonryu. See [koi_selection.md](koi_selection.md) for English/Japanese names, flavor blurbs, and the primary-color palette.
 4. **Player count and turn structure** — turn structure **resolved: real-time call-out**. Call protocol: shout **"Koi!"** and then touch the four cards in order. Invalid-claim penalty: caller is locked out until another player claims a valid 4-card match (in mid-game this coincides with the next replenishment; in the endgame it's when another player claims one of the two final 4-card groups). Player count still TBD (suggested 2–6); see `PLAN.md` Phase 3.
 5. ~~**Art pipeline**~~ — **resolved**: **AI-generated**. Keep prompt logs, confirm commercial license, follow Phase 5 + Phase 8 (copyright / Kickstarter disclosure).
-6. ~~**Digital bonus**~~ — **resolved**: **Rust** compiled to **WebAssembly** (`bonus_web/`) for in-browser play; Kickstarter stretch / add-on tier.
-
-## Pointer
+6. ~~**Digital bonus**~~ — **resolved**: **Rust** compiled to **WebAssembly** (`bonus_web/`) for in-browser play; Kickstarter stretch / add-on tier (ship both modes in rules + UI toggles eventually).
+7. **Beginner mode (future)** — (**a**) which of the seven koi is **excluded** from the 32-card subdeck (pedagogy + table presence); (**b**) **manufacturing cue** to separate standard vs beginner piles from one print run (e.g. small **dot or icon in the upper corner** of the card front, color stripe, or distinct card back ring—decide in `design/style_guide.md`).## Pointer
 
 See `PLAN.md` for the full 12-phase publication roadmap and `ThirteenKoi.png` for the koi reference sheet.
