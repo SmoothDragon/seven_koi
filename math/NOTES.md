@@ -4,7 +4,7 @@ This note tracks the central mathematical claims behind Seven Koi, what is prove
 
 A previous version of this note attempted to prove the original spec by citing a closed-form bound on Sidon sets in `F_2^k` (`max ≤ 2^⌊k/2⌋`). That bound is incorrect at `k = 7` for our setting (and arguably for the full vector space too — see `math/RESULTS.md` §1.2). The proof is rebuilt below from first principles.
 
-**Reference.** For sharp discussion of Sidon sets in `F_2^t`, sum-free Sidon sets, their connection to binary linear codes of minimum distance ≥ 5, improved upper bounds on `s_max(F_2^t)`, and maximal Sidon sets in small dimensions, see Czerwinski–Pott [CP24] (full bibliographic data in the References at the end of this file).
+**References — literature.** For sharp discussion of Sidon sets in `F_2^t`, sum-free Sidon sets, their connection to binary linear codes of minimum distance ≥ 5, improved upper bounds on `s_max(F_2^t)`, and maximal Sidon sets in small dimensions, see Czerwinski–Pott [CP24]. Tabulated certified maxima **`s_max(GF(2)^6) = 9`**, **`s_max(GF(2)^7) = 12`** (sequence values **`a(6)`**, **`a(7)`**) appear as [OEISA394031]; the OEIS entry cites [CP24] **Proposition 2.7** and **Table 2** (`s_max`), also **Proposition 2.8** for **`n = 7`**. Full bibliographic data is in References at the end of this file.
 
 Conventions: `+` denotes XOR (addition in F_2). `wt(v)` is the Hamming weight of `v`. The 7 koi are indexed 0..6 and a card is the bit vector `v ∈ F_2^7` whose i-th bit is 1 iff koi i appears on the card.
 
@@ -17,9 +17,12 @@ Conventions: `+` denotes XOR (addition in F_2). `wt(v)` is the Hamming weight of
 | Deck is the 64 odd-weight vectors of F_2^7.                                                   | **Trivially true** (§1).                     |
 | Minimum match size = 4.                                                                       | **Proven** (§2 Lemma A).                     |
 | Match-finding reduces to a 4-cycle / Sidon condition.                                         | **Proven** (§3–§4 Lemmas B, C).              |
-| Maximum Sidon set in our deck has size **9** (not 8 as previously claimed).                   | **Proven lower bound** (§5 Lemma D), **upper bound 9 with very high empirical confidence** (§5 Remark; `math/RESULTS.md` §1.2). |
-| Any 9-card layout contains a 4-card match.                                                    | **FALSE** (§6 Theorem). Counterexample exhibited. |
-| Any **10**-card layout contains a 4-card match.                                               | **Conditionally true** assuming max Sidon = 9 (§6 Corollary). |
+| **`s_max(GF(2)^6) = 9`**, **`s_max(GF(2)^7) = 12`** (largest Sidon subset of the full additive group **`GF(2)^n`**).              | **Certified** [OEISA394031]; values recorded in [CP24] (**Proposition 2.7** / **Table 2**, and **Proposition 2.8** for **`n = 7`**). |
+| Any **10** distinct vectors in **`GF(2)^6`** contain four summing to **0**.                     | **Proven** via **`|L| > a(6)`** (§6 Corollary, ambient **`GF(2)^6`**). |
+| Any **13** distinct vectors in **`GF(2)^7`** contain four summing to **0**.                     | **Proven** via **`|L| > a(7)`** (§6 Corollary, ambient **`GF(2)^7`**). |
+| Maximal Sidon cardinality **inside** the odd deck **`D`**.                                                  | Lemma D constructs **`|S|=9`** with **no** **4‑XOR** cancellation. **`s_max(D) ≤ s_max(GF(2)^7)=12`** is trivial containment. Greedy probes (**`math/RESULTS.md`** §**1.**2**) never exceed **9**, so **`s_max(D)=9`** is **empirical** alongside Lemma D pending a concise proof sketch. |
+| Any **9** distinct cards from **`D`** might still form a Sidon‑set layout (no 4‑card match).   | **Yes** (**§6**, **`S₉ ⊆ D`**).                                                     |
+| Any **10** distinct cards drawn only from **`D`** contain a **4‑card match**.                     | **Proven conditional** **`s_max(D)=9`** (**§6 Corollary, deck‑only**) — sharper than ambient **`GF(2)^7`**, where **10‑tuples can still be Sidon** (`a(7)=12`, so **`|L|=10`** is below the **`13`** threshold). |
 | Σ R = 0 for the 8-card residual after the deck empties.                                       | **Proven** (§7.1 Lemma E).                   |
 | The 8-card residual always splits into two 4-card matches.                                    | **FALSE.** Splittable only ~52% of the time under random play (`math/RESULTS.md` §3). |
 
@@ -111,7 +114,7 @@ is a strict Sidon set in `D` of size 9.
 
 This refutes the original `math/NOTES.md` claim that the maximal Sidon set had size 8 (`S* = {e_1, ..., e_7, 𝟙}`). `S*` is still *a* maximal-by-extension Sidon set, but it is not the unique-up-to-symmetry maximum — `S₉` is strictly larger.
 
-**Remark (empirical upper bound).** Random greedy strict-Sidon construction never exceeds size 9 across 50,000 trials (`math/RESULTS.md` §1.2). Together with the size-9 lower bound, this is very strong evidence that `max{|S| : S ⊆ D Sidon} = 9`. A formal proof of the upper bound is still open — a brute-force exhaustive DFS times out under naive pruning; a proper proof likely requires the affine geometry of F_2^7 or a direct Hamming-code argument. For the design purposes below we treat `max Sidon = 9` as established at the empirical level.
+**Remark (ambient maxima certified; deck `D` still empirical at the upper end).** Czerwinski–Pott [CP24], recorded in tabular form as **[OEISA394031]**, certify **`s_max(GF(2)^6) = a(6) = 9`** (Proposition 2.7) and **`s_max(GF(2)^7) = a(7) = 12`** (Proposition 2.8 + Table data). Combined with §6 Corollary **(ambient)** this gives **deterministic tableau thresholds** **`|L| ≥ 10`** in **`GF(2)^6`** and **`|L| ≥ 13`** in **`GF(2)^7`** for the existence of **four distinct XOR-zero summands** (equivalently a Seven Koi **4-card match** once those vectors label playable cards). Inside the **odd** deck **`D`**, Lemma D still supplies a **size‑9** Sidon lower bound; random greedy search never exceeds **9** across 50,000 trials (`math/RESULTS.md` §1.2), so **`s_max(D) = 9`** is **empirically certified** but not yet written up as a short independent proof in this repo.
 
 ---
 
@@ -121,11 +124,13 @@ This refutes the original `math/NOTES.md` claim that the maximal Sidon set had s
 
 **Proof.** By Lemma D, `S₉` is a strict Sidon set, equivalently (by Lemma C) it contains no 4-card match. ∎
 
-**Corollary (conditional on max Sidon = 9).** Every 10-card subset of `D` contains a 4-card match.
+**Corollary (ambient groups — OEIS [A394031](https://oeis.org/A394031) / [CP24]).** Let **`a(n)`** denote the maximum size of a Sidon subset of **`GF(2)^n`**, sequence **[A394031](https://oeis.org/A394031)**. **[OEISA394031]** states the operative characterization inside **`GF(2)^n`**: a finite set **`S`** is Sidon iff there are **no** four distinct elements whose XOR totals the identity **0**. Hence any **`L ⊆ GF(2)^n`** with **`|L| > a(n)`** cannot be Sidon, so **`L`** harbors four distinct XOR‑zero summands (equivalently a Seven Koi **4**‑card match whenever those vectors are legal cards). **[CP24]** certify **`a(6)=9`**, **`a(7)=12`**, yielding **`|L| ≥ 10`** in **`GF(2)^6`** and **`|L| ≥ 13`** in **`GF(2)^7`**.
 
-**Proof.** Any 10-card subset `L ⊆ D` has |L| = 10 > 9 = max Sidon, so `L` is not Sidon, so by Lemma C `L` contains a 4-card match. ∎
+**Corollary (restricted deck `D`).** If **`s_max(D)=9`**, every **10**‑card **`L ⊆ D`** contains a **4**‑card match.
 
-This corollary is the strongest match-guarantee statement the math currently supports. It motivates the recommendation in `PLAN.md` to change the layout size from `L = 9` to `L = 10`.
+**Proof.** Suppose toward a contradiction that **`L`** admits **no** four distinct XOR-zero cards. Lemma C ⇒ **`L`** is Sidon-as-a-subset-of-**`D`**. But **`s_max(D)=9`** forbids **`|L| = 10`**. Hence **`L`** **does** admit such a cancelling quadruple — a legal **4**‑card match for Seven Koi. ∎
+
+Together, **`PLAN.md`** escalation to **`13`** cards matches the **`GF(2)^7`** guarantee **`|L| ≥ 13`**. Baseline **`L₀ = 10`** rests on **`D`**: Lemma D constructs **`s_max(D) ≥ 9`**, greedy search corroborates **`≤ 9`**, so **`10`** tableau cards suffice **provided** **`s_max(D)=9`** is accepted. Beginner layouts embed inside **`GF(2)^6`**, where **`a(6)=9`** already forces cancelling quadruples whenever **`|L| ≥ 10`** arbitrary **`6`**‑vectors sit face‑up — **`L₀ = 9`** documented elsewhere still trails that cutoff as a pacing choice.
 
 ---
 
@@ -169,23 +174,23 @@ The original endgame rule "claim one 4-card match → claim both" is therefore u
 
 The two open computational items not yet implemented:
 
-* **Formal proof of `max Sidon ≤ 9` in `D`.** Exhaustive DFS times out under naive pruning. Combine [CP24] (Theorems 5.2–5.3, code–Sidon dictionary §4) with the affine model of the odd deck; or symmetry breaking / SAT as in `PLAN.md` Phase 2.
+* Either prove **`s_max(D) ≤ 9`** in closed form (symmetry breaking / SAT as in **`PLAN.md`** Phase 2) **or** cite **[OEISA394031]** solely for **ambient** **`GF(2)^7`** thresholds while **`D`** remains Lemma D + greedy search.
 * **Characterization of unsplittable residuals.** All 25k+ unsplittable residuals seen are 8-element strict-Sidon sets. Determining the structure (and count) of these maximal-by-XOR-zero Sidon octets would let us tune the endgame rule precisely (e.g., constructing the deck or the replenishment so that unsplittable residuals are unreachable).
 
 ---
 
 ## 8. Implications for game design
 
-* The 4-card guarantee fails at `L = 9` (Theorem in §6). The minimum layout size that *does* guarantee a 4-card match is `L = 10` (corollary in §6, conditional on the empirical `max Sidon = 9`). `PLAN.md` Phase 0 / Phase 2 must change accordingly.
-* The XOR-to-zero invariant for the 8-card residual (§7.1) is unconditional and gives the endgame whatever structural cleanliness it has. But the residual fails to split into two 4-card pieces about half the time, so any rule that *requires* such a split must be replaced.
-* Two currently-on-the-table fixes for the endgame:
-  1. Restructure the endgame as continued real-time play on the residual (claim 4-card matches as long as any exist; un-claimable cards either go to the leader or are split). Preserves the matching-game pacing and doesn't lean on a false theorem.
-  2. Keep the `PLAN.md` Phase 3 fallback rule (60-second silence → award residual to the player with the most recent mid-game claim) and accept that ~50% of games end via the fallback. This is design-feasible but feels unsatisfying.
+* **Layout cardinality.** Lemma D / Theorem **`S₉`** persists: nine face‑up cards from **`D`** can deadlock. **[OEISA394031]** (per **[CP24]** Table 2) certifies **`s_max(GF(2)^6)=9`**, **`s_max(GF(2)^7)=12`**, so **`|L| ≥ 10`** inside **`GF(2)^6`** and **`|L| ≥ 13`** inside **`GF(2)^7`** each force cancelling quadruples (**§6** Ambient Corollary) — matching **`PLAN.md`** escalation to **`13`**. **`L₀ = 10`** for **`D`** stays the sharper corollary contingent on **`s_max(D)=9`**, corroborated by Lemma D plus greedy probes (`math/RESULTS.md` §1.2).
+* **Residual XOR** (**§7.1**) is unconditional whenever the tableau drains properly, yet ~half of exhausted layouts still dodge tidy **two‑claim** endings (**§7.2–7.3**). Rules insisting on stacking two auto‑matches stay invalid.
+* Two archived endgame salvage ideas (**now largely superseded** by unanimous consensus stop in **`PLAN.md`** Phase 0): (1) keep hunting matches until brute exhaustion rather than insisting on phantom double claims; (2) optional timed silence adjudication if a group rejects consensus flow.
 * The fact that the deck has so many maximal Sidon-sized residuals suggests the math is essentially "noisy" near 8 cards. If the game is to have a clean endgame *theorem*, the deck size or composition probably needs to change (e.g., dropping a small number of cards to make the max Sidon drop to 7, which would force every 8-card residual to split).
 
 ---
 
 ## References
+
+[OEISA394031] OEIS sequence [A394031](https://oeis.org/A394031): *Maximum size of a subset of **`GF(2)^n`** being a Sidon set* (`a(6)=9`, `a(7)=12` in **[CP24]** notation). Maintainer entry by Aleksei Udovenko; cites **[CP24]** Props. 2.7–2.8 / Table 2.
 
 [CP24] Ingo Czerwinski and Alexander Pott, *Sidon sets, sum-free sets and linear codes*, **Advances in Mathematics of Communications** 18 (2024), no. 2, 549–566. DOI: [10.3934/amc.2023054](https://doi.org/10.3934/amc.2023054). Preprint: [arXiv:2304.07906](https://arxiv.org/abs/2304.07906).
 
