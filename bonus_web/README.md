@@ -32,7 +32,7 @@ Open http://localhost:8080 — the page imports `../pkg/seven_koi_bonus.js`.
 
 ## Next steps
 
-- Wire `deck_vector()`, shuffling (`rand` + `getrandom` with `wasm_js` features), configurable **baseline spread** (`10` standard with **deadlock: single-card flips**, repeated up to **`13`**; `8` beginner similarly up to **`10`**), max-tableau bulk reveal distinct from escalation, UI per `CLAUDE.md` / `PLAN.md` Phase 0.
+- Wire `deck_vector()`, shuffling (`rand` + `getrandom` with `wasm_js` features), configurable **fixed baseline spread** (`10` standard, `8` beginner — no mid-game stock flips; matches `CLAUDE.md` / `PLAN.md` Phase 0), max-tableau bulk reveal on stock-out, UI per project rules.
 - Decide on frontend approach: vanilla JS, or a Rust framework that targets WASM (Leptos, Yew, etc.) — keeping this crate small as the “logic core” is usually enough for v1.
 
 ## License

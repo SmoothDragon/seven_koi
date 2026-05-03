@@ -23,7 +23,7 @@ The original `math/NOTES.md` cited the formula `max Sidon in F_2^k = 2^⌊k/2⌋
 
 All 9 vectors have odd Hamming weight (3 or 5); all C(9,2) = 36 pairwise XORs are distinct; no 4-element subset XORs to 0. Schur triples are vacuously absent in odd-weight (`a + b` is even-weight, `c` is odd-weight). So this is a strict 9-element Sidon set in F_2^7, refuting `max ≤ 8`.
 
-### 1.2 Empirical upper bound
+### 1.2 Greedy search (historical evidence) + exhaustive certificate
 
 Random greedy strict-Sidon construction, 50,000 trials, on the odd-weight deck (size 64):
 
@@ -35,7 +35,7 @@ Random greedy strict-Sidon construction, 50,000 trials, on the odd-weight deck (
 
 For comparison, on the full F_2^7 \ {0} (size 127), 50k random greedy trials all landed at size **11** (matching the Singer / projective-plane construction expectation).
 
-**Conclusion:** the maximum Sidon set in the 64-card odd-weight deck is **at least 9** (constructive) and **at most 9** with very high empirical confidence. Formal proof of the upper bound is still open.
+**Conclusion:** the maximum Sidon set in the 64-card odd-weight deck is **exactly 9**. Lemma D / §1.1 gives **≥ 9**; the greedy table above was early evidence that greedy runs never reached **10**. The upper bound is now **exhaustively certified** in **`math/explore_sidon_odd_restricted`** (`cargo run --release -- --prove-odd-n 7`; see also `math/NOTES.md` §0).
 
 ---
 
