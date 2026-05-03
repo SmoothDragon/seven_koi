@@ -21,8 +21,8 @@ Conventions: `+` denotes XOR (addition in F_2). `wt(v)` is the Hamming weight of
 | Any **10** distinct vectors in **`GF(2)^6`** contain four summing to **0**.                     | **Proven** via **`|L| > a(6)`** (§6 Corollary, ambient **`GF(2)^6`**). |
 | Any **13** distinct vectors in **`GF(2)^7`** contain four summing to **0**.                     | **Proven** via **`|L| > a(7)`** (§6 Corollary, ambient **`GF(2)^7`**). |
 | Maximal Sidon cardinality **inside** the odd deck **`D`** (same as **`s_max(O_7)`** on nonzero odd-weight masks). | Lemma D constructs **`|S|=9`**. **`s_max(D) ≤ s_max(GF(2)^7)=12`** is trivial containment. Exhaustive search (**`math/explore_sidon_odd_restricted`**, **`--prove-odd-n 7`**) certifies **`s_max(D)=s_max(O_7)=9`**. |
-| Any **9** distinct cards from **`D`** might still form a Sidon‑set layout (no 4‑card match).   | **Yes** (**§6**, **`S₉ ⊆ D`**).                                                     |
 | Any **10** distinct cards drawn only from **`D`** contain a **4‑card match**.                     | **Proven** (**§6 Corollary**) from **`s_max(D)=9`**. Sharper than ambient **`GF(2)^7`**, where **10‑tuples can still be Sidon** (`a(7)=12`, so **`|L|=10`** is below the **`13`** threshold). |
+| Any **8** distinct cards drawn only from the **Standard** six-koi deck (**`|D| = 32`**, odd-weight nonzero vectors in **`F_2^6`** for the six active species) contain a **4‑card match**. | **Proven** from **`s_max(O_6)=7`** (**`math/explore_sidon_odd_restricted`**, **`--prove-odd-n 6`**). **`L₀ = 8`** Standard. |
 | Σ R = 0 for the 8-card residual after the deck empties.                                       | **Proven** (§7.1 Lemma E).                   |
 | The 8-card residual always splits into two 4-card matches.                                    | **FALSE.** Splittable only ~52% of the time under random play (`math/RESULTS.md` §3). |
 

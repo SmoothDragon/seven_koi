@@ -77,9 +77,8 @@ Detail in [math/NOTES.md](math/NOTES.md); empirical justification in [math/RESUL
 | Minimum match size = 4.                                                              | **Proven** (`math/NOTES.md` §2). |
 | Match-finding reduces to a 4-cycle / Sidon condition.                                | **Proven** (`math/NOTES.md` §3-§4). |
 | Maximum Sidon set in our deck = 9 (was previously claimed = 8).                      | **Proven** (Lemma D lower bound; **`s_max(O_7)=9`** certified by exhaustive search in `math/explore_sidon_odd_restricted`, **`--prove-odd-n 7`**). |
-| Any 9-card layout contains a 4-card match.                                           | **FALSE.** Counterexample: `{25, 28, 35, 47, 55, 70, 73, 100, 110}` is a 9-element Sidon set in our deck. |
 | Any **10**-card layout from **`D`** contains a 4-card match.                         | **Proven** from **`s_max(O_7)=9`** (`math/NOTES.md` §6 Corollary). Expert published play uses **fixed `L₀ = 10`** with **no** mid-game stock escalation. |
-| Any **8**-card layout from the **six-koi** odd-weight deck (**`|D| = 32`**) contains a 4-card match. | **Proven** from **`s_max(O_6)=7`** (same Rust tool, **`--prove-odd-n 6`**). **`L₀ = 8`** Standard. |
+| Any **8**-card layout drawn only from the **Standard** deck (**six** active koi, **`|D| = 32`**, odd-weight vectors in **`F_2^6`** after fixing one omitted species) contains a 4-card match. | **Proven** from **`s_max(O_6)=7`** (`math/explore_sidon_odd_restricted`, **`--prove-odd-n 6`**). **`L₀ = 8`** Standard. |
 | Σ R = 0 for the residual after the deck empties.                                     | **Proven** (`math/NOTES.md` §7.1). |
 | The residual splits into two 4-card matches.                                         | **FALSE ~50% of the time.** Mode A: 51.7% unsplittable across 50k trials. Mode B at L=10: 47.4% unsplittable across 20k trials. |
 
