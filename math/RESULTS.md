@@ -1,6 +1,6 @@
 # math/RESULTS.md — Monte Carlo simulation results
 
-Empirical results from `math/verify.py`. **These results invalidate the original game spec's two central mathematical claims** — see §4 for the executive summary.
+Empirical results from `math/verify.py` and `math/layout_stall_sweep.py`. **These results invalidate the original game spec's two central mathematical claims** — see §4 for the executive summary.
 
 For published theorems on Sidon sets in `F_2^t`, improved upper bounds, and the code-theoretic viewpoint, see Czerwinski–Pott, *Sidon sets, sum-free sets and linear codes*, *Adv. Math. Commun.* 18 (2024), 549–566 ([DOI](https://doi.org/10.3934/amc.2023054), [arXiv:2304.07906](https://arxiv.org/abs/2304.07906)); cross-references in [math/NOTES.md](math/NOTES.md) use the tag **[CP24]**.
 
@@ -59,6 +59,23 @@ python3 math/verify.py --trials 20000 --mode b --layout-size <L> --seed 1
 
 1. **L = 9 stalls 40% of the time.** This is consistent with §1: the 4-card guarantee fails because max Sidon in our deck is 9, not 8 — so 9-card layouts can themselves be Sidon and contain no match. The original game spec is broken.
 2. **L = 10 never stalls** (across 20,000 trials). This is necessary for the threshold `max Sidon < L`, i.e. `L ≥ 10`.
+
+### 2.1 Cross-dimensional odd-weight decks (`layout_stall_sweep.py`)
+
+The same Mode B flow (shuffle, fixed layout size **L**, uniform random legal 4-match, replenish) was rerun for **`n`**-bit **odd-weight-only** hypothetical decks (**`|D| = 2^{n−1}`**). One headline calibration used **50,000** trials (seed base **2**) near each threshold:
+
+| `n` (active species) | `|D|` | Notable stalls | Stable baseline **L₀** (0% stalls in sampled runs) |
+|------------------------|------:|----------------|-----------------------------------------------------|
+| 7 | 64 | **L = 9**: ~40% | **L₀ = 10** |
+| 6 | 32 | **L = 7**: ~57% | **L₀ = 8** |
+| 5 | 16 | **L = 6**: ~11% | **L₀ = 7** |
+| 4 | 8 | **L = 4**: ~80% (tiny deck — sanity only) | **L₀ = 5** |
+
+Seven Koi ships **seven koi (**`L₀ = 10`**) and six koi (**`L₀ = 8`**)** per **`PLAN.md`** Phase 0.
+
+```bash
+python3 math/layout_stall_sweep.py --trials 50000 --seed 2 --n-bits 5 6 7 --layout-min 5 --layout-max 10
+```
 
 ---
 
@@ -121,6 +138,7 @@ python3 verify.py --trials 50000 --mode a   --seed 1
 python3 verify.py --trials 20000 --mode b --layout-size  8 --seed 1
 python3 verify.py --trials 20000 --mode b --layout-size  9 --seed 1
 python3 verify.py --trials 20000 --mode b --layout-size 10 --seed 1
+python3 layout_stall_sweep.py --trials 50000 --seed 2 --n-bits 4 5 6 7
 ```
 
 Single-trial sanity check on the size-9 counterexample:

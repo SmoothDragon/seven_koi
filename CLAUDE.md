@@ -16,6 +16,7 @@ This file lets a fresh AI agent (Claude, Cursor, etc.) recreate the current stat
 - `math/NOTES.md` — math claims with corrected status; includes **[CP24]** bibliography (Sidon sets / codes).
 - `math/RESULTS.md` — Monte Carlo simulation report falsifying two of the original spec's claims.
 - `math/verify.py` — Python verifier with sanity asserts and Mode A / Mode B Monte Carlo (`python3 math/verify.py --help`).
+- `math/layout_stall_sweep.py` — Mode B stall rates vs layout size **`L`** across odd-weight decks (`n = 4`…`7`); see `math/RESULTS.md` §2.1.
 - `bonus_web/` — Rust → WebAssembly stub for the Kickstarter digital bonus (`wasm-pack` build). See [bonus_web/README.md](bonus_web/README.md).
 
 ## Game spec (verbatim from designer)
@@ -42,8 +43,8 @@ The designer's earliest spec overstated splitting the residual; details in `math
 2. **Shuffle.**
 
 3. **Layout baseline and replenishment (version-specific)** — **`L₀`** = face-up count you restore toward **after each successful claim**, drawing from the deck until that count is reached or the deck empties (**partial replenish** OK).
-   - **Standard (`|D| = 64`, seven active koi).** **`L₀ = 10`**. Lay out ten cards initially. Between claims: if **all players unanimously agree** that **no legal 4-card match** is showing, flip **one** extra card (**escalation**); repeat until someone claims or the spread reaches **13**. Per **[CP24]** (`math/NOTES.md` References), **13** laid-out cards suffice for **some** guaranteed 4-card XOR match in the affine/Sidon regimes that model this deck. *Separately,* deck-specific math yields a sharper **≥10-card** guarantee **conditional on** `max Sidon = 9` inside **`D`** (`math/NOTES.md` §6). After any claim remove the scored four cards, then replenish from the deck toward **`L₀`** again.
-   - **Beginner (`|D| = 32`, six active koi).** **`L₀ = 9`**. Nine cards suffice for a **literature-backed** existential 4-match guarantee per **[CP24]** / classified small regimes (see **`math/NOTES.md`** References); no escalation ladder is required unless the table wants a shorter warm-up variant. Replenish toward **nine** when the deck has stock (**`32 − 9`** is **not** a multiple of **four**, so expect partial final packets).
+   - **Standard (`|D| = 64`, seven active koi).** **`L₀ = 10`**. Lay out ten cards initially. Between claims: if **all players unanimously agree** that **no legal 4-card match** is showing, flip **one** extra card from the facedown pile (**escalation**); repeat until someone claims or the spread reaches **13**. Per **[CP24]** (`math/NOTES.md` References), **13** arbitrary cards in **`GF(2)^7`** force **some** 4-card XOR match. *Separately,* deck-specific math yields **every 10-card** layout from **`D`** contains a match **conditional on** `max Sidon = 9` (`math/NOTES.md` §6). After any claim remove the scored four cards, then replenish from the deck toward **`L₀`** again.
+   - **Beginner (`|D| = 32`, six active koi).** **`L₀ = 8`**. Recommended from Mode B empirical sweep on the **`n = 6`** odd-weight deck (`math/layout_stall_sweep.py`, summarized in **`math/RESULTS.md`**): **`L = 7` stalls badly in simulation**, **`L ≥ 8` did not stall** under the same random-play model. Replenish toward **eight** when the deck has stock (**`32 − 8`** is **not** a multiple of **four**, so expect partial final packets). Use the **same** unanimous-deadlock rule: flip **one** extra card face up until someone claims **or** the spread reaches **`10`** — **`[CP24]`** backs **`|layout| ≥ 10`** inside **`GF(2)^6`** as a deterministic existential ceiling, analogous to **13** in standard.
 
 4. **Match:** four distinct active cards XOR to **0** ↔ every depicted koi appears **0 / 2 / 4** times (minimum four cards holds on odd-only decks — `math/NOTES.md` §2).
 
@@ -66,7 +67,7 @@ The designer's earliest spec overstated splitting the residual; details in `math
 
 ## Math claims (status table)
 
-Applies **as written** to the **seven-koi standard deck.** The **six-koi beginner deck** inherits the XOR / parity lemmas on its own affine slice; `math/verify.py` should still be extended to stress-test **`|layout| = 9`** flow and partial replenishment before freezing UI copy.
+Applies **as written** to the **seven-koi standard deck.** The **six-koi beginner deck** inherits the XOR / parity lemmas on its own affine slice; extend **`verify.py`** / **`layout_stall_sweep.py`** if you tighten formal **`max Sidon`** claims for **`|D| = 32`**.
 Detail in [math/NOTES.md](math/NOTES.md); empirical justification in [math/RESULTS.md](math/RESULTS.md). Two of the original spec's claims have been falsified by Monte Carlo simulation.
 
 | Claim                                                                                | Status |
@@ -85,7 +86,7 @@ The cited classical bound `max Sidon in F_2^k = 2^⌊k/2⌋` is wrong for our se
 ## Open decisions (must be resolved before later phases)
 
 1. ~~**Publication route**~~ — **resolved**: **Kickstarter** (crowdfunding). Pre-launch, campaign, pledge manager, fulfillment — details in `PLAN.md` Phase 10.
-2. **Dealing / endgame** — **Standard:** **`L₀ = 10`**, deadlock **escalate** to **≤ `13`** (**[CP24]** cap). **Beginner:** **`L₀ = 9`**. When draws exhaust, **expose every remnant facedown card** (**max tableau**). **Stop** when everyone agrees **no legal 4-match** remains. **Score** = tally **every fish / koi** on **cards you claimed** only. **`L = 9, F = 8`** on **`|D|=64`** stays invalid.
+2. **Dealing / endgame** — **Standard:** **`L₀ = 10`**, deadlock **add one face-up card** up to **`13`** (**[CP24]** ambient cap). **Beginner:** **`L₀ = 8`**, same rule up to **`10`**. When draws exhaust, **expose every remnant facedown card** (**max tableau**). **Stop** when everyone agrees **no legal 4-match** remains. **Score** = tally **every fish / koi** on **cards you claimed** only. **`L = 9, F = 8`** on **`|D|=64`** stays invalid.
 3. ~~**Final 7-of-13 koi selection**~~ — **resolved**: Kohaku, Showa, Asagi, Ogon, Chagoi, Tancho, Kumonryu. See [koi_selection.md](koi_selection.md) for English/Japanese names, flavor blurbs, and the primary-color palette.
 4. **Player count and turn structure** — turn structure **resolved: real-time call-out**. Call protocol: shout **"Koi!"** and then touch the four cards in order. Invalid-claim penalty: caller is locked out until another player claims a valid 4-card match (in mid-game this usually aligns with the next baseline replenishment; in the endgame it ends when anyone claims a legal 4-match on the residual). Player count still TBD (suggested 2–6); see `PLAN.md` Phase 3.
 5. ~~**Art pipeline**~~ — **resolved**: **AI-generated**. Keep prompt logs, confirm commercial license, follow Phase 5 + Phase 8 (copyright / Kickstarter disclosure).
