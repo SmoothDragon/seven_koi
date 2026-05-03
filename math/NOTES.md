@@ -195,3 +195,12 @@ Open items:
 [CP24] Ingo Czerwinski and Alexander Pott, *Sidon sets, sum-free sets and linear codes*, **Advances in Mathematics of Communications** 18 (2024), no. 2, 549–566. DOI: [10.3934/amc.2023054](https://doi.org/10.3934/amc.2023054). Preprint: [arXiv:2304.07906](https://arxiv.org/abs/2304.07906).
 
 Contains, among other results: the trivial upper bound on `s_max(F_2^t)` (their Proposition 2.1); improved bounds via non-existence of certain `[n, n−t, 5]` codes (Theorems 5.2–5.3); classification of maximal Sidon sets through dimension 6 (Proposition 2.7) and computer-assisted size data in dimensions 7–8 (Proposition 2.8); and the equivalence between sum-free Sidon subsets of `F_2^t \ {0}` and associated linear codes with minimum distance ≥ 5 (Proposition 4.1, Theorem 4.2). Our “no 4-card match among distinct cards” condition matches Sidon disjoint-pair collisions in characteristic 2; the odd-parity affine deck suppresses Schur triples relative to unrestricted `F_2^t` — see §§3–5 above.
+
+TODO: Verify or create a new OEIS entry based on odd Sidon sets. What we have so far:
+1 1
+2 2
+3 3
+4 4
+5 6
+6 7
+7 9
