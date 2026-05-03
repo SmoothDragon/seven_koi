@@ -13,7 +13,7 @@ This file lets a fresh AI agent (Claude, Cursor, etc.) recreate the current stat
 - `ThirteenKoi.png` — reference grid of 13 popular koi varieties with English/Japanese names and one-line descriptions. The 13 varieties are: Kohaku, Showa, Asagi, Shusui, Ogon, Chagoi, Utsurimono, Tancho, Kumonryu, Hariwake, Sanke, Bekko, Utsuri. Seven of these will be selected for the game (see Open Decisions).
 - `PLAN.md` — 12-phase publication roadmap.
 - `CLAUDE.md` — this file.
-- `math/NOTES.md` — self-contained proof of the 4-card guarantee.
+- `math/NOTES.md` — self-contained proof of the 4-card guarantee, the endgame XOR-invariant, and the `S*` counterexample to naive splittability.
 - `koi_selection.md` — the seven chosen koi (Phase 1 deliverable, **done**).
 
 No source code yet (`math/verify.py` is the next planned artifact); no art beyond the reference sheet; no rules document yet.
@@ -34,7 +34,7 @@ No source code yet (`math/verify.py` is the next planned artifact); no art beyon
 3. By a Sidon-set property, there is guaranteed to be a set of 4 cards such that every koi is represented an even number of times. This is the match players are looking for.
 4. Because every card has an odd number of koi on it (1, 3, 5, or 7), any subset of cards covering each koi an even number of times must contain an even number of cards; the smallest such match is 4 cards.
 5. When a match is claimed, deal 4 more cards and repeat.
-6. Eventually 8 cards remain; due to the math, these split exactly into two groups of 4. Whichever player identifies one group of 4 collects both groups.
+6. Eventually 8 cards remain. The residual *always* XORs to 0 (proven in `math/NOTES.md` §7.1) and is *intended* to split into two 4-card matches. **Endgame rule**: when any player calls "Koi!" on a 4-card sub-match of the residual, they immediately claim **all 8** residual cards. **Fallback** (in case no 4-card sub-match exists in the residual — possible per `math/NOTES.md` §7.2 with witness `S* = {e_1, ..., e_7, 𝟙}`; reachability under valid play is TBD via Phase 2 brute force): after a 60-second silence, the entire residual is awarded to the player who claimed the most recent mid-game match.
 7. **Score** = total number of koi (across all collected cards) for each player.
 
 ## Math claims
@@ -45,14 +45,17 @@ The full self-contained proof of the 4-card guarantee is in [math/NOTES.md](math
 - A "match" = subset whose XOR is the zero vector.
 - **Minimum match size = 4.** Every card has odd Hamming weight, so any non-empty subset that XORs to 0 must have even size. Size 2 would require two identical cards (impossible in this deck), so the smallest non-trivial match has 4 cards. ✓ (proof in `math/NOTES.md` §2)
 - **Every 9-card subset of the 64 contains a 4-card match.** Equivalent to: the maximum Sidon set among the 64 odd-weight vectors of F_2^7 has size ≤ 8. The natural set {e_1, ..., e_7, 𝟙} achieves size 8 and is maximal (every additional odd-weight vector closes a 4-cycle). Proof in `math/NOTES.md` §3–6, modulo the cited classical bound `max Sidon in F_2^7 = 2^⌊7/2⌋ = 8`.
-- **Endgame split**: the final 8 cards always split exactly into two 4-card matches. *Not yet proven*; brute-force verification scheduled in Phase 2 (depends on which dealing convention is chosen).
+- **Endgame structure**:
+  - **Proven** (`math/NOTES.md` §7.1): the residual 8 cards always XOR to 0, so they form a single 8-card match (every koi appears an even number of times).
+  - **False in general** (`math/NOTES.md` §7.2): the further claim "the residual splits into two 4-card matches" does *not* follow from `Σ R = 0` alone — `S* = {e_1, ..., e_7, 𝟙}` is an 8-card match with no 4-card sub-match.
+  - **Open** (`math/NOTES.md` §7.3): whether `S*` (or any other unsplittable residual) is reachable under valid mid-game play. Phase 2 brute-force will settle this.
 
 ## Open decisions (must be resolved before later phases)
 
 1. **Publication route** — print-on-demand, Kickstarter, pitch-to-publisher, or personal/hobby?
 2. **Dealing math reconciliation** — initial layout 9 + endgame 8 doesn't close: 64 = 9 + 4M + 8 gives M = 11.75. Likely fixes: deal 8 initially (clean), deal 12 initially (clean), or stop replenishing once the deck empties (residual handled explicitly).
 3. ~~**Final 7-of-13 koi selection**~~ — **resolved**: Kohaku, Showa, Asagi, Ogon, Chagoi, Tancho, Kumonryu. See [koi_selection.md](koi_selection.md) for English/Japanese names, flavor blurbs, and the primary-color palette.
-4. **Player count and turn structure** — real-time call-out vs turn-based scan; suggested 2–6 players.
+4. **Player count and turn structure** — turn structure **resolved: real-time call-out**. Call protocol: shout **"Koi!"** and then touch the four cards in order. Invalid-claim penalty: caller is locked out until another player claims a valid 4-card match (in mid-game this coincides with the next replenishment; in the endgame it's when another player claims one of the two final 4-card groups). Player count still TBD (suggested 2–6); see `PLAN.md` Phase 3.
 5. **Art pipeline** — commissioned illustrator, DIY, or AI-generated (with copyright implications).
 6. **Digital prototype** — whether to build a Tabletop Simulator mod or web prototype for remote playtesting.
 

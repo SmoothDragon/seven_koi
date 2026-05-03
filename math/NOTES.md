@@ -121,17 +121,56 @@ Since `|L| = 9 > 8`, `L` cannot be Sidon, so it contains a 4-cycle, which by Lem
 
 ---
 
-## 7. Independent verification (planned)
+## 7. The endgame: what is and isn't proven
 
-The Phase 2 deliverable `math/verify.py` will provide a computational double-check:
+### 7.1 Lemma E — the residual 8 cards always XOR to 0
 
-1. **Sidon enumeration.** Depth-first branch-and-bound over `D = 64` odd-weight vectors of `F_2^7`, extending only when the next vector creates no 4-cycle with the current set. Confirm no leaf reaches size 9. Estimated runtime: seconds.
-2. **Endgame split.** For every 8-card subset `R ⊆ D` reachable as the residual after the deck empties (definition depends on the dealing convention chosen in `PLAN.md` Phase 2), check that `R` partitions into exactly two 4-card matches. This is the second math claim that has not yet been proven in writing; brute force will either confirm it or surface counterexamples that constrain the dealing rule.
+**Claim.** Suppose play proceeds from the full deck `D` (|D| = 64) by repeatedly removing 4-card matches (each match is some `M_i ⊆ D` with `Σ M_i = 0` and `|M_i| = 4`). When the deck is exhausted, exactly 8 cards remain on the table (assuming a dealing convention where this is the case — see `PLAN.md` Phase 2). Call this set `R ⊆ D`. Then `Σ R = 0`.
+
+**Proof.** Two ingredients.
+
+(i) `Σ D = 0`. Each koi `i ∈ {1,...,7}` appears in exactly half of the 64 cards: it appears in `C(6, 0) + C(6, 2) + C(6, 4) + C(6, 6) = 1 + 15 + 15 + 1 = 32` cards (the count of even-sized subsets of the other 6 koi added to the singleton `{i}` makes an odd-sized set containing `i`). 32 is even, so the i-th coordinate of `Σ D` is 0 in F_2. This holds for every `i`, so `Σ D = 0`.
+
+(ii) Each removed match `M_i` has `Σ M_i = 0`, so `Σ (D \ ⋃ M_i) = Σ D + Σ ⋃ M_i = 0 + 0 = 0` (in F_2, addition and subtraction coincide).
+
+So `Σ R = 0`. ∎
+
+In game terms: the residual 8 cards always have every koi appearing an even number of times — they are themselves a single 8-card match. The endgame rule "claim one 4-card group → claim both" is grounded in the *intent* that this 8-card match further splits into two 4-card pieces. §7.2 shows the splitting is *not* automatic from `Σ R = 0` alone.
+
+### 7.2 The splittability claim is *not* a theorem of `Σ R = 0` alone
+
+**Claim (negative).** There exists an 8-element subset `R ⊆ D` with `Σ R = 0` and *no* 4-card sub-match.
+
+**Witness.** The maximal Sidon set from Lemma D, `S* = {e_1, ..., e_7, 𝟙}`.
+
+* `Σ S* = (e_1 + ... + e_7) + 𝟙 = 𝟙 + 𝟙 = 0`. ✓
+* Every 4-subset of `S*` is one of:
+  - 4 distinct `e_i` vectors → XOR has weight 4, nonzero;
+  - `𝟙` plus 3 distinct `e_i` vectors → XOR has weight 7 − 3 = 4, nonzero.
+* So `S*` is an 8-card match with no 4-card sub-match. ∎
+
+### 7.3 The remaining open question
+
+The negative claim in §7.2 *only* says `S*` exists abstractly as an 8-element subset of `D`. It does **not** say `S*` is reachable as a residual `R` of an actual game. Reachability requires:
+
+> The 56 cards `D \ S*` can be partitioned into 14 four-card matches `M_1, ..., M_14`, where the i-th match was claimable from the 9-card layout present at step i (so each `M_i` is a 4-element zero-sum subset of the live layout, and the sequence respects the dealing rule).
+
+This is a strictly stronger condition than abstract partitionability of `D \ S*`. Settling reachability either way is the second computational task in §7.4. If no unsplittable residual is reachable, the rule "claim one 4-card group → claim both" is sound. Otherwise the rules need the fallback in `PLAN.md` Phase 3.
+
+### 7.4 Independent verification (planned)
+
+The Phase 2 deliverable `math/verify.py` provides three computational checks:
+
+1. **Sidon enumeration.** Depth-first branch-and-bound over the 64 odd-weight vectors of `F_2^7`, extending only when the next vector creates no 4-cycle with the current set. Confirm no leaf reaches size 9. (Backstop for §6.) Estimated runtime: seconds.
+2. **Static splittability.** Enumerate all 8-element subsets `R ⊆ D` with `Σ R = 0` and check how many fail to partition into two 4-card matches. We expect at least the `S*` orbit (under the symmetric group `S_7` permuting the 7 koi indices). Quantifying this set bounds the worst case.
+3. **Endgame reachability.** Simulate game play under the chosen dealing convention with adversarial match selection: at each step, given the current layout and deck, branch over all valid 4-card matches in the layout. Check whether any leaf produces a residual `R` that fails check 2. If yes, the fallback rule below is *necessary*; if no (no unsplittable residual is reachable), the rule "claim one → claim both" is sound and we can promote it to a theorem. Tractability depends on the dealing convention; for `L = 8`, the search tree may be large but is bounded by `64! / (4!)^16 ≈ ...`-style figures, with heavy pruning available via symmetry and dominated-state detection.
 
 ---
 
-## 8. Implication for game design
+## 8. Implications for game design
 
-* The 4-card guarantee underwrites the core gameplay loop (a player can *always* find a match in the layout, so the game never stalls).
-* The maximal Sidon set `S*` is also the "hardest" 8-card snapshot — if the layout reduces to exactly `S*` plus one more card, exactly one 4-card match is available. This may be the most interesting tactical position; designers may want to explicitly engineer the endgame layout to land here.
-* Because Lemma A forces every match to have even size, the 9-card layout never contains a "trivial" 2-card match, and matches of size 6 or 8 are also possible (and may overlap with size-4 matches). The rules need to clarify whether players may claim larger matches or are restricted to size 4.
+* The 4-card guarantee (§6) underwrites the core gameplay loop: a player can always find a match in any 9-card layout, so the game never stalls mid-deck.
+* The XOR-to-zero invariant (§7.1) is unconditional and gives the endgame its structural cleanliness: the residual is always an 8-card match. The further claim that it splits into two 4-card matches is not yet proven — see §7.3.
+* **Fallback rule for the rules document**: if the residual contains no 4-card match (i.e. it is `S*` or a similar maximal-Sidon residual), no player can call "Koi!" on the residual. The rules must specify what happens in this case. The current Phase 3 decision: the player who claimed the last *mid-game* match is awarded the entire residual as a single 8-card match. This makes the last mid-game claim slightly more valuable in expectation, which is acceptable design and avoids a stalled endgame.
+* The maximal Sidon set `S*` is also the "hardest" 8-card snapshot tactically — if any 8-card layout reduces to exactly `S*`, no 4-card match exists. This is the same configuration that powers both the upper bound in §6 and the counterexample in §7.2.
+* Because Lemma A forces every match to have even size, the 9-card layout never contains a "trivial" 2-card match, and matches of size 6 or 8 are also possible. The current rules restrict claims to size 4 only; this should be re-examined in playtest.

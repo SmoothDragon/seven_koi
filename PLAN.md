@@ -13,7 +13,11 @@ These block later phases. Make them before sinking time into art or production.
 1. **Publication route** — print-on-demand, crowdfunding, pitch-to-publisher, or personal/hobby.
 2. **Dealing-math reconciliation** — see Phase 2; the stated "9 out / 8 left" arithmetic does not close over a 64-card deck. Pick: initial layout of 8, initial layout of 12, or "stop replenishing once the deck is empty" with the residual handled explicitly.
 3. ~~**Final 7-of-13 koi**~~ — **resolved** (see [koi_selection.md](koi_selection.md)): Kohaku, Showa, Asagi, Ogon, Chagoi, Tancho, Kumonryu.
-4. **Player count and turn structure** — real-time call-out vs turn-based scan.
+4. ~~**Player count and turn structure**~~ — **resolved**:
+   - Real-time call-out (everyone scans simultaneously; first to call a valid 4-card match collects it).
+   - Call protocol: shout **"Koi!"** then touch the four cards in order.
+   - Invalid-claim penalty: caller is locked out until the next valid 4-card match is claimed by another player (in mid-game this coincides with the next replenishment; in the endgame it's the moment another player claims one of the two 4-card groups).
+   - Player count still TBD (see Phase 3).
 5. **Art pipeline** — commissioned illustrator, DIY, or AI-generated.
 6. **Digital prototype** — Tabletop Simulator mod, web prototype, or none.
 
@@ -58,7 +62,9 @@ Lock the math before committing to art, because if a claim is wrong the rules ch
   2. For our deck, the Schur-triple condition is automatic (sum of three odd-weight vectors is odd, hence nonzero), so Sidon collapses to "no 4-cycle" = "no 4-card match".
   3. Cite the classical bound `max Sidon set in F_2^7 ≤ 2^⌊7/2⌋ = 8`.
   4. The natural set `{e_1, ..., e_7, 𝟙}` achieves 8 and is maximal (every extra weight-3 vector closes a triangle with three `e_i`'s; every extra weight-5 vector closes a 4-cycle with `𝟙` and the two `e_i`'s in its complement).
-- **Endgame split**: verify that the final 8 cards always partition into two 4-card matches (and characterize what happens if a player misidentifies the split). *Not yet proven; depends on which dealing convention is chosen below.*
+- **Endgame structure**:
+  - **Proven** ([math/NOTES.md](math/NOTES.md) §7.1): the residual 8 cards always XOR to 0, i.e. form a single 8-card match. Follows from `Σ D = 0` (each koi appears in exactly 32 cards) and the conservation of XOR under match removal.
+  - **Open**: whether the residual always further splits into *two* 4-card matches. This is **false** in general — `S* = {e_1, ..., e_7, 𝟙}` is an 8-card match with no 4-card sub-match (`math/NOTES.md` §7.2). The remaining question is whether `S*` (or any other unsplittable residual) is *reachable* under valid mid-game play (`math/NOTES.md` §7.3). Phase 2 brute-force will settle this; if no unsplittable residual is reachable, the rule "claim one 4-card group → claim both" promotes to a theorem; otherwise the fallback rule in Phase 3 is necessary.
 - **Dealing arithmetic**. With initial layout L and final layout F, total cards passing through play satisfy `64 = L + 4M + F` where M is the number of mid-game matches. The user's stated `L = 9, F = 8` gives M = 11.75 (no integer solution). Resolutions:
   - **L = 8, F = 8** → M = 12. Cleanest; loses one card from initial spread.
   - **L = 12, F = 8** → M = 11. More cards visible from start (easier first match).
@@ -67,11 +73,12 @@ Lock the math before committing to art, because if a claim is wrong the rules ch
 
 **Deliverables**:
 
-- [math/NOTES.md](math/NOTES.md) — self-contained writeup of the 4-card-guarantee proof. **Done.**
-- `math/verify.py` — small Python script using `itertools` and bitmask XOR for two independent computational checks:
-  - (a) Enumerate Sidon sets among odd-weight F_2^7 vectors via depth-first branch-and-bound; confirm none reach size 9 (this is the brute-force backstop for the cited classical bound).
-  - (b) Verify the endgame-split claim on every reachable 8-card residual (definition depends on the dealing convention chosen above).
-  - Update `math/NOTES.md` §7 with the verification results, and §8 with the chosen dealing convention.
+- [math/NOTES.md](math/NOTES.md) — self-contained writeup of the 4-card-guarantee proof, the XOR-invariant endgame proof, and the `S*` counterexample. **Done.**
+- `math/verify.py` — small Python script using `itertools` and bitmask XOR for three independent computational checks (see `math/NOTES.md` §7.4):
+  - (a) **Sidon enumeration.** Confirm no Sidon set in odd-weight F_2^7 reaches size 9 (backstop for the cited classical bound).
+  - (b) **Static splittability.** Enumerate all 8-element subsets `R ⊆ D` with `Σ R = 0`; report how many fail to split into two 4-card matches and characterize them (we expect at least the `S*` orbit under permutations of the 7 koi).
+  - (c) **Endgame reachability.** Simulate game play under the chosen dealing convention with adversarial match selection; check whether any unsplittable residual is reachable. If no, promote the splittability claim to a theorem and remove the Phase 3 fallback rule. If yes, keep the fallback rule and document the reachable bad residuals.
+  - Update `math/NOTES.md` §7.4 with the verification results, and add the chosen dealing convention to §1.
 
 ---
 
@@ -79,12 +86,19 @@ Lock the math before committing to art, because if a claim is wrong the rules ch
 
 - **Player count, age, time** — suggested 2–6 players, 10+, 15–25 min. Confirm via playtest.
 - **Setup** — shuffle, deal initial layout (number set in Phase 2).
-- **Turn structure** — real-time call-out (everyone scans simultaneously; first to call a valid match collects it) vs turn-based (each player scans on their turn). Real-time fits the matching genre (cf. SET) but penalizes slower players; turn-based is friendlier for kids/casual.
-- **Match claim resolution** — call out + point to 4 cards; group verifies XOR-to-zero by checking each koi appears 0, 2, or 4 times.
+- **Turn structure** — **real-time call-out** (locked in Phase 0): all players scan the layout simultaneously; the first to call a valid 4-card match claims it. Fits the matching-game lineage (cf. *SET*).
+- **Call protocol** (locked): the claiming player **shouts "Koi!" and then touches the four cards in order**. The shout is the time-stamp; the touches are the proof. Two players almost-tying is resolved by the shout, not by the touches.
+- **Match claim resolution** — once "Koi!" is called, all play pauses; the caller touches four cards in order and the group verifies that each of the seven koi appears 0, 2, or 4 times across them. If valid: caller takes the four cards. If invalid: invalid-claim penalty applies.
+- **Invalid-claim penalty** (locked): the caller is **locked out until the next 4-card match is claimed by someone else**. They keep all previously collected cards. In typical mid-game play, a successful match is followed by a 4-card replenishment, so the lockout ends as the new layout appears. In the endgame (deck empty, 8 cards on the table), the lockout still ends the moment another player claims one of the two 4-card groups — the locked-out player can then race for the remaining group. This is a soft penalty (no card loss) but a real tempo cost in a real-time game.
 - **Scoring** — collected cards go face-up in front of the claimer; final score = total koi pips across collected cards.
 - **Tiebreakers** — most cards collected, then most all-seven cards, then highest-weight single card.
-- **Endgame split** — define what happens if a player calls only one of the two final 4-card groups (do they get only the called group, or both?). The verbatim spec says "gets both," so document that.
-- **Edge cases** — simultaneous claims, invalid claim penalty (lose a card? skip a turn?), accidental over/under-deal.
+- **Endgame** (locked):
+  - When the deck is exhausted, exactly 8 cards remain on the table. By [math/NOTES.md](math/NOTES.md) §7.1 these always XOR to 0, i.e. form a single 8-card match.
+  - **Claim one → claim both.** When any player calls "Koi!" on a 4-card match in the residual, they immediately claim **all 8** residual cards (the 4 they called plus the remaining 4, which are guaranteed to also XOR to 0 in the typical case). Game ends.
+  - **Fallback for an unsplittable residual.** It is mathematically possible that the residual contains *no* 4-card sub-match (the witness is `S* = {e_1, ..., e_7, 𝟙}` from `math/NOTES.md` §7.2; whether this can actually occur during play is an open question scheduled for brute-force resolution in Phase 2). If, after a generous timer (e.g. 60 seconds with no successful claim), no player has called a 4-card match in the residual, the entire 8-card residual is awarded to **the player who claimed the most recent mid-game match**. Game ends.
+  - This fallback is unattractive enough (it costs every other player the whole endgame) that players are incentivized to scan harder before the timer expires, while still guaranteeing the game terminates.
+- **Mixed-skill handicap variant** — the rulebook should suggest a "house handicap" (e.g. faster players sit on their hands for the first N seconds of each layout) for mixed-skill groups, since real-time inherently penalizes slower scanners.
+- **Edge cases** — simultaneous "Koi!" shouts (rule: nearest-shouter as judged by the table; fall back to rock-paper-scissors), accidental over/under-deal, mid-touch reveal of an obviously invalid match (caller still pays the penalty).
 - **Variants**:
   - Solitaire/timed: how fast can you clear the deck?
   - Cooperative: find all matches in N seconds.
@@ -231,6 +245,6 @@ A short reference list of campaigns to study for pacing, video, reward tiers, an
 1. Publication route (print-on-demand / Kickstarter / publisher / personal).
 2. Reconcile dealing math (initial layout 8 or 12, or "stop replenishing once deck empty").
 3. ~~Final 7-of-13 koi selection.~~ Resolved — see [koi_selection.md](koi_selection.md).
-4. Player count and turn structure (real-time call-out vs turn-based).
+4. ~~Player count and turn structure.~~ Resolved: **real-time call-out**, shout **"Koi!"** then touch four cards in order, invalid claim → locked out until another player claims a valid 4-card match. Player count still TBD (Phase 3).
 5. Art pipeline (commissioned / DIY / AI-generated).
 6. Whether to build a digital prototype (Tabletop Simulator / web / none).
