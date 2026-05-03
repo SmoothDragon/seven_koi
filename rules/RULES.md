@@ -8,7 +8,7 @@ Player-facing rules. The retail box contains **one** full card set (**Expert**, 
 
 ## 1. What’s in the box
 
-One complete **Expert** deck — **64** cards, seven koi, poker size:
+One deck of **64** koi cards containing:
 
 - **7** single-koi cards (one featured koi each)  
 - **35** triple-koi cards (every combination of three koi)  
@@ -23,19 +23,46 @@ One complete **Expert** deck — **64** cards, seven koi, poker size:
 
 ## 2. Goal
 
+You are all koi collectors with an odd quirk: You only collect pairs of identical koi. Unfortunatley, you are also buying from koi owners with a different odd quirk: They only sell an odd number of distinct koi at a time.
+
+The cards represent various groups of koi available and they will be dealt into a tableau in the center accessible to all players. Groups of koi will be collected by players each turn and then the center tableaux will be replenished.
+
+The winner is the player that finished with the most koi.
+
 Score **koi (fish)**. Each card shows some of the active koi. When you claim a valid **match** (see below), you take those four cards. Only fish on cards **you claimed** count at the end. The tableau does **not** score.
 
 ---
 
-## 3. Match (four cards)
+## 3. Claiming koi
 
-A **match** is **four different face-up cards** such that **every active koi** appears on **0, 2, or 4** of them (never 1 or 3). Equivalently: if you treat each card as the set of koi printed on it, the four sets XOR-cancel in the usual parity sense (same formal condition as in the project math notes).
+The quirks of the collectors and owners means that at least four cards must be claimed simultaneously in what is called a **match** (See notes at end for detailed explanation).
 
-You need **at least four** cards; smaller sets cannot match this deck.
+A **match** is always **four different face-up cards** such that **every active koi** appears on **0, 2, or 4** of them (never 1 or 3). 
+
+Fewer than four cards can never form a match.
+Matches of more than four cards are not allowed.
 
 ---
 
-## 4. Table size and dealing
+## 4. Playing your first game
+
+Set the 32 expert cards aside (TODO: make an easy way to do this).
+Shuffle and deal 8 of the 32 remaining standard cards in the center of all the players.
+
+Everyone plays at once.
+
+1. When you see a match, shout **“Koi!”** first, then **touch the four cards in order** (the shout marks who got there first if two players collide).
+2. Play pauses. The group checks the four cards: every active koi appears **0, 2, or 4** times across them.
+   - **Valid:** that player takes all four cards, then you replenish the stock in the center to 8 cards.
+   - **Invalid:** **invalid-claim penalty** — that player is **locked out** (cannot call “Koi!” or claim) until **another** player successfully claims **any** valid four-card match. They keep cards they already took earlier.
+3. Continue until the deck is exhausted.
+4. When the final eight cards are in the stock, it is guaranteed (for the standard deck) to have two matches. Whomever claims on match claims both.
+
+TODO: Show a graphic with 8 enumerated cards on the table and then say which subset forms a match. Perhaps 2 or 3 examples. The first should be easiest with three single cards that match a triple and other random cards. Choose cards so there is also a different more difficult match to find. The final example should have only cards with 3 and 5 koi on them to show a more difficult case and then explain the matches below. Again all the examples should contain at least two matches.
+
+---
+
+## 5. Table size and dealing
 
 **Baseline face-up count `L₀`** (restore toward this after each successful claim):
 
@@ -47,17 +74,6 @@ You need **at least four** cards; smaller sets cannot match this deck.
 **After each valid claim:** remove the four scored cards to the claimant’s pile. Draw from the stock until the tableau again has `L₀` face-up cards, **or** the stock is empty (partial refill is OK).
 
 **No mid-game stock flip on “stuck”:** With `L₀` face-up cards from the **legal** pile in play (64-card Expert or 32-card Standard), a legal four-card match **always exists** somewhere on the tableau. There is **no** rule to add a card from stock because everyone thinks there is no match — if the table agrees there is no match, **keep looking**; someone missed one.
-
----
-
-## 5. Turns — real-time “Koi!”
-
-Everyone plays at once.
-
-1. When you see a match, shout **“Koi!”** first, then **touch the four cards in order** (the shout marks who got there first if two players collide).
-2. Play pauses. The group checks the four cards: every active koi appears **0, 2, or 4** times across them.
-   - **Valid:** that player takes all four cards, then you refill toward `L₀` from the stock (section 4).
-   - **Invalid:** **invalid-claim penalty** — that player is **locked out** (cannot call “Koi!” or claim) until **another** player successfully claims **any** valid four-card match. They keep cards they already took earlier.
 
 ---
 
@@ -81,7 +97,6 @@ Add up **every koi depiction** on cards **you claimed**:
 - Triple → 3  
 - Quintuple → 5  
 - All-seven (Expert) → **7**  
-- All-six (Standard, all active species on one card if present) → **6**
 
 **Tiebreakers** (if fish totals tie): (1) most cards claimed, (2) most “all-koi” cards (all-seven vs all-six), (3) highest-weight single card among the active species (quint beats triple beats single).
 
@@ -100,6 +115,14 @@ Add up **every koi depiction** on cards **you claimed**:
 Solitaire drills, timed rounds, or other modes are house experiments unless published separately.
 
 ---
+
+# Math commentary
+If you treat each card as the set of koi printed on it, the four sets XOR-cancel in the usual parity sense (same formal condition as in the project math notes).
+
+TODO: Add comment about Sidon sets.
+TODO: Add comment about odd Sidon sets.
+TODO: Possibly include a LEAN proof that odd Sidon set bounds are correct.
+TODO: Math explanation of why the standard game always ends with 8 cards than can be split into two matches.
 
 ## Document history
 
