@@ -1,20 +1,23 @@
 # Seven Koi — rules (v0.1)
 
-Player-facing rules. **Standard** = six koi, 32 cards. **Expert** = seven koi, 64 cards. Same flow unless noted. Card size: 2.5" × 3.5" (63 × 88 mm), same idea as Magic-style poker cards.
+Player-facing rules. The retail box contains **one** full card set (**Expert**, 64 cards, seven koi). **Standard** is the same physical cards, but you **use only half of them** (32 cards): set aside every card that depicts a chosen **omitted** koi, then play only with the remainder. Same flow for both modes unless noted. Card size: 2.5" × 3.5" (63 × 88 mm), same idea as Magic-style poker cards.
 
-**Seven koi in the Expert deck** (order 1–7 on card badges): Kohaku, Showa, Asagi, Ogon, Chagoi, Tancho, Kumonryu — see [koi_selection.md](../koi_selection.md) for full names and art notes.
+**Seven koi** (order 1–7 on card badges): Kohaku, Showa, Asagi, Ogon, Chagoi, Tancho, Kumonryu — see [koi_selection.md](../koi_selection.md) for full names and art notes.
 
 ---
 
 ## 1. What’s in the box
 
-| | Standard | Expert |
-|---|----------|--------|
-| **Active koi** | 6 (one of the seven is **omitted** on every card) | 7 |
-| **Cards** | 32 | 64 |
-| **Composition** | 6 singles + 20 triples + 6 quintuples (odd subset sizes from the six) | 7 singles + 35 triples + 21 quintuples + 1 all-seven |
+One complete **Expert** deck — **64** cards, seven koi, poker size:
 
-**Before Standard play:** remove every card that shows the **omitted** koi (or use a pre-sorted 32-card Standard deck). *Which* koi is omitted for retail Standard decks may be printed on the box or insert — until then, the group picks one species and removes all cards that depict it.
+- **7** single-koi cards (one featured koi each)  
+- **35** triple-koi cards (every combination of three koi)  
+- **21** quintuple-koi cards (every combination of five koi)  
+- **1** all-seven card (all koi on one card)
+
+**Rulebook** (this booklet or equivalent), **tuck box** (or small two-piece box), and any campaign extras listed on your pledge (score pad, tokens, etc.) if included.
+
+*Standard mode does not add a second deck:* before Standard play, remove and set aside **all** cards that show the **omitted** koi (32 cards stay in play). The box or insert may show which koi to omit for the “house” Standard setup; otherwise the group agrees on one species before the first shuffle.
 
 ---
 
@@ -39,11 +42,11 @@ You need **at least four** cards; smaller sets cannot match this deck.
 - **Standard:** `L₀ = 8`
 - **Expert:** `L₀ = 10`
 
-**Setup:** shuffle the correct deck, then deal `L₀` cards face up to the **tableau**. The rest form a face-down **stock**.
+**Setup:** **Expert** — shuffle all **64** cards, then deal `L₀` face up to the **tableau**; the rest are the face-down **stock**. **Standard** — after setting aside the 32 cards that depict the omitted koi, shuffle the **32** remaining cards, then deal `L₀` and form the stock from those only.
 
 **After each valid claim:** remove the four scored cards to the claimant’s pile. Draw from the stock until the tableau again has `L₀` face-up cards, **or** the stock is empty (partial refill is OK).
 
-**No mid-game stock flip on “stuck”:** With `L₀` face-up cards from the correct deck, a legal four-card match **always exists** somewhere on the tableau. There is **no** rule to add a card from stock because everyone thinks there is no match — if the table agrees there is no match, **keep looking**; someone missed one.
+**No mid-game stock flip on “stuck”:** With `L₀` face-up cards from the **legal** pile in play (64-card Expert or 32-card Standard), a legal four-card match **always exists** somewhere on the tableau. There is **no** rule to add a card from stock because everyone thinks there is no match — if the table agrees there is no match, **keep looking**; someone missed one.
 
 ---
 
