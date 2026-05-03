@@ -11,7 +11,7 @@ For the current repo state and the verbatim game spec, see [CLAUDE.md](CLAUDE.md
 These block later phases. Make them before sinking time into art or production.
 
 1. ~~**Publication route**~~ — **resolved**: **Kickstarter** (crowdfunding). See Phase 10 for campaign prep, timelines, pledge manager, fulfillment.
-2. **Dealing-math reconciliation — locked playable procedure** (`math/NOTES.md` §6, **`math/explore_sidon_odd_restricted/`**, **[CP24]** background in `math/NOTES.md` / `CLAUDE.md`):
+2. ~~**Dealing-math reconciliation — locked playable procedure**~~ — **resolved** (`math/NOTES.md` §6, **`math/explore_sidon_odd_restricted/`**, **[CP24]** background in `math/NOTES.md` / `CLAUDE.md`):
    - **Fixed tableau, no mid-game stock flips.** **Expert (seven koi):** **`L₀ = 10`**. **Standard (six koi):** **`L₀ = 8`**. After each successful claim, replenish toward **`L₀`** as before. **No** “unanimous deadlock → flip one from stock” step: exhaustive strict-Sidon search on the odd-weight slices certifies **`s_max(O_7)=9`** and **`s_max(O_6)=7`** (`cargo run --release -- --prove-odd-n 7` / **`6`** in that crate), so **every** **`L₀`**-card layout from the legal deck contains a **4-card XOR match** (see `math/NOTES.md` §6 Corollary). If the table agrees no match is visible, treat it as a missed call—keep scanning. **[CP24]** ambient thresholds (**`|L| ≥ 13`** in **`GF(2)^7`**, **`|L| ≥ 10`** in full **`GF(2)^6`**) remain optional **literature context**; published play stays on the **odd-card deck** at **`L₀` only**.
    - **Expert (seven koi, `|D| = 64`).** Lay out **`L₀ = 10`** cards. After each successful claim move those four cards to the claimant's pile, then draw from the deck until the spread is **`L₀` again**, or until the deck runs out (**partial replenish** on the last cycle).
    - **Standard (six koi, `|D| = 32`).** **`L₀ = 8`**; replenish toward **eight** whenever the deck has stock. Mode B empirical sweep (**`math/layout_stall_sweep.py`**, **`math/RESULTS.md`**) still documents why smaller **`L`** stalled in simulation; formal **non-stall** at **`L₀`** now follows from **`s_max(O_6)=7`**. **`32 − L₀ = 24`** is divisible by **4**; **`|spread| < L₀`** after a claim once stock is dry matches Expert.
@@ -22,7 +22,7 @@ These block later phases. Make them before sinking time into art or production.
 4. ~~**Player count and turn structure**~~ — **resolved**:
    - Real-time call-out (everyone scans simultaneously; first to call a valid 4-card match collects it).
    - Call protocol: shout **"Koi!"** then touch the four cards in order.
-   - Invalid-claim penalty: caller is locked out until the next valid 4-card match is claimed by another player (typically coincides with the next baseline refresh in mid-game; in the endgame, with the next successful claim on the residual).
+   - Invalid-claim penalty: caller is locked out until another player successfully claims **any** valid 4-card match (mid-game or endgame).
    - Player count still TBD (see Phase 3).
 5. ~~**Art pipeline**~~ — **resolved**: **AI-generated** (with licensing, copyright, and credit obligations). See Phase 5 and Phase 8.
 6. ~~**Digital bonus**~~ — **resolved**: In-browser game implemented in **Rust**, compiled to **WebAssembly** (`bonus_web/`), shipped as a Kickstarter stretch goal / add-on. Uses `wasm-bindgen` + `wasm-pack`; UI can be plain HTML/JS or layered with a framework later.
@@ -75,7 +75,7 @@ Lock the math before committing to art, because if a claim is wrong the rules ch
 - [math/NOTES.md](math/NOTES.md) — math claims with the corrected status table (wrong classical Sidon bound; deck-local **`s_max(O_7)=9`** certified; **`[CP24]`** ambient background; Standard **`L₀ = 8`** with **`s_max(O_6)=7`**; endgame splittability ~50%). **Done.**
 - [math/RESULTS.md](math/RESULTS.md) — Monte Carlo simulation report (max-Sidon empirical search; mid-game stall sweep over `L ∈ {8, 9, 10}`; cross-`n` odd-weight **`layout_stall_sweep`**; abstract reachability of unsplittable residuals). **Done.**
 - [math/verify.py](math/verify.py) — Python verifier with sanity asserts and Mode A / Mode B Monte Carlo. **Done** for the **Expert 64-card** simulations; extensions still open:
-  - **Formal `max Sidon` on the Expert odd slice `D`.** **Done** in-repo: exhaustive search certifies **`s_max(O_7)=9`** (`math/explore_sidon_odd_restricted`, **`--prove-odd-n 7`**). Optional: mirror certificate in `math/NOTES.md` prose or ship a short reproducibility note.
+  - **Formal `max Sidon` on the Expert odd slice `D`.** **Done** in-repo: exhaustive search certifies **`s_max(O_7)=9`** (`math/explore_sidon_odd_restricted`, **`--prove-odd-n 7`**); headline table and remarks in [math/NOTES.md](math/NOTES.md) updated.
   - **Standard deck (`|D| = 32`, six odd-weight subsets after one koi omitted).** **`s_max(O_6)=7`** certified (**`--prove-odd-n 6`**); **`L₀ = 8`** is theorem-backed. Residual statistics for the 32-card slice can still be tightened for copywriting.
   - **Characterization of unsplittable residuals** (Mode A historically used residual size 8; with `L = F = 10` residuals have 10 cards). Counting and structurally describing unsplittable cases would let us tune endgame wording or decks precisely (e.g., dropping cards so maximal Sidon is smaller forces more splits).
 
@@ -83,14 +83,14 @@ Lock the math before committing to art, because if a claim is wrong the rules ch
 
 ## Phase 3 — Rules document
 
-Ship one rulebook section for **Expert (7 koi, 64 cards)** and **Standard (6 koi, 32 cards)** — same flow, different `|D|`, **fixed layout `L₀ = 10`** (Expert) vs **`L₀ = 8`** (Standard); **no** mid-game stock flips on deadlock (see Phase 0 item 2 and Sidon certificates in `math/explore_sidon_odd_restricted`).
+Retail ships **one** 64-card deck (Expert). **Standard** uses the **same cards** but only **32** of them: set aside every card that depicts the **omitted** koi, then shuffle and play with the remainder. Same flow, **fixed layout `L₀ = 10`** (Expert) vs **`L₀ = 8`** (Standard); **no** mid-game stock flips on deadlock (Phase 0 item 2; Sidon certificates in `math/explore_sidon_odd_restricted`).
 
 - **Player count, age, time** — suggested 2–6 players, 10+, 15–25 min (Standard runs shorter). Confirm via playtest.
-- **Setup** — decide version; remove all cards that reference the **omitted koi** before shuffling (unless using a pre-sorted starter deck). See Phase 4 / Open decisions for sorting aids.
+- **Setup** — choose Expert or Standard. **Standard:** remove all cards that show the **omitted** koi (see box insert when finalized; else the table picks one species). **Expert:** use all 64 cards. See Phase 4 for optional **sorting aids** on the physical cards.
 - **Turn structure** — **real-time call-out** (locked in Phase 0): all players scan the layout simultaneously; the first to call a valid 4-card match claims it. Fits the matching-game lineage (cf. *SET*).
 - **Call protocol** (locked): the claiming player **shouts "Koi!" and then touches the four cards in order**. The shout is the time-stamp; the touches are the proof. Two players almost-tying is resolved by the shout, not by the touches.
 - **Match claim resolution** — once "Koi!" is called, all play pauses; the caller touches four cards in order and the group verifies that each **active** koi appears 0, 2, or 4 times across them (seven in Expert, six in Standard). If valid: caller takes the four cards. If invalid: invalid-claim penalty applies.
-- **Invalid-claim penalty** (locked): the caller is **locked out until the next 4-card match is claimed by someone else**. They keep all previously collected cards. In mid-game this typically ends when the next replenishment happens; in the endgame it ends when another player claims a match on the residual.
+- **Invalid-claim penalty** (locked): the caller is **locked out** (no further “Koi!” or claims) until **another** player successfully claims **any** valid 4-card match. They keep all previously collected cards.
 - **Scoring** — each player totals **every koi (fish)** printed on cards **they claimed**; tableau leftovers score for **nobody**.
 - **Tiebreakers** — most cards collected, then **most all-koi card(s)** (Expert: 7-of-7; Standard: 6-of-6 among the active set), then highest-weight single card among active koi.
 - **Endgame** — locked framing for `rules/RULES.md`:
@@ -101,10 +101,10 @@ Ship one rulebook section for **Expert (7 koi, 64 cards)** and **Standard (6 koi
 - **Mixed-skill handicap variant** — the rulebook should suggest a "house handicap" (e.g. faster players sit on their hands for the first N seconds of each layout) for mixed-skill groups, since real-time inherently penalizes slower scanners.
 - **Edge cases** — simultaneous "Koi!" shouts (rule: nearest-shouter as judged by the table; fall back to rock-paper-scissors), accidental over/under-deal, mid-touch reveal of an obviously invalid match (caller still pays the penalty).
 - **Variants:**
-  - **Standard:** already a first-class **32-card six-koi** deck — duplicate rules text there instead of burying under "variants only."
+  - **Standard:** same SKU as Expert — rules treat the **32-card** legal subset as a first-class mode (see `rules/RULES.md`), not a separate product line unless a future POD SKU is offered.
   - Solitaire/timed, cooperative drills, optional future "five-koi sandbox" (`|D|=16`) only after separate math review.
 
-**Deliverable**: `rules/RULES.md` v0.1.
+**Deliverable**: [rules/RULES.md](rules/RULES.md) v0.1 — **Done** (player-facing draft; iterate after blind playtests, Phase 7).
 ---
 
 ## Phase 4 — Card design (graphic design, not yet illustration)
@@ -116,7 +116,7 @@ Ship one rulebook section for **Expert (7 koi, 64 cards)** and **Standard (6 koi
 - **All-seven card** — unique heptagonal/mandala arrangement.
 - **Card back** — single shared design (water + seigaiha wave pattern).
 - **Quick-ID system** — every card carries a row of seven small filled/unfilled circles in a corner (one per koi, filled = present). This is the visual analogue of the underlying bit vector and is the single most important playability decision: without it, scanning a dense layout for matches is brutal.
-- **Deck split cue (Standard vs Expert)** — if one physical deck serves **both** 64-card Expert and **32-card** Standard games, pick a conspicuous **corner registration mark** (e.g. a screen-printed dot, foil hit, micro-icon, or color tick) keyed to "include this sheet in Standard" vs "Expert only". Document placement in `design/style_guide.md`; align with tuck-box divider / insert copy.
+- **Standard subset aid (one SKU)** — the box contains **64** cards; Standard play removes **32** that show the omitted koi. Optional **manufacturing / graphic cue** (corner mark, color nib, icon, or tuck-box insert diagram) so players can **sort the Standard-legal pile quickly** without reading every face. Document placement in `design/style_guide.md` when Phase 4 runs.
 - **Color palette** — derive accent colors from the seven primary hexes in Phase 1; pick a neutral background (off-white parchment or muted pond-water blue).
 - **Typography** — pair a Latin serif/display font with a Japanese font supporting kanji (e.g. Noto Serif JP, Klee, or Yuji Syuku); confirm commercial-use license.
 
@@ -189,7 +189,7 @@ Ship one rulebook section for **Expert (7 koi, 64 cards)** and **Standard (6 koi
 | [LongPack Games](https://www.longpackgames.com/)               | ~500     | $4–7         | Bulk, China-based                  |
 | [Ninja Print](https://ninoprint.de/en/)                        | ~250     | $5–9         | Bulk, EU-based                     |
 
-- **Components** — primary SKU: **64** Expert cards + rulebook + tuckbox or 2-piece box. Variant: **single print run carrying both modes** uses the same fronts with registration marks segregating Standard (32 usable) vs Expert piles; tuck-box divider or leaflet explains removal. Separate **32-card** Standard-only SKU optional. Accessories: score pad, wooden scoring tokens, drawstring bag.
+- **Components** — primary SKU: **64** cards + rulebook + tuckbox or 2-piece box (**Expert** = full deck; **Standard** = same deck, use only the **32** cards that never show the omitted koi — see `rules/RULES.md` §1). Optional tuck-box **insert** lists which cards to set aside per “house” omission. A separate **32-card-only** POD SKU is optional retail convenience, not required. Accessories: score pad, wooden scoring tokens, drawstring bag.
 - **Pre-press checklist** — bleed, safe zone, color profile (CMYK with manufacturer's ICC), file naming convention, single combined proof PDF, font outlining.
 - **Always order one physical proof** before any bulk run — colors and finishes shift between screen and print.
 
@@ -244,7 +244,7 @@ A short reference list of campaigns to study for pacing, video, reward tiers, an
 ## Open decisions (recap)
 
 1. ~~Publication route~~ — Kickstarter (crowdfunding).
-2. **Dealing / endgame:** Expert **`L₀ = 10`**, Standard **`L₀ = 8`**; **no** mid-game stock escalation (every **`L₀`** layout from the legal deck contains a 4-match by **`s_max(O_7)=9`** / **`s_max(O_6)=7`**, `math/explore_sidon_odd_restricted`). When the pile runs dry, flip **every** facedown remnant in **one endgame sweep** (**max tableau**). End when everyone agrees **no legal match** remains. Score **claimed fish/koi only**. Original **`L = 9, F = 8`** on **`|D| = 64`** remains invalid.
+2. ~~**Dealing / endgame**~~ — **resolved:** Expert **`L₀ = 10`**, Standard **`L₀ = 8`**; **no** mid-game stock escalation (every **`L₀`** layout from the **legal** pile contains a 4-match by **`s_max(O_7)=9`** / **`s_max(O_6)=7`**, `math/explore_sidon_odd_restricted`). When the pile runs dry, flip **every** facedown remnant in **one endgame sweep** (**max tableau**). End when everyone agrees **no legal match** remains. Score **claimed fish/koi only**. Original **`L = 9, F = 8`** on **`|D| = 64`** remains invalid.
 3. ~~Final 7-of-13 koi selection.~~ Resolved — see [koi_selection.md](koi_selection.md).
 4. ~~Player count and turn structure.~~ Resolved: **real-time call-out**, shout **"Koi!"** then touch four cards in order, invalid claim → locked out until another player claims a valid 4-card match. Player count still TBD (Phase 3).
 5. ~~Art pipeline~~ — **AI-generated**.

@@ -50,7 +50,7 @@ The designer's earliest spec overstated splitting the residual; details in `math
 
 4. **Match:** four distinct active cards XOR to **0** ↔ every depicted koi appears **0 / 2 / 4** times (minimum four cards holds on odd-only decks — `math/NOTES.md` §2).
 
-5. **Claim:** shout **"Koi!"**, then touch **four distinct cards** in order. Invalid claim — caller is locked out until **another** player claims a valid 4-card match (mid-game lockout clears with the next replenishment).
+5. **Claim:** shout **"Koi!"**, then touch **four distinct cards** in order. Invalid claim — caller is locked out until **another** player successfully claims **any** valid 4-card match.
 
 6. **Endgame:** when replenishing hits an **empty** deck, put **every** remaining facedown card onto the tableau in **one sweep** (bulk reveal, not incremental dealing between claims) (**`|spread| < L₀`** is OK — **no facedown stubs** besides cards players already claimed). XOR conservation still matches Lemma E (**`math/NOTES.md` §7.1**); unnoticed legal matches can still lurk (**`math/RESULTS.md` §3**). Keep claiming while anyone spots a legal 4-card match. Once **everyone agrees** **no matches remain**, **end**.
 7. **Score:** **fish / koi** = tally **every koi depiction** printed on cards **you claimed** (single = 1, triple = 3, quint = 5, all-koi = 6 Standard / 7 Expert). Cards **left on the tableau** add **nothing** — they are effectively discarded for scoring.
@@ -88,7 +88,7 @@ The cited classical bound `max Sidon in F_2^k = 2^⌊k/2⌋` is wrong for our se
 ## Open decisions (must be resolved before later phases)
 
 1. ~~**Publication route**~~ — **resolved**: **Kickstarter** (crowdfunding). Pre-launch, campaign, pledge manager, fulfillment — details in `PLAN.md` Phase 10.
-2. **Dealing / endgame** — **Resolved for mid-game:** **Standard `L₀ = 8`**, **Expert `L₀ = 10`**; **no** facedown flips on unanimous deadlock (tableau at **`L₀`** always contains a 4-match by Sidon bounds above). When replenishment drains the pile, flip **every** remnant (**max tableau**). **Stop** when everyone agrees **no legal 4-match** remains. **Score** = tally **every fish / koi** on **cards you claimed** only. **`L = 9, F = 8`** on **`|D|=64`** stays invalid.
+2. ~~**Dealing / endgame**~~ — **resolved:** **Standard `L₀ = 8`**, **Expert `L₀ = 10`**; **no** facedown flips on unanimous deadlock (tableau at **`L₀`** always contains a 4-match by Sidon bounds above). When replenishment drains the pile, flip **every** remnant (**max tableau**). **Stop** when everyone agrees **no legal 4-match** remains. **Score** = tally **every fish / koi** on **cards you claimed** only. **`L = 9, F = 8`** on **`|D|=64`** stays invalid.
 3. ~~**Final 7-of-13 koi selection**~~ — **resolved**: Kohaku, Showa, Asagi, Ogon, Chagoi, Tancho, Kumonryu. See [koi_selection.md](koi_selection.md) for English/Japanese names, flavor blurbs, and the primary-color palette.
 4. **Player count and turn structure** — turn structure **resolved: real-time call-out**. Call protocol: shout **"Koi!"** and then touch the four cards in order. Invalid-claim penalty: caller is locked out until another player claims a valid 4-card match (in mid-game this usually aligns with the next baseline replenishment; in the endgame it ends when anyone claims a legal 4-match on the residual). Player count still TBD (suggested 2–6); see `PLAN.md` Phase 3.
 5. ~~**Art pipeline**~~ — **resolved**: **AI-generated**. Keep prompt logs, confirm commercial license, follow Phase 5 + Phase 8 (copyright / Kickstarter disclosure).
