@@ -32,6 +32,10 @@ struct Args {
     /// Exhaustive DFS beyond --exact-cutoff up to |U|<=128 may still take substantial wall time (ambient |U|=127 is often impractical brute-force).
     #[arg(long)]
     risky_large_exhaust: bool,
+
+    /// Exhaustive max-Sidon **only** on the odd-parity slice for this `n`, print a proof-style summary, then exit (ignores min_n/max_n loop).
+    #[arg(long)]
+    prove_odd_n: Option<u32>,
 }
 
 #[inline]
@@ -92,7 +96,30 @@ fn can_extend(chosen: &[u32], x: u32) -> bool {
     true
 }
 
-#[cfg(debug_assertions)]
+/// On the odd-Hamming-weight slice, Lemma C (`math/NOTES.md`): no distinct triple XORs to **0**.
+/// So strict Sidon reduces to forbidding **4-term** cancellations; skip the **O(n²)** triple loop.
+#[inline]
+fn can_extend_odd_slice(chosen: &[u32], x: u32) -> bool {
+    debug_assert!(
+        chosen.iter().all(|&c| c != x),
+        "universe construction should omit duplicates before extend"
+    );
+    debug_assert!(x != 0 && (x.count_ones() % 2 == 1));
+    debug_assert!(chosen.iter().all(|&c| c.count_ones() % 2 == 1));
+
+    let n = chosen.len();
+    for i in 0..n {
+        for j in i + 1..n {
+            for k in j + 1..n {
+                if chosen[i] ^ chosen[j] ^ chosen[k] ^ x == 0 {
+                    return false;
+                }
+            }
+        }
+    }
+    true
+}
+
 fn verify_strict_sidon(vals: &[u32]) -> bool {
     let n = vals.len();
     for i in 0..n {
@@ -145,7 +172,8 @@ fn best_greedy(universe: &[u32], runs: u32) -> (usize, Vec<u32>) {
     (best.len(), best)
 }
 
-fn exhaustive_max_sidon(universe: &[u32]) -> (usize, Vec<u32>) {
+/// `odd_weight_universe`: all elements of `universe` have odd Hamming weight ⇒ use `can_extend_odd_slice` (Lemma C).
+fn exhaustive_max_sidon(universe: &[u32], odd_weight_universe: bool) -> (usize, Vec<u32>) {
     let mut u = universe.to_vec();
     u.sort_unstable();
     let m = u.len();
@@ -159,6 +187,7 @@ fn exhaustive_max_sidon(universe: &[u32]) -> (usize, Vec<u32>) {
         chosen: &mut Vec<u32>,
         best_k: &mut usize,
         best_set: &mut Vec<u32>,
+        odd_weight_universe: bool,
     ) {
         if chosen.len() + (m - start_idx) < *best_k {
             return;
@@ -172,22 +201,40 @@ fn exhaustive_max_sidon(universe: &[u32]) -> (usize, Vec<u32>) {
         }
         for j in start_idx..m {
             let x = u[j];
-            if can_extend(chosen, x) {
+            let ok = if odd_weight_universe {
+                can_extend_odd_slice(chosen, x)
+            } else {
+                can_extend(chosen, x)
+            };
+            if ok {
                 chosen.push(x);
-                dfs(u, m, j + 1, chosen, best_k, best_set);
+                dfs(
+                    u,
+                    m,
+                    j + 1,
+                    chosen,
+                    best_k,
+                    best_set,
+                    odd_weight_universe,
+                );
                 chosen.pop();
             }
         }
     }
 
     let mut chosen = Vec::new();
-    dfs(&u, m, 0, &mut chosen, &mut best_k, &mut best_set);
+    dfs(
+        &u,
+        m,
+        0,
+        &mut chosen,
+        &mut best_k,
+        &mut best_set,
+        odd_weight_universe,
+    );
 
     best_set.sort_unstable();
-    #[cfg(debug_assertions)]
-    {
-        assert!(best_set.is_empty() || verify_strict_sidon(&best_set));
-    }
+    debug_assert!(best_set.is_empty() || verify_strict_sidon(&best_set));
     (best_k, best_set)
 }
 
@@ -216,6 +263,7 @@ fn run_slice(
     greedy_runs: u32,
     exact_cutoff: usize,
     risky_large_exhaust: bool,
+    odd_weight_universe: bool,
 ) {
     let (gsz, _gex) = best_greedy(univ, greedy_runs);
 
@@ -223,7 +271,7 @@ fn run_slice(
 
     if exhaustive_ok {
         let t0 = Instant::now();
-        let (esz, eex) = exhaustive_max_sidon(univ);
+        let (esz, eex) = exhaustive_max_sidon(univ, odd_weight_universe);
         let dt = t0.elapsed().as_secs_f64();
 
         let take = eex.len().min(10);
@@ -249,8 +297,56 @@ fn run_slice(
     }
 }
 
+/// Exhaustive backtracking over the ordered odd universe; maximum size and one witness constitute a **computational proof** of the upper bound (no larger Sidon subset exists).
+fn prove_odd_slice_single_n(n_bits: u32) {
+    let odd_u = odd_vectors_upto(n_bits);
+    let m = odd_u.len();
+    println!(
+        "Proposition (computational). Let O_n ⊂ GF(2)^n be nonzero vectors of odd Hamming weight (|O_n| = {}).\n\
+         Let s_max(O_n) be the largest |S| with S ⊂ O_n strict Sidon (Lemma B in math/NOTES.md).\n",
+        m
+    );
+    println!(
+        "Exhaustive DFS (incremental extend: odd slice ⇒ quadruple checks only [Lemma C]; branch-and-bound vs current best)…"
+    );
+
+    let t0 = Instant::now();
+    let (k, witness) = exhaustive_max_sidon(&odd_u, true);
+    let elapsed = t0.elapsed();
+
+    println!(
+        "\nResult: s_max(O_{}) = {}\n\
+         Wall time: {:.3} s\n",
+        n_bits,
+        k,
+        elapsed.as_secs_f64()
+    );
+    println!("Witness S ({} vectors, ascending integer / {}-bit binary):", k, n_bits);
+    for v in &witness {
+        println!("  {:3}  {}", v, fmt_vec(*v, n_bits));
+    }
+    assert!(
+        witness.is_empty() || verify_strict_sidon(&witness),
+        "witness must be strict Sidon"
+    );
+    println!(
+        "\nUpper bound: no strict Sidon subset of O_{} has size {} — exhaustive search would have found it.",
+        n_bits,
+        k + 1
+    );
+}
+
 fn main() {
     let args = Args::parse();
+
+    if let Some(n) = args.prove_odd_n {
+        if n < 2 || n > 31 {
+            eprintln!("prove_odd_n: n must be in 2..=31 (bit width for u32 masks)");
+            std::process::exit(2);
+        }
+        prove_odd_slice_single_n(n);
+        return;
+    }
 
     println!(
         "Strict Sidon ( Lemma B XOR conditions ) slices:\n\
@@ -284,6 +380,7 @@ fn main() {
             args.greedy_runs,
             args.exact_cutoff,
             args.risky_large_exhaust,
+            false,
         );
         run_slice(
             n_bits,
@@ -292,6 +389,7 @@ fn main() {
             args.greedy_runs,
             args.exact_cutoff,
             args.risky_large_exhaust,
+            true,
         );
         run_slice(
             n_bits,
@@ -300,6 +398,7 @@ fn main() {
             args.greedy_runs,
             args.exact_cutoff,
             args.risky_large_exhaust,
+            false,
         );
     }
 
@@ -309,4 +408,32 @@ fn main() {
          • Odd slice max can shrink vs ambient (seven-bit odd universe already forces smaller Sidon extremes than thirteen-card ambient proofs).\n\
          • When exact search is skipped, greedy usually matches modest-n maxima — increase --greedy-runs if worried."
     );
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// Regression: computational certificate that `s_max(O_6) = 7` for the 32-vector odd slice.
+    #[test]
+    fn n6_odd_sidon_max_exhaustive_is_7() {
+        let odd = odd_vectors_upto(6);
+        assert_eq!(odd.len(), 32);
+        let (k, w) = exhaustive_max_sidon(&odd, true);
+        assert_eq!(k, 7);
+        assert_eq!(w.len(), 7);
+        assert!(verify_strict_sidon(&w));
+    }
+
+    /// Full exhaust on **|O_7| = 64** (several minutes in `--release`). Re-run after algorithm changes.
+    #[test]
+    #[ignore]
+    fn n7_odd_sidon_max_exhaustive_is_9() {
+        let odd = odd_vectors_upto(7);
+        assert_eq!(odd.len(), 64);
+        let (k, w) = exhaustive_max_sidon(&odd, true);
+        assert_eq!(k, 9);
+        assert_eq!(w.len(), 9);
+        assert!(verify_strict_sidon(&w));
+    }
 }
