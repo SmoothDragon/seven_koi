@@ -49,9 +49,10 @@ The designer's earliest spec overstated splitting the residual; details in `math
 
 5. **Claim:** shout **"Koi!"**, then touch **four distinct cards** in order. Invalid claim — caller is locked out until **another** player claims a valid 4-card match (mid-game lockout clears with the next replenishment).
 
-6. **Endgame:** when the deck cannot complete another full replenishment, **some number** of cards remain face-up (**no longer fixed at 10** — it depends on **partial** replenishment and, on standard, occasional **escalation** carries). That residual XORs to **0** (**`math/NOTES.md` §7.1**, same XOR conservation on **`|D|=64`** or **`|D|=32`**) but usually does **not** decompose cleanly into stacked 4-card claims (`math/RESULTS.md` §3). Continue real-time matching on the remnants until the layout reaches **0, 2**, or **6** cards via valid claims **or until 60 seconds** pass with **no successful claim**; split leftovers evenly (**tiebreaker order** below).
+6. **Endgame:** whenever you would draw but the facedown pile is dry, expose **every** remaining deck card toward **`L₀`** in one gulp (**|`spread|` can stay below **`L₀`**** — maximal tableau means **nothing facedown**, not forcing a magic count). Lemma **Σ tableau = 0** still holds (**`math/NOTES.md` §7.1**) yet **slept-on** XOR matches might remain (**`math/RESULTS.md` §3**). Keep shouting **“Koi!”** while anybody still sees a valid 4-card match. Once **everyone agrees** **no matches remain**, **end the game**.
+7. **Score:** **fish / koi** = tally **every koi depiction** printed on cards **you claimed** (single = 1, triple = 3, quint = 5, all-koi = 7 standard / 6 beginner). Cards **left on the tableau** add **nothing** — they are effectively discarded for scoring.
 
-7. **Score:** total koi glyphs on collected cards (count each koi once per glyph on each card taken). Tiebreakers: most cards collected, then **most copies of the "all-koi" card** (`|K|=7` standard, `|K|=6` beginner), then **highest singleton card weight among active koi** (e.g. a sole quint beats a sole triple).
+8. **Tiebreakers** (still apply when totals tie): most cards claimed, then most **all-koi** cards (`|K|=7` / `|K|=6`), then **highest-weight single card among active species**.
 
 ### Standard — seven koi
 
