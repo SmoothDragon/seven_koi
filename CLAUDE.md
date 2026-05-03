@@ -13,7 +13,7 @@ This file lets a fresh AI agent (Claude, Cursor, etc.) recreate the current stat
 - `ThirteenKoi.png` — reference grid of 13 popular koi varieties with English/Japanese names and one-line descriptions. The 13 varieties are: Kohaku, Showa, Asagi, Shusui, Ogon, Chagoi, Utsurimono, Tancho, Kumonryu, Hariwake, Sanke, Bekko, Utsuri. Seven of these will be selected for the game (see Open Decisions).
 - `PLAN.md` — 12-phase publication roadmap.
 - `CLAUDE.md` — this file.
-- `math/NOTES.md` — math claims with corrected status (the cited classical Sidon bound was wrong; see "Math claims" section below for the headline).
+- `math/NOTES.md` — math claims with corrected status; includes **[CP24]** bibliography (Sidon sets / codes).
 - `math/RESULTS.md` — Monte Carlo simulation report falsifying two of the original spec's claims.
 - `math/verify.py` — Python verifier with sanity asserts and Mode A / Mode B Monte Carlo (`python3 math/verify.py --help`).
 - `bonus_web/` — Rust → WebAssembly stub for the Kickstarter digital bonus (`wasm-pack` build). See [bonus_web/README.md](bonus_web/README.md).
@@ -54,7 +54,7 @@ Detail in [math/NOTES.md](math/NOTES.md); empirical justification in [math/RESUL
 | Σ R = 0 for the residual after the deck empties.                                     | **Proven** (`math/NOTES.md` §7.1). |
 | The residual splits into two 4-card matches.                                         | **FALSE ~50% of the time.** Mode A: 51.7% unsplittable across 50k trials. Mode B at L=10: 47.4% unsplittable across 20k trials. |
 
-The cited classical bound `max Sidon in F_2^k = 2^⌊k/2⌋` is wrong for our setup. The headline consequences flow into the Rules section above and `PLAN.md` Phases 0, 2, 3.
+The cited classical bound `max Sidon in F_2^k = 2^⌊k/2⌋` is wrong for our setup. Authoritative Sidon/code bounds and constructions in vector spaces appear in Ingo Czerwinski & Alexander Pott, *Sidon sets, sum-free sets and linear codes*, **Advances in Mathematics of Communications** 18 (2024), no. 2, 549–566 ([DOI](https://doi.org/10.3934/amc.2023054), [arXiv](https://arxiv.org/abs/2304.07906)) — summarized as **[CP24]** in [math/NOTES.md](math/NOTES.md). The headline consequences flow into the Rules section above and `PLAN.md` Phases 0, 2, 3.
 
 ## Open decisions (must be resolved before later phases)
 

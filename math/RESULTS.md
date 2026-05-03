@@ -2,6 +2,8 @@
 
 Empirical results from `math/verify.py`. **These results invalidate the original game spec's two central mathematical claims** — see §4 for the executive summary.
 
+For published theorems on Sidon sets in `F_2^t`, improved upper bounds, and the code-theoretic viewpoint, see Czerwinski–Pott, *Sidon sets, sum-free sets and linear codes*, *Adv. Math. Commun.* 18 (2024), 549–566 ([DOI](https://doi.org/10.3934/amc.2023054), [arXiv:2304.07906](https://arxiv.org/abs/2304.07906)); cross-references in [math/NOTES.md](math/NOTES.md) use the tag **[CP24]**.
+
 All trials use Python's `random` with `--seed 1`. Reproduce with the commands shown.
 
 ---

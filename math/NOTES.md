@@ -4,6 +4,8 @@ This note tracks the central mathematical claims behind Seven Koi, what is prove
 
 A previous version of this note attempted to prove the original spec by citing a closed-form bound on Sidon sets in `F_2^k` (`max ≤ 2^⌊k/2⌋`). That bound is incorrect at `k = 7` for our setting (and arguably for the full vector space too — see `math/RESULTS.md` §1.2). The proof is rebuilt below from first principles.
 
+**Reference.** For sharp discussion of Sidon sets in `F_2^t`, sum-free Sidon sets, their connection to binary linear codes of minimum distance ≥ 5, improved upper bounds on `s_max(F_2^t)`, and maximal Sidon sets in small dimensions, see Czerwinski–Pott [CP24] (full bibliographic data in the References at the end of this file).
+
 Conventions: `+` denotes XOR (addition in F_2). `wt(v)` is the Hamming weight of `v`. The 7 koi are indexed 0..6 and a card is the bit vector `v ∈ F_2^7` whose i-th bit is 1 iff koi i appears on the card.
 
 ---
@@ -167,7 +169,7 @@ The original endgame rule "claim one 4-card match → claim both" is therefore u
 
 The two open computational items not yet implemented:
 
-* **Formal proof of `max Sidon ≤ 9` in `D`.** Exhaustive DFS times out under naive pruning. Promising approaches: (a) symmetry breaking under `S_7` orbits of weight-3/weight-5 vectors; (b) SAT or ILP; (c) connection to caps in projective geometry over F_2.
+* **Formal proof of `max Sidon ≤ 9` in `D`.** Exhaustive DFS times out under naive pruning. Combine [CP24] (Theorems 5.2–5.3, code–Sidon dictionary §4) with the affine model of the odd deck; or symmetry breaking / SAT as in `PLAN.md` Phase 2.
 * **Characterization of unsplittable residuals.** All 25k+ unsplittable residuals seen are 8-element strict-Sidon sets. Determining the structure (and count) of these maximal-by-XOR-zero Sidon octets would let us tune the endgame rule precisely (e.g., constructing the deck or the replenishment so that unsplittable residuals are unreachable).
 
 ---
@@ -180,3 +182,11 @@ The two open computational items not yet implemented:
   1. Restructure the endgame as continued real-time play on the residual (claim 4-card matches as long as any exist; un-claimable cards either go to the leader or are split). Preserves the matching-game pacing and doesn't lean on a false theorem.
   2. Keep the `PLAN.md` Phase 3 fallback rule (60-second silence → award residual to the player with the most recent mid-game claim) and accept that ~50% of games end via the fallback. This is design-feasible but feels unsatisfying.
 * The fact that the deck has so many maximal Sidon-sized residuals suggests the math is essentially "noisy" near 8 cards. If the game is to have a clean endgame *theorem*, the deck size or composition probably needs to change (e.g., dropping a small number of cards to make the max Sidon drop to 7, which would force every 8-card residual to split).
+
+---
+
+## References
+
+[CP24] Ingo Czerwinski and Alexander Pott, *Sidon sets, sum-free sets and linear codes*, **Advances in Mathematics of Communications** 18 (2024), no. 2, 549–566. DOI: [10.3934/amc.2023054](https://doi.org/10.3934/amc.2023054). Preprint: [arXiv:2304.07906](https://arxiv.org/abs/2304.07906).
+
+Contains, among other results: the trivial upper bound on `s_max(F_2^t)` (their Proposition 2.1); improved bounds via non-existence of certain `[n, n−t, 5]` codes (Theorems 5.2–5.3); classification of maximal Sidon sets through dimension 6 (Proposition 2.7) and computer-assisted size data in dimensions 7–8 (Proposition 2.8); and the equivalence between sum-free Sidon subsets of `F_2^t \ {0}` and associated linear codes with minimum distance ≥ 5 (Proposition 4.1, Theorem 4.2). Our “no 4-card match among distinct cards” condition matches Sidon disjoint-pair collisions in characteristic 2; the odd-parity affine deck suppresses Schur triples relative to unrestricted `F_2^t` — see §§3–5 above.

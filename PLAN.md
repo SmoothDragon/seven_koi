@@ -54,6 +54,7 @@ These block later phases. Make them before sinking time into art or production.
 
 Lock the math before committing to art, because if a claim is wrong the rules change.
 
+**Literature.** Czerwinski–Pott [CP24] (*Advances in Mathematics of Communications* 18 (2024), 549–566; [DOI](https://doi.org/10.3934/amc.2023054), [arXiv:2304.07906](https://arxiv.org/abs/2304.07906)) is the authoritative source for Sidon sets in `F_2^t`, connections to `[n,k,5]` linear codes, and improved upper bounds on `s_max(F_2^t)`; full citation and proposition mapping in [math/NOTES.md](math/NOTES.md) References.
 - **Card structure**: confirm the 64 cards are exactly the odd-weight binary vectors of length 7. Counts: C(7,1) + C(7,3) + C(7,5) + C(7,7) = 7 + 35 + 21 + 1 = 64. ✓ (combinatorially trivial)
 - **Match definition**: a "match" is a subset of cards whose bitwise XOR is the zero vector — equivalently, every koi appears an even number of times across the chosen cards.
 - **Minimum match size = 4**: every card has odd Hamming weight; sum of an odd number of odd weights is odd, so the smallest non-empty subset that can sum to even-weight (and zero in particular) has size 2 or 4. Size 2 would require two identical cards, which is impossible in this deck — so the minimum non-trivial match is 4. ✓
@@ -71,7 +72,7 @@ Lock the math before committing to art, because if a claim is wrong the rules ch
 - [math/NOTES.md](math/NOTES.md) — math claims with the corrected status table (the cited classical Sidon bound was wrong; max Sidon = 9; the 4-card guarantee requires `L ≥ 10`; endgame splittability is empirically ~50%). **Done.**
 - [math/RESULTS.md](math/RESULTS.md) — Monte Carlo simulation report (max-Sidon empirical search; mid-game stall sweep over `L ∈ {8, 9, 10}`; abstract reachability of unsplittable residuals). **Done.**
 - [math/verify.py](math/verify.py) — Python verifier with sanity asserts and Mode A / Mode B Monte Carlo. **Done** for the simulations; remaining work:
-  - **Formal proof that `max Sidon ≤ 9` in `D`.** Empirical evidence (50k random greedy trials, all max ≤ 9) is very strong but not a proof. Promising approaches: (a) symmetry breaking under `S_7` orbits of weight-3/weight-5 vectors; (b) SAT/ILP encoding; (c) connection to caps in projective geometry over F_2.
+  - **Formal proof that `max Sidon ≤ 9` in `D`.** Empirical evidence (50k random greedy trials, all max ≤ 9) is very strong but not a proof. Primary route: [CP24] bounds on `s_max(F_2^t)` and the sum-free Sidon ↔ `[n,k,5]` code correspondence (their §§4–5), combined with how the odd-parity deck sits in an affine translate of `F_2^{n-1}`; alternately SAT/ILP or symmetry breaking under `S_7` on weight-3/5 vectors.
   - **Characterization of unsplittable 8-card residuals.** All 25k+ unsplittable residuals seen in Mode A are 8-element strict-Sidon sets. Counting and structurally describing them would let us tune the endgame rule precisely (e.g., dropping a small number of cards from the deck so that `max Sidon ≤ 7`, which would force every 8-card residual to split).
 
 ---
