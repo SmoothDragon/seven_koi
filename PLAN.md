@@ -72,7 +72,7 @@ Lock the math before committing to art, because if a claim is wrong the rules ch
 **Deliverables**:
 
 - [math/NOTES.md](math/NOTES.md) — math claims with the corrected status table (wrong classical Sidon bound; deck-local **`|layout| ≥ 10`** conditional on **`max Sidon = 9`**; **`[CP24]`** escalation caps **`13` / `10`**; beginner **`L₀ = 8`**; endgame splittability ~50%). **Done.**
-- [math/RESULTS.md](math/RESULTS.md) — Monte Carlo simulation report (max-Sidon empirical search; mid-game stall sweep over `L ∈ {8, 9, 10}`; abstract reachability of unsplittable residuals). **Done.**
+- [math/RESULTS.md](math/RESULTS.md) — Monte Carlo simulation report (max-Sidon empirical search; mid-game stall sweep over `L ∈ {8, 9, 10}`; cross-`n` odd-weight **`layout_stall_sweep`**; abstract reachability of unsplittable residuals). **Done.**
 - [math/verify.py](math/verify.py) — Python verifier with sanity asserts and Mode A / Mode B Monte Carlo. **Done** for the **standard 64-card** simulations; extensions still open:
   - **Formal proof that `max Sidon ≤ 9` in the standard deck `D`.** Empirical evidence (50k random greedy trials, all max ≤ 9) is very strong but not a proof. Primary route: [CP24] bounds on `s_max(F_2^t)` and the sum-free Sidon ↔ `[n,k,5]` code correspondence (their §§4–5), combined with how the odd-parity deck sits in an affine translate of `F_2^{n-1}`; alternately SAT/ILP or symmetry breaking under `S_7` on weight-3/5 vectors.
   - **Beginner deck (`|D| = 32`, six odd-weight subsets after one koi omitted).** Baseline tableau **`L₀ = 8`** is now keyed to **`math/layout_stall_sweep.py`**; tighten formal **`max Sidon`** bounds and residual statistics for the 32-card slice if publishing theorem-grade copy.
