@@ -11,12 +11,15 @@ For the current repo state and the verbatim game spec, see [CLAUDE.md](CLAUDE.md
 These block later phases. Make them before sinking time into art or production.
 
 1. ~~**Publication route**~~ — **resolved**: **Kickstarter** (crowdfunding). See Phase 10 for campaign prep, timelines, pledge manager, fulfillment.
-2. **Dealing-math reconciliation** — `math/RESULTS.md` forces `L ≥ 10` (smaller layouts stall). Recommended: `L = 10, F = 10` (clean math, no mid-game stalls, endgame is continued real-time play on the 10-card residual). Original `L = 9, F = 8` is mathematically broken and removed from consideration.
+2. **Dealing-math reconciliation — recommended playable procedure** (`math/NOTES.md` §6 vs **[CP24]** in `math/NOTES.md` / `CLAUDE.md`):
+   - **Standard (seven koi, `|D| = 64`).** Lay out **`L₀ = 10`** cards. After each successful claim move those four cards to the claimant's pile, then draw from the deck until the spread is **`L₀` again**, or until the deck runs out (**partial replenish** on the last cycle). Between claims: **unanimous deadlock** — if all players agree that **no** legal 4-card match is visible, add **one** face-up card from the deck (**escalate**). Repeat until someone claims **or** the spread reaches **`13`** cards, where **[CP24]** implies **some** 4-card match **must exist** on the displayed vectors. Deck-specific work still forces a match once `|layout| ≥ 10` (**conditional** on max-Sidon ≤ 9 in `D`; `math/NOTES.md` §6); **`13`** is the **literature-backed** threshold that avoids leaning on that empirical bound.
+   - **Beginner (six koi, `|D| = 32`).** **`L₀ = 9`**; replenish toward **nine** whenever the deck has stock. **[CP24]** small-dimension Sidon / code data support treating **nine cards** as a **literature-backed** layout size where a **four-card XOR match must exist** (see **`math/NOTES.md`** References block on [CP24]). Expect **partial** replenishment near the end because **`32 − 9` is not divisible by four**.
+   - **Superseded:** fixed **`L = 9, F = 8`** on the 64-card deck remains invalid. **Superseded as default:** fixed **`L = F = 10` without escalation** — replaced by **baseline `10` + escalation capped at `13`** on standard.
 3. ~~**Final 7-of-13 koi**~~ — **resolved** (see [koi_selection.md](koi_selection.md)): Kohaku, Showa, Asagi, Ogon, Chagoi, Tancho, Kumonryu.
 4. ~~**Player count and turn structure**~~ — **resolved**:
    - Real-time call-out (everyone scans simultaneously; first to call a valid 4-card match collects it).
    - Call protocol: shout **"Koi!"** then touch the four cards in order.
-   - Invalid-claim penalty: caller is locked out until the next valid 4-card match is claimed by another player (in mid-game this coincides with the next replenishment; in the endgame it's the moment another player claims one of the two 4-card groups).
+   - Invalid-claim penalty: caller is locked out until the next valid 4-card match is claimed by another player (typically coincides with the next baseline refresh in mid-game; in the endgame, with the next successful claim on the residual).
    - Player count still TBD (see Phase 3).
 5. ~~**Art pipeline**~~ — **resolved**: **AI-generated** (with licensing, copyright, and credit obligations). See Phase 5 and Phase 8.
 6. ~~**Digital bonus**~~ — **resolved**: In-browser game implemented in **Rust**, compiled to **WebAssembly** (`bonus_web/`), shipped as a Kickstarter stretch goal / add-on. Uses `wasm-bindgen` + `wasm-pack`; UI can be plain HTML/JS or layered with a framework later.
@@ -58,18 +61,15 @@ Lock the math before committing to art, because if a claim is wrong the rules ch
 - **Card structure**: confirm the 64 cards are exactly the odd-weight binary vectors of length 7. Counts: C(7,1) + C(7,3) + C(7,5) + C(7,7) = 7 + 35 + 21 + 1 = 64. ✓ (combinatorially trivial)
 - **Match definition**: a "match" is a subset of cards whose bitwise XOR is the zero vector — equivalently, every koi appears an even number of times across the chosen cards.
 - **Minimum match size = 4**: every card has odd Hamming weight; sum of an odd number of odd weights is odd, so the smallest non-empty subset that can sum to even-weight (and zero in particular) has size 2 or 4. Size 2 would require two identical cards, which is impossible in this deck — so the minimum non-trivial match is 4. ✓
-- **4-card guarantee — original spec is BROKEN.** The cited classical bound `max Sidon in F_2^7 ≤ 2^⌊7/2⌋ = 8` is wrong for our deck. A 9-element Sidon set exists (`S₉ = {25, 28, 35, 47, 55, 70, 73, 100, 110}` in `math/NOTES.md` Lemma D), so a 9-card layout can fail to contain a 4-card match. Random-play simulation under `L = 9` stalls mid-game ~40% of the time (`math/RESULTS.md` §2). The minimum layout size that guarantees a 4-card match is **`L = 10`** (corollary, conditional on the empirical `max Sidon = 9`), at which random-play simulation stalls 0% of the time across 20,000 trials.
+- **4-card guarantee — original spec is BROKEN.** The cited classical bound `max Sidon in F_2^7 ≤ 2^⌊7/2⌋ = 8` is wrong for our deck. A 9-element Sidon set exists (`S₉ = {25, 28, 35, 47, 55, 70, 73, 100, 110}` in `math/NOTES.md` Lemma D), so a 9-card layout can fail to contain a 4-card match. Random-play simulation under `L = 9` stalls mid-game ~40% of the time (`math/RESULTS.md` §2). **Deck-local corollary (conditional `max Sidon = 9` in `math/NOTES.md` §6):** every **`10`**-card layout from **`D`** must contain a 4-match — Mode B at fixed `L = 10` never stalled in simulation. **`[CP24]`** supplies **literature-backed** existential thresholds used in **`PLAN.md` Phase 0:** standard **baseline `10` + escalate up to `13`**, beginner **`L₀ = 9`**.
 - **Endgame structure**:
-  - **Proven** ([math/NOTES.md](math/NOTES.md) §7.1): after the deck empties, the **F** cards left on the table satisfy Σ R = 0 (even koi-parity everywhere). With recommended **`L = F = 10`** dealing, **10** cards remain and their XOR is zero — not two automatic 4-card claims unless the multiset happens to admit them.
-  - **Disproven** ([math/NOTES.md](math/NOTES.md) §7.2, `math/RESULTS.md` §3): the further claim that the residual splits into two 4-card matches is **false ~50% of the time** under random play. Both Mode A (50k trials, 51.7% unsplittable) and Mode B with `L = 10` (20k trials, 47.4% unsplittable) confirm this. The "claim one → claim both" endgame rule cannot be the default and the fallback would fire in nearly half of all games.
-- **Dealing arithmetic** (rewritten in light of `math/RESULTS.md`). With initial layout `L` and final layout `F`, total cards passing through play satisfy `64 = L + 4M + F`. The math results force `L ≥ 10` (smaller and the layout can stall). Clean choices:
-  - **`L = 10, F = 10`** → `M = 11`. No mid-game stalls. Endgame begins with 10 cards on the table, which is more than the original "8 cards" intuition. Players continue real-time match-claiming on the 10-card residual until either it can't be reduced further or it reaches 0 / 2 cards. Simple and consistent with mid-game.
-  - **`L = 10, F = 6`** → `M = 12`. Final residual has 6 cards. The 6-card residual still XORs to some fixed value (Σ D minus 12 zero-sums = 0), so it's an even-weight sum, but not necessarily 0 — depends on which cards were claimed mid-game. Less elegant.
-  - The original `L = 9, F = 8` is **off the table**: math/RESULTS.md §2 shows it stalls 40% of the time.
+  - **Proven** ([math/NOTES.md](math/NOTES.md) §7.1): once matched cards leave the tableau and further draws fail, cards **R** still face-up satisfy **Σ R = 0** (even koi-parity everywhere). Figures like **`|R| = 8` vs `10`** in older notes assumed fixed dealing; **`|R|` now varies** with partial replenishments and escalation (Phase 3 endgame).
+  - **Disproven** ([math/NOTES.md](math/NOTES.md) §7.2, `math/RESULTS.md` §3): the residual need **not** split into two stacked 4-card matches (~50% empirical failure). Mode A (50k trials, 51.7% unsplittable residuals) plus Mode B at fixed **`L = 10`** (20k trials, 47.4% unsplittable among tested residuals) back this up for the stabilized simulation paths.
+- **Dealing archetypes** (detail in **`PLAN.md` Phase 0**). Fixed **`L = F = 10, M = 11`** was one tidy accounting path consistent with **`|D| = 64`** and no Mode B stalls. **Canonical published flow** is **`L₀ = 10`**, optional escalation up to **`13`** (**`[CP24]`** existential cap), beginner **`L₀ = 9`** on **`|D| = 32`**. **`L = 9, F = 8`** on **`|D| = 64`** stays invalid (stall statistics in `math/RESULTS.md` §2).
 
 **Deliverables**:
 
-- [math/NOTES.md](math/NOTES.md) — math claims with the corrected status table (the cited classical Sidon bound was wrong; max Sidon = 9; the 4-card guarantee requires `L ≥ 10`; endgame splittability is empirically ~50%). **Done.**
+- [math/NOTES.md](math/NOTES.md) — math claims with the corrected status table (wrong classical Sidon bound; deck-local **`|layout| ≥ 10`** conditional on **`max Sidon = 9`**; **`[CP24]`** escalation cap **`13`**; beginner **`L₀ = 9`**; endgame splittability ~50%). **Done.**
 - [math/RESULTS.md](math/RESULTS.md) — Monte Carlo simulation report (max-Sidon empirical search; mid-game stall sweep over `L ∈ {8, 9, 10}`; abstract reachability of unsplittable residuals). **Done.**
 - [math/verify.py](math/verify.py) — Python verifier with sanity asserts and Mode A / Mode B Monte Carlo. **Done** for the **standard 64-card** simulations; extensions still open:
   - **Formal proof that `max Sidon ≤ 9` in the standard deck `D`.** Empirical evidence (50k random greedy trials, all max ≤ 9) is very strong but not a proof. Primary route: [CP24] bounds on `s_max(F_2^t)` and the sum-free Sidon ↔ `[n,k,5]` code correspondence (their §§4–5), combined with how the odd-parity deck sits in an affine translate of `F_2^{n-1}`; alternately SAT/ILP or symmetry breaking under `S_7` on weight-3/5 vectors.
@@ -80,7 +80,7 @@ Lock the math before committing to art, because if a claim is wrong the rules ch
 
 ## Phase 3 — Rules document
 
-Ship one rulebook section for **standard (7 koi, 64 cards)** and **beginner (6 koi, 32 cards)** — same flow, different `|D|` and mid-game match count `M = (|D| − 20) / 4` with `L = F = 10`.
+Ship one rulebook section for **standard (7 koi, 64 cards)** and **beginner (6 koi, 32 cards)** — same flow, different `|D|`, **baseline layout 10** (standard) vs **9** (beginner), standard **escalation to 13** on unanimous deadlock (see Phase 0 item 2 and [CP24] in `math/NOTES.md`).
 
 - **Player count, age, time** — suggested 2–6 players, 10+, 15–25 min (beginner runs shorter). Confirm via playtest.
 - **Setup** — decide version; remove all cards that reference the **omitted koi** before shuffling (unless using a pre-sorted starter deck). See Phase 4 / Open decisions for sorting aids.
@@ -91,7 +91,7 @@ Ship one rulebook section for **standard (7 koi, 64 cards)** and **beginner (6 k
 - **Scoring** — collected cards go face-up in front of the claimer; final score = total koi pips across collected cards.
 - **Tiebreakers** — most cards collected, then **most all-koi card(s)** (standard: 7-of-7; beginner: 6-of-6 among the active set), then highest-weight single card among active koi.
 - **Endgame** — needs redesign in light of `math/RESULTS.md`:
-  - **What's still true.** When the deck is exhausted, the residual cards always XOR to 0 (Lemma E, `math/NOTES.md` §7.1). With `L = F = 10` dealing, **10** cards remain — not 8 as in the original designer spec.
+  - **What's still true.** When the deck cannot replenish further, the cards left face-up XOR to zero as a multiset (conservation Lemma E in **`math/NOTES.md` §7.1 — the argument is unchanged for beginner `|D| = 32`). The **card count** of that residual varies with partial replenishments, baseline size (9 vs 10), and any standard **escalation** carried into the drain-out.
   - **What's no longer assumed.** The "claim one 4-card group → claim both" rule was based on false splittability (~50% failures; `math/RESULTS.md` §3). Dropped.
   - **Proposed new endgame rule (continued real-time play).** When the deck empties, real-time play continues on the residual: any player who calls a valid 4-card match claims those 4 cards. Repeat until either (a) the residual is reduced to 0, 2, or 6 cards by successful claims, or (b) no player finds a match for 60 seconds. Split leftover cards evenly (remainder per tiebreaker order).
   - **Why this works.** Preserves pacing; terminator is the silence window. Lucky splits still behave like intuitive two-claim endings.
@@ -241,7 +241,7 @@ A short reference list of campaigns to study for pacing, video, reward tiers, an
 ## Open decisions (recap)
 
 1. ~~Publication route~~ — Kickstarter (crowdfunding).
-2. Reconcile dealing math: recommended `L = 10, F = 10` per `math/RESULTS.md` (the original `L = 9, F = 8` is mathematically broken — see `math/NOTES.md` §6 and `math/RESULTS.md` §4). Endgame rule rewritten as continued real-time play on the residual.
+2. **Dealing procedure:** standard **baseline 10**, **unanimous deadlock → add cards** to at most **13** ([CP24] guarantee); beginner **baseline 9** (4-match guaranteed at 9). See Phase 0 item 2. Endgame: continued real-time play on the residual (size varies). Original `L = 9, F = 8` on 64 cards remains invalid.
 3. ~~Final 7-of-13 koi selection.~~ Resolved — see [koi_selection.md](koi_selection.md).
 4. ~~Player count and turn structure.~~ Resolved: **real-time call-out**, shout **"Koi!"** then touch four cards in order, invalid claim → locked out until another player claims a valid 4-card match. Player count still TBD (Phase 3).
 5. ~~Art pipeline~~ — **AI-generated**.
