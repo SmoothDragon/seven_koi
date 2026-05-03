@@ -120,7 +120,7 @@ Retail ships **one** 64-card deck (Expert). **Standard** uses the **same cards**
 - **Color palette** — derive accent colors from the seven primary hexes in Phase 1; pick a neutral background (off-white parchment or muted pond-water blue).
 - **Typography** — pair a Latin serif/display font with a Japanese font supporting kanji (e.g. Noto Serif JP, Klee, or Yuji Syuku); confirm commercial-use license.
 
-**Deliverable**: `design/templates/` with one InDesign / Affinity Publisher / SVG template per card type plus `design/style_guide.md` (palette, typography, glyph spec, bleed/safe diagrams).
+**Deliverable**: [design/style_guide.md](design/style_guide.md) — **Done** (v0.1: palette, typography, glyph spec, bleed/safe, illustration scale tiers, Standard subset aid, AI pipeline). **`design/templates/`** (InDesign / Affinity / SVG per card type + bleed/safe diagrams) — **still open**.
 
 ---
 

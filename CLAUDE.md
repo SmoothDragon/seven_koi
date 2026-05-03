@@ -13,6 +13,7 @@ This file lets a fresh AI agent (Claude, Cursor, etc.) recreate the current stat
 - `ThirteenKoi.png` — reference grid of 13 popular koi varieties with English/Japanese names and one-line descriptions. The 13 varieties are: Kohaku, Showa, Asagi, Shusui, Ogon, Chagoi, Utsurimono, Tancho, Kumonryu, Hariwake, Sanke, Bekko, Utsuri. Seven of these will be selected for the game (see Open Decisions).
 - `PLAN.md` — 12-phase publication roadmap.
 - `rules/RULES.md` — player-facing rules (v0.1+); Phase 3 deliverable.
+- `design/style_guide.md` — print, palette, glyphs, illustration tiers; Phase 4. `design/mocks/` — art direction mocks.
 - `CLAUDE.md` — this file.
 - `math/NOTES.md` — math claims with corrected status; includes **[CP24]** bibliography (Sidon sets / codes).
 - `math/RESULTS.md` — Monte Carlo simulation report falsifying two of the original spec's claims.
