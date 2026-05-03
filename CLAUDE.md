@@ -13,10 +13,10 @@ This file lets a fresh AI agent (Claude, Cursor, etc.) recreate the current stat
 - `ThirteenKoi.png` — reference grid of 13 popular koi varieties with English/Japanese names and one-line descriptions. The 13 varieties are: Kohaku, Showa, Asagi, Shusui, Ogon, Chagoi, Utsurimono, Tancho, Kumonryu, Hariwake, Sanke, Bekko, Utsuri. Seven of these will be selected for the game (see Open Decisions).
 - `PLAN.md` — 12-phase publication roadmap.
 - `CLAUDE.md` — this file.
-- `math/NOTES.md` — self-contained proof of the 4-card guarantee, the endgame XOR-invariant, and the `S*` counterexample to naive splittability.
-- `koi_selection.md` — the seven chosen koi (Phase 1 deliverable, **done**).
-
-No source code yet (`math/verify.py` is the next planned artifact); no art beyond the reference sheet; no rules document yet.
+- `math/NOTES.md` — math claims with corrected status (the cited classical Sidon bound was wrong; see "Math claims" section below for the headline).
+- `math/RESULTS.md` — Monte Carlo simulation report falsifying two of the original spec's claims.
+- `math/verify.py` — Python verifier with sanity asserts and Mode A / Mode B Monte Carlo (`python3 math/verify.py --help`).
+- `bonus_web/` — Rust → WebAssembly stub for the Kickstarter digital bonus (`wasm-pack` build). See [bonus_web/README.md](bonus_web/README.md).
 
 ## Game spec (verbatim from designer)
 
@@ -27,37 +27,43 @@ No source code yet (`math/verify.py` is the next planned artifact); no art beyon
 - **1 all-seven card**: all 7 koi together.
 - **Card count check**: 7 + 35 + 21 + 1 = 64. ✓
 
-## Rules (verbatim from designer)
+## Rules (current working version, after math correction)
+
+The original spec said "lay out 9 cards" and "the final 8 cards split into two 4-card matches". Both are mathematically false; see `math/RESULTS.md` §4. The current working rules are:
 
 1. Shuffle the deck.
-2. Lay out 9 cards.
-3. By a Sidon-set property, there is guaranteed to be a set of 4 cards such that every koi is represented an even number of times. This is the match players are looking for.
-4. Because every card has an odd number of koi on it (1, 3, 5, or 7), any subset of cards covering each koi an even number of times must contain an even number of cards; the smallest such match is 4 cards.
-5. When a match is claimed, deal 4 more cards and repeat.
-6. Eventually 8 cards remain. The residual *always* XORs to 0 (proven in `math/NOTES.md` §7.1) and is *intended* to split into two 4-card matches. **Endgame rule**: when any player calls "Koi!" on a 4-card sub-match of the residual, they immediately claim **all 8** residual cards. **Fallback** (in case no 4-card sub-match exists in the residual — possible per `math/NOTES.md` §7.2 with witness `S* = {e_1, ..., e_7, 𝟙}`; reachability under valid play is TBD via Phase 2 brute force): after a 60-second silence, the entire residual is awarded to the player who claimed the most recent mid-game match.
-7. **Score** = total number of koi (across all collected cards) for each player.
+2. **Lay out 10 cards** (was 9). Smaller layouts can stall — `math/RESULTS.md` §2 shows L=9 stalls 40% of trials, L=8 stalls 96%.
+3. **Match definition**: a *match* is 4 cards in which every koi appears an even number of times (equivalently, the 4 cards XOR to 0). The minimum match size is 4 (proven in `math/NOTES.md` §2). With L=10 every layout is guaranteed to contain at least one 4-card match (`math/NOTES.md` §6, conditional on the empirical max-Sidon = 9).
+4. **Real-time call-out** (locked, decision #4): all players scan simultaneously; the first to shout "Koi!" and touch four cards in order claims them. Invalid claim → caller is locked out until another player claims a valid match.
+5. After a successful claim, deal 4 cards from the deck to bring the layout back to 10. Repeat.
+6. **Endgame**: when the deck empties, 10 cards remain on the table (with `L=10, F=10` dealing; `M=11` mid-game matches). The residual XORs to 0 (Lemma E in `math/NOTES.md` §7.1) but does **not** reliably split into clean 4-card pieces (~50% of residuals are unsplittable per `math/RESULTS.md` §3). Real-time play simply continues on the residual until either (a) successful claims reduce it to 0, 2, or 6 cards, or (b) no player can find a match within a 60-second silence. Any cards left at the end are split evenly.
+7. **Score** = total number of koi (across all collected cards) for each player. Tiebreakers: most cards collected, then most all-seven cards, then highest-weight single card.
 
-## Math claims
+## Math claims (status table)
 
-The full self-contained proof of the 4-card guarantee is in [math/NOTES.md](math/NOTES.md), which adapts the argument from the designer's reference at <https://chatgpt.com/share/69f67dcc-d818-832f-80a4-bb5e0c37e963> ("Subset sum to zero"). Independent computational verification (`math/verify.py`) is still pending — see `PLAN.md` Phase 2.
+Detail in [math/NOTES.md](math/NOTES.md); empirical justification in [math/RESULTS.md](math/RESULTS.md). Two of the original spec's claims have been falsified by Monte Carlo simulation.
 
-- The 64 cards are exactly the odd-weight vectors in F_2^7. ✓ (combinatorially obvious)
-- A "match" = subset whose XOR is the zero vector.
-- **Minimum match size = 4.** Every card has odd Hamming weight, so any non-empty subset that XORs to 0 must have even size. Size 2 would require two identical cards (impossible in this deck), so the smallest non-trivial match has 4 cards. ✓ (proof in `math/NOTES.md` §2)
-- **Every 9-card subset of the 64 contains a 4-card match.** Equivalent to: the maximum Sidon set among the 64 odd-weight vectors of F_2^7 has size ≤ 8. The natural set {e_1, ..., e_7, 𝟙} achieves size 8 and is maximal (every additional odd-weight vector closes a 4-cycle). Proof in `math/NOTES.md` §3–6, modulo the cited classical bound `max Sidon in F_2^7 = 2^⌊7/2⌋ = 8`.
-- **Endgame structure**:
-  - **Proven** (`math/NOTES.md` §7.1): the residual 8 cards always XOR to 0, so they form a single 8-card match (every koi appears an even number of times).
-  - **False in general** (`math/NOTES.md` §7.2): the further claim "the residual splits into two 4-card matches" does *not* follow from `Σ R = 0` alone — `S* = {e_1, ..., e_7, 𝟙}` is an 8-card match with no 4-card sub-match.
-  - **Open** (`math/NOTES.md` §7.3): whether `S*` (or any other unsplittable residual) is reachable under valid mid-game play. Phase 2 brute-force will settle this.
+| Claim                                                                                | Status |
+|--------------------------------------------------------------------------------------|--------|
+| Deck = 64 odd-weight vectors of F_2^7.                                               | Trivially true. |
+| Minimum match size = 4.                                                              | **Proven** (`math/NOTES.md` §2). |
+| Match-finding reduces to a 4-cycle / Sidon condition.                                | **Proven** (`math/NOTES.md` §3-§4). |
+| Maximum Sidon set in our deck = 9 (was previously claimed = 8).                      | **Proven lower bound**, **upper bound 9** with very high empirical confidence (50k random greedy trials, all max ≤ 9). |
+| Any 9-card layout contains a 4-card match.                                           | **FALSE.** Counterexample: `{25, 28, 35, 47, 55, 70, 73, 100, 110}` is a 9-element Sidon set in our deck. |
+| Any **10**-card layout contains a 4-card match.                                      | **Conditionally true** assuming max-Sidon = 9 (and consistent with 0 stalls in 20k Mode B trials at L=10). |
+| Σ R = 0 for the residual after the deck empties.                                     | **Proven** (`math/NOTES.md` §7.1). |
+| The residual splits into two 4-card matches.                                         | **FALSE ~50% of the time.** Mode A: 51.7% unsplittable across 50k trials. Mode B at L=10: 47.4% unsplittable across 20k trials. |
+
+The cited classical bound `max Sidon in F_2^k = 2^⌊k/2⌋` is wrong for our setup. The headline consequences flow into the Rules section above and `PLAN.md` Phases 0, 2, 3.
 
 ## Open decisions (must be resolved before later phases)
 
-1. **Publication route** — print-on-demand, Kickstarter, pitch-to-publisher, or personal/hobby?
-2. **Dealing math reconciliation** — initial layout 9 + endgame 8 doesn't close: 64 = 9 + 4M + 8 gives M = 11.75. Likely fixes: deal 8 initially (clean), deal 12 initially (clean), or stop replenishing once the deck empties (residual handled explicitly).
+1. ~~**Publication route**~~ — **resolved**: **Kickstarter** (crowdfunding). Pre-launch, campaign, pledge manager, fulfillment — details in `PLAN.md` Phase 10.
+2. **Dealing math reconciliation** — recommended `L = 10, F = 10` per `math/RESULTS.md` (the original `L = 9, F = 8` is mathematically broken). Endgame is continued real-time play on the 10-card residual until either successful claims reduce it or 60s of silence terminates it.
 3. ~~**Final 7-of-13 koi selection**~~ — **resolved**: Kohaku, Showa, Asagi, Ogon, Chagoi, Tancho, Kumonryu. See [koi_selection.md](koi_selection.md) for English/Japanese names, flavor blurbs, and the primary-color palette.
 4. **Player count and turn structure** — turn structure **resolved: real-time call-out**. Call protocol: shout **"Koi!"** and then touch the four cards in order. Invalid-claim penalty: caller is locked out until another player claims a valid 4-card match (in mid-game this coincides with the next replenishment; in the endgame it's when another player claims one of the two final 4-card groups). Player count still TBD (suggested 2–6); see `PLAN.md` Phase 3.
-5. **Art pipeline** — commissioned illustrator, DIY, or AI-generated (with copyright implications).
-6. **Digital prototype** — whether to build a Tabletop Simulator mod or web prototype for remote playtesting.
+5. ~~**Art pipeline**~~ — **resolved**: **AI-generated**. Keep prompt logs, confirm commercial license, follow Phase 5 + Phase 8 (copyright / Kickstarter disclosure).
+6. ~~**Digital bonus**~~ — **resolved**: **Rust** compiled to **WebAssembly** (`bonus_web/`) for in-browser play; Kickstarter stretch / add-on tier.
 
 ## Pointer
 

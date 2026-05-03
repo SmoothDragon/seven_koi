@@ -10,16 +10,16 @@ For the current repo state and the verbatim game spec, see [CLAUDE.md](CLAUDE.md
 
 These block later phases. Make them before sinking time into art or production.
 
-1. **Publication route** — print-on-demand, crowdfunding, pitch-to-publisher, or personal/hobby.
-2. **Dealing-math reconciliation** — see Phase 2; the stated "9 out / 8 left" arithmetic does not close over a 64-card deck. Pick: initial layout of 8, initial layout of 12, or "stop replenishing once the deck is empty" with the residual handled explicitly.
+1. ~~**Publication route**~~ — **resolved**: **Kickstarter** (crowdfunding). See Phase 10 for campaign prep, timelines, pledge manager, fulfillment.
+2. **Dealing-math reconciliation** — `math/RESULTS.md` forces `L ≥ 10` (smaller layouts stall). Recommended: `L = 10, F = 10` (clean math, no mid-game stalls, endgame is continued real-time play on the 10-card residual). Original `L = 9, F = 8` is mathematically broken and removed from consideration.
 3. ~~**Final 7-of-13 koi**~~ — **resolved** (see [koi_selection.md](koi_selection.md)): Kohaku, Showa, Asagi, Ogon, Chagoi, Tancho, Kumonryu.
 4. ~~**Player count and turn structure**~~ — **resolved**:
    - Real-time call-out (everyone scans simultaneously; first to call a valid 4-card match collects it).
    - Call protocol: shout **"Koi!"** then touch the four cards in order.
    - Invalid-claim penalty: caller is locked out until the next valid 4-card match is claimed by another player (in mid-game this coincides with the next replenishment; in the endgame it's the moment another player claims one of the two 4-card groups).
    - Player count still TBD (see Phase 3).
-5. **Art pipeline** — commissioned illustrator, DIY, or AI-generated.
-6. **Digital prototype** — Tabletop Simulator mod, web prototype, or none.
+5. ~~**Art pipeline**~~ — **resolved**: **AI-generated** (with licensing, copyright, and credit obligations). See Phase 5 and Phase 8.
+6. ~~**Digital bonus**~~ — **resolved**: In-browser game implemented in **Rust**, compiled to **WebAssembly** (`bonus_web/`), shipped as a Kickstarter stretch goal / add-on. Uses `wasm-bindgen` + `wasm-pack`; UI can be plain HTML/JS or layered with a framework later.
 
 ---
 
@@ -57,28 +57,22 @@ Lock the math before committing to art, because if a claim is wrong the rules ch
 - **Card structure**: confirm the 64 cards are exactly the odd-weight binary vectors of length 7. Counts: C(7,1) + C(7,3) + C(7,5) + C(7,7) = 7 + 35 + 21 + 1 = 64. ✓ (combinatorially trivial)
 - **Match definition**: a "match" is a subset of cards whose bitwise XOR is the zero vector — equivalently, every koi appears an even number of times across the chosen cards.
 - **Minimum match size = 4**: every card has odd Hamming weight; sum of an odd number of odd weights is odd, so the smallest non-empty subset that can sum to even-weight (and zero in particular) has size 2 or 4. Size 2 would require two identical cards, which is impossible in this deck — so the minimum non-trivial match is 4. ✓
-- **4-card guarantee in any 9-card layout**: proven self-contained in [math/NOTES.md](math/NOTES.md), adapting the argument from <https://chatgpt.com/share/69f67dcc-d818-832f-80a4-bb5e0c37e963> ("Subset sum to zero"). Sketch:
-  1. Reduce "no ≤4 zero-sum subset" to "Sidon set" (no duplicates, no Schur triples, no 4-cycles).
-  2. For our deck, the Schur-triple condition is automatic (sum of three odd-weight vectors is odd, hence nonzero), so Sidon collapses to "no 4-cycle" = "no 4-card match".
-  3. Cite the classical bound `max Sidon set in F_2^7 ≤ 2^⌊7/2⌋ = 8`.
-  4. The natural set `{e_1, ..., e_7, 𝟙}` achieves 8 and is maximal (every extra weight-3 vector closes a triangle with three `e_i`'s; every extra weight-5 vector closes a 4-cycle with `𝟙` and the two `e_i`'s in its complement).
+- **4-card guarantee — original spec is BROKEN.** The cited classical bound `max Sidon in F_2^7 ≤ 2^⌊7/2⌋ = 8` is wrong for our deck. A 9-element Sidon set exists (`S₉ = {25, 28, 35, 47, 55, 70, 73, 100, 110}` in `math/NOTES.md` Lemma D), so a 9-card layout can fail to contain a 4-card match. Random-play simulation under `L = 9` stalls mid-game ~40% of the time (`math/RESULTS.md` §2). The minimum layout size that guarantees a 4-card match is **`L = 10`** (corollary, conditional on the empirical `max Sidon = 9`), at which random-play simulation stalls 0% of the time across 20,000 trials.
 - **Endgame structure**:
-  - **Proven** ([math/NOTES.md](math/NOTES.md) §7.1): the residual 8 cards always XOR to 0, i.e. form a single 8-card match. Follows from `Σ D = 0` (each koi appears in exactly 32 cards) and the conservation of XOR under match removal.
-  - **Open**: whether the residual always further splits into *two* 4-card matches. This is **false** in general — `S* = {e_1, ..., e_7, 𝟙}` is an 8-card match with no 4-card sub-match (`math/NOTES.md` §7.2). The remaining question is whether `S*` (or any other unsplittable residual) is *reachable* under valid mid-game play (`math/NOTES.md` §7.3). Phase 2 brute-force will settle this; if no unsplittable residual is reachable, the rule "claim one 4-card group → claim both" promotes to a theorem; otherwise the fallback rule in Phase 3 is necessary.
-- **Dealing arithmetic**. With initial layout L and final layout F, total cards passing through play satisfy `64 = L + 4M + F` where M is the number of mid-game matches. The user's stated `L = 9, F = 8` gives M = 11.75 (no integer solution). Resolutions:
-  - **L = 8, F = 8** → M = 12. Cleanest; loses one card from initial spread.
-  - **L = 12, F = 8** → M = 11. More cards visible from start (easier first match).
-  - **L = 9, F = 8, deck empties mid-game** → after the deck runs out, claimed matches simply shrink the layout from 9 → 5 → ... etc. This is rule-elegant but the endgame is no longer guaranteed to be exactly 8 cards.
-  - Pick one and update the rules document accordingly.
+  - **Proven** ([math/NOTES.md](math/NOTES.md) §7.1): the residual 8 cards always XOR to 0 (a single 8-card match in the parity sense).
+  - **Disproven** ([math/NOTES.md](math/NOTES.md) §7.2, `math/RESULTS.md` §3): the further claim that the residual splits into two 4-card matches is **false ~50% of the time** under random play. Both Mode A (50k trials, 51.7% unsplittable) and Mode B with `L = 10` (20k trials, 47.4% unsplittable) confirm this. The "claim one → claim both" endgame rule cannot be the default and the fallback would fire in nearly half of all games.
+- **Dealing arithmetic** (rewritten in light of `math/RESULTS.md`). With initial layout `L` and final layout `F`, total cards passing through play satisfy `64 = L + 4M + F`. The math results force `L ≥ 10` (smaller and the layout can stall). Clean choices:
+  - **`L = 10, F = 10`** → `M = 11`. No mid-game stalls. Endgame begins with 10 cards on the table, which is more than the original "8 cards" intuition. Players continue real-time match-claiming on the 10-card residual until either it can't be reduced further or it reaches 0 / 2 cards. Simple and consistent with mid-game.
+  - **`L = 10, F = 6`** → `M = 12`. Final residual has 6 cards. The 6-card residual still XORs to some fixed value (Σ D minus 12 zero-sums = 0), so it's an even-weight sum, but not necessarily 0 — depends on which cards were claimed mid-game. Less elegant.
+  - The original `L = 9, F = 8` is **off the table**: math/RESULTS.md §2 shows it stalls 40% of the time.
 
 **Deliverables**:
 
-- [math/NOTES.md](math/NOTES.md) — self-contained writeup of the 4-card-guarantee proof, the XOR-invariant endgame proof, and the `S*` counterexample. **Done.**
-- `math/verify.py` — small Python script using `itertools` and bitmask XOR for three independent computational checks (see `math/NOTES.md` §7.4):
-  - (a) **Sidon enumeration.** Confirm no Sidon set in odd-weight F_2^7 reaches size 9 (backstop for the cited classical bound).
-  - (b) **Static splittability.** Enumerate all 8-element subsets `R ⊆ D` with `Σ R = 0`; report how many fail to split into two 4-card matches and characterize them (we expect at least the `S*` orbit under permutations of the 7 koi).
-  - (c) **Endgame reachability.** Simulate game play under the chosen dealing convention with adversarial match selection; check whether any unsplittable residual is reachable. If no, promote the splittability claim to a theorem and remove the Phase 3 fallback rule. If yes, keep the fallback rule and document the reachable bad residuals.
-  - Update `math/NOTES.md` §7.4 with the verification results, and add the chosen dealing convention to §1.
+- [math/NOTES.md](math/NOTES.md) — math claims with the corrected status table (the cited classical Sidon bound was wrong; max Sidon = 9; the 4-card guarantee requires `L ≥ 10`; endgame splittability is empirically ~50%). **Done.**
+- [math/RESULTS.md](math/RESULTS.md) — Monte Carlo simulation report (max-Sidon empirical search; mid-game stall sweep over `L ∈ {8, 9, 10}`; abstract reachability of unsplittable residuals). **Done.**
+- [math/verify.py](math/verify.py) — Python verifier with sanity asserts and Mode A / Mode B Monte Carlo. **Done** for the simulations; remaining work:
+  - **Formal proof that `max Sidon ≤ 9` in `D`.** Empirical evidence (50k random greedy trials, all max ≤ 9) is very strong but not a proof. Promising approaches: (a) symmetry breaking under `S_7` orbits of weight-3/weight-5 vectors; (b) SAT/ILP encoding; (c) connection to caps in projective geometry over F_2.
+  - **Characterization of unsplittable 8-card residuals.** All 25k+ unsplittable residuals seen in Mode A are 8-element strict-Sidon sets. Counting and structurally describing them would let us tune the endgame rule precisely (e.g., dropping a small number of cards from the deck so that `max Sidon ≤ 7`, which would force every 8-card residual to split).
 
 ---
 
@@ -92,11 +86,12 @@ Lock the math before committing to art, because if a claim is wrong the rules ch
 - **Invalid-claim penalty** (locked): the caller is **locked out until the next 4-card match is claimed by someone else**. They keep all previously collected cards. In typical mid-game play, a successful match is followed by a 4-card replenishment, so the lockout ends as the new layout appears. In the endgame (deck empty, 8 cards on the table), the lockout still ends the moment another player claims one of the two 4-card groups — the locked-out player can then race for the remaining group. This is a soft penalty (no card loss) but a real tempo cost in a real-time game.
 - **Scoring** — collected cards go face-up in front of the claimer; final score = total koi pips across collected cards.
 - **Tiebreakers** — most cards collected, then most all-seven cards, then highest-weight single card.
-- **Endgame** (locked):
-  - When the deck is exhausted, exactly 8 cards remain on the table. By [math/NOTES.md](math/NOTES.md) §7.1 these always XOR to 0, i.e. form a single 8-card match.
-  - **Claim one → claim both.** When any player calls "Koi!" on a 4-card match in the residual, they immediately claim **all 8** residual cards (the 4 they called plus the remaining 4, which are guaranteed to also XOR to 0 in the typical case). Game ends.
-  - **Fallback for an unsplittable residual.** It is mathematically possible that the residual contains *no* 4-card sub-match (the witness is `S* = {e_1, ..., e_7, 𝟙}` from `math/NOTES.md` §7.2; whether this can actually occur during play is an open question scheduled for brute-force resolution in Phase 2). If, after a generous timer (e.g. 60 seconds with no successful claim), no player has called a 4-card match in the residual, the entire 8-card residual is awarded to **the player who claimed the most recent mid-game match**. Game ends.
-  - This fallback is unattractive enough (it costs every other player the whole endgame) that players are incentivized to scan harder before the timer expires, while still guaranteeing the game terminates.
+- **Endgame** — needs redesign in light of `math/RESULTS.md`:
+  - **What's still true.** When the deck is exhausted, the residual cards always XOR to 0 (Lemma E, `math/NOTES.md` §7.1). With the recommended `L = 10, F = 10` dealing, the residual has 10 cards (not 8 as in the original spec).
+  - **What's no longer assumed.** The "claim one 4-card group → claim both" rule was based on the residual splitting into two 4-card matches, which fails ~50% of the time empirically. That rule is dropped.
+  - **Proposed new endgame rule (continued real-time play).** When the deck empties, real-time play simply continues on the residual: any player who calls a valid 4-card match claims those 4 cards. Repeat until either (a) the residual is reduced to 0, 2, or 6 cards by successful claims, or (b) no player can find a 4-card match (60-second silence). Any cards left at the end are split evenly (with leftover cards going to the player with the most cards collected so far, then by tiebreaker rules).
+  - **Why this works.** It preserves the matching-game pacing through the endgame, avoids leaning on a false splitting theorem, and has a deterministic terminator (the silence timer). In the lucky case where the residual happens to split into two 4-card matches, this rule plays out exactly like the original "claim one → claim both" intent (the second claim is racing against an empty layout). In the unlucky ~50% case, the players just take what they can claim.
+  - **Status:** locked as a working draft; revisit after the first round of playtesting.
 - **Mixed-skill handicap variant** — the rulebook should suggest a "house handicap" (e.g. faster players sit on their hands for the first N seconds of each layout) for mixed-skill groups, since real-time inherently penalizes slower scanners.
 - **Edge cases** — simultaneous "Koi!" shouts (rule: nearest-shouter as judged by the table; fall back to rock-paper-scissors), accidental over/under-deal, mid-touch reveal of an obviously invalid match (caller still pays the penalty).
 - **Variants**:
@@ -126,7 +121,7 @@ Lock the math before committing to art, because if a claim is wrong the rules ch
 
 ## Phase 5 — Art production
 
-- **Pipeline decision** — commissioned illustrator (best for IP-clean, highest cost), DIY (cheapest, slowest, requires skill), or AI-generated (fastest, lowest cost, IP/copyright caveats; see Phase 8).
+- **Pipeline decision** — **locked: AI-generated.** Keep complete prompt logs + version metadata; ensure the tool’s **commercial-use license** allows Kickstarter physical goods; plan box/credit line for “art by [tool] + prompts by [you]” unless your attorney advises otherwise (see Phase 8).
 - **Per-koi assets needed**:
   - Hero illustration: top-down view, consistent lighting and scale, transparent background, ~1500 x 3000 px.
   - Thumbnail version: same fish, simplified for triple/quintuple cards (~600 x 1200 px).
@@ -142,7 +137,7 @@ Lock the math before committing to art, because if a claim is wrong the rules ch
 
 - **v0 paper prototype** — print all 64 cards on cardstock at home, hand-cut, sleeve in penny sleeves with MTG cards as backers. Fastest playtest loop; usable within a day of finishing Phase 4 layouts.
 - **v1 print-on-demand proof** — order one deck from [The Game Crafter](https://www.thegamecrafter.com/) or [MakePlayingCards](https://www.makeplayingcards.com/) (~$15–30 per deck). Tests tactile feel, color reproduction, and finish.
-- **(Optional) Digital prototype** — a [Tabletop Simulator](https://www.tabletopsimulator.com/) workshop mod, or a small web app with a draggable 9-card spread and an "is this a match?" checker. Useful both for remote playtesting and as a marketing demo.
+- **Digital bonus (Kickstarter)** — `bonus_web/`: Rust crate targeting `wasm32-unknown-unknown`, packaged with [wasm-pack](https://rustwasm.github.io/wasm-pack/). Delivers a static site (HTML + JS glue) for play in the browser — remote playtests, campaign demo, digital tier fulfillment. Match `L=10` dealing and rules in `CLAUDE.md`. Tabletop Simulator remains optional and is *not* planned unless you add it later.
 
 ---
 
@@ -204,6 +199,7 @@ Lock the math before committing to art, because if a claim is wrong the rules ch
   - BGG listing.
   - Reviewer outreach (3–6 months lead time).
   - Pledge manager + fulfillment partner (e.g. Quartermaster Logistics, ShipQuest, Spiral Galaxy in EU).
+  - **Digital bonus tier** — deliver the in-browser build from `bonus_web/` (Rust → WASM). Host the static `www/` + `pkg/` bundle on your campaign page, Itch.io, or a simple CDN; fulfillment is usually a BackerKit digital-asset download or emailed link (no freight).
 - **Pitch to publisher** — produce a 1-page sell sheet (overview + hook + math + photo of prototype) and a 2-minute rules video. Target small-card-game publishers like [Button Shy](https://buttonshygames.com/), [Allplay](https://www.allplay.com/), [Pandasaurus](https://pandasaurusgames.com/), [Floodgate](https://floodgategames.com/), [AEG](https://www.alderac.com/).
 - **Pricing** — small-deck retail typically $15–25. To reach retail, MSRP must support roughly a 4–5x markup over manufacturing cost (manufacturer → distributor → retailer → customer).
 - **Realistic Kickstarter sizing for a small-deck game**:
@@ -242,9 +238,9 @@ A short reference list of campaigns to study for pacing, video, reward tiers, an
 
 ## Open decisions (recap)
 
-1. Publication route (print-on-demand / Kickstarter / publisher / personal).
-2. Reconcile dealing math (initial layout 8 or 12, or "stop replenishing once deck empty").
+1. ~~Publication route~~ — Kickstarter (crowdfunding).
+2. Reconcile dealing math: recommended `L = 10, F = 10` per `math/RESULTS.md` (the original `L = 9, F = 8` is mathematically broken — see `math/NOTES.md` §6 and `math/RESULTS.md` §4). Endgame rule rewritten as continued real-time play on the residual.
 3. ~~Final 7-of-13 koi selection.~~ Resolved — see [koi_selection.md](koi_selection.md).
 4. ~~Player count and turn structure.~~ Resolved: **real-time call-out**, shout **"Koi!"** then touch four cards in order, invalid claim → locked out until another player claims a valid 4-card match. Player count still TBD (Phase 3).
-5. Art pipeline (commissioned / DIY / AI-generated).
-6. Whether to build a digital prototype (Tabletop Simulator / web / none).
+5. ~~Art pipeline~~ — **AI-generated**.
+6. ~~Digital bonus~~ — **Rust → WebAssembly** in `bonus_web/` (Kickstarter stretch / add-on).
