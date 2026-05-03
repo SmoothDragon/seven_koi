@@ -103,13 +103,13 @@ Use these **motifs** inside the slot (colors = section 2 hexes unless noted). **
 
 | # | Breed | Crest content |
 |---|--------|----------------|
-| 1 | **Kohaku** | Off-white field with **2–3 bold red blocks** (stepping hi / patch feel). **No** single centered disk (that is Tancho). |
+| 1 | **Kohaku** | Treat the segment as a **horizontal crop from the card’s macro body art**: flank band **adjacent to dorsal + pectoral** (sheen, subtle fin wedges, **hi** continuing past the crop edges). Same **rectangular window** language as the hero fish, not an abstract icon. **No** single centered disk (Tancho). |
 | 2 | **Showa** | **Tricolor vertical thirds** (or clear black / white / red bands): structured **Gosanke** read, not random blobs. |
 | 3 | **Asagi** | **Indigo reticulated / net center** (fine grid or scale rows) with **narrow red vertical bands** on **left and right** (cheek + belly echo). |
 | 4 | **Ogon** | **Solid metallic gold** with **one soft horizontal highlight** (gradient or very soft ellipse) so it reads **metal**, not flat brown. |
 | 5 | **Chagoi** | **Uniform tea brown** with **subtle vertical grain** or micro-scale crosshatch — **matte**, lower contrast than Asagi’s grid. |
 | 6 | **Tancho** | **Hinomaru:** off-white field, **one centered vermilion disc** (may clip slightly at slot top/bottom). |
-| 7 | **Kumonryu** | **White** ground with **2–3 irregular black sumi swirls** (curved organic shapes) — **calligraphic**, not vertical stripes (contrast with Showa). |
+| 7 | **Kumonryu** | Same **macro flank crop** as Kohaku: **doitsu** cream ground, **sumi** as on the hero art (flowing, cropped by the frame), **dorsal / pectoral** cues — not a separate abstract inkblot. Contrast Showa by **pattern language** (sumi on scaleless skin), not by inventing a non-fish graphic. |
 
 ### 5.3 Absent, Standard (six koi), and accessibility
 
