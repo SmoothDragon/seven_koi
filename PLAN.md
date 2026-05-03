@@ -115,12 +115,12 @@ Retail ships **one** 64-card deck (Expert). **Standard** uses the **same cards**
 - **Quintuple card layout** — five koi in a pentagonal/pentagram arrangement; consider a slight rotational offset so each koi remains identifiable.
 - **All-seven card** — unique heptagonal/mandala arrangement.
 - **Card back** — single shared design (water + seigaiha wave pattern).
-- **Quick-ID system** — every card carries a row of seven small filled/unfilled circles in a corner (one per koi, filled = present). This is the visual analogue of the underlying bit vector and is the single most important playability decision: without it, scanning a dense layout for matches is brutal.
+- **Quick-ID system** — every card carries a row of **seven horizontal segments** in a corner (one per koi). **Present** = that breed’s **micro-crest** inside the slot; **absent** = empty framed slot. Canonical crests: [design/glyphs/seven_crests.svg](design/glyphs/seven_crests.svg); spec in [design/style_guide.md](design/style_guide.md) §5. This is the visual analogue of the underlying bit vector and is the single most important playability decision: without it, scanning a dense layout for matches is brutal.
 - **Standard subset aid (one SKU)** — the box contains **64** cards; Standard play removes **32** that show the omitted koi. Optional **manufacturing / graphic cue** (corner mark, color nib, icon, or tuck-box insert diagram) so players can **sort the Standard-legal pile quickly** without reading every face. Document placement in `design/style_guide.md` when Phase 4 runs.
 - **Color palette** — derive accent colors from the seven primary hexes in Phase 1; pick a neutral background (off-white parchment or muted pond-water blue).
 - **Typography** — pair a Latin serif/display font with a Japanese font supporting kanji (e.g. Noto Serif JP, Klee, or Yuji Syuku); confirm commercial-use license.
 
-**Deliverable**: [design/style_guide.md](design/style_guide.md) — **Done** (v0.1: palette, typography, glyph spec, bleed/safe, illustration scale tiers, Standard subset aid, AI pipeline). **`design/templates/`** (InDesign / Affinity / SVG per card type + bleed/safe diagrams) — **still open**.
+**Deliverable**: [design/style_guide.md](design/style_guide.md) — **Done** (v0.2: palette, typography, **segment crest** glyph spec, bleed/safe, illustration scale tiers, Standard subset aid, AI pipeline). **`design/templates/`** (InDesign / Affinity / SVG per card type + bleed/safe diagrams) — **still open**.
 
 ---
 
@@ -130,11 +130,11 @@ Retail ships **one** 64-card deck (Expert). **Standard** uses the **same cards**
 - **Per-koi assets needed**:
   - Hero illustration: top-down view, consistent lighting and scale, transparent background, ~1500 x 3000 px.
   - Thumbnail version: same fish, simplified for triple/quintuple cards (~600 x 1200 px).
-  - Corner glyph: tiny silhouette or filled circle in the koi's primary color.
+  - Corner row: **micro-crest** per breed in slot (see `design/glyphs/seven_crests.svg`); optional tiny **1–7** index elsewhere on face.
 - **Shared assets** — card-back pattern, box art, rulebook header art, optional score-pad art.
 - **Consistency checklist** — every koi rendered at the same scale, same camera angle, same water-surface lighting, same stroke style.
 
-**Deliverable**: `art/koi/{kohaku,showa,asagi,ogon,chagoi,tancho,kumonryu}.{png,svg}` (hero + thumbnail), `art/back.png`, `art/box/`, `art/glyphs/`.
+**Deliverable**: `art/koi/{kohaku,showa,asagi,ogon,chagoi,tancho,kumonryu}.{png,svg}` (hero + thumbnail), `art/back.png`, `art/box/`, `art/glyphs/` (export **from** `design/glyphs/` masters if duplicated).
 
 ---
 

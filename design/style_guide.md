@@ -4,6 +4,8 @@ Living document for **card faces**, **glyphs**, and **print**. Canonical koi lis
 
 **Art scale mock (v0):** [design/mocks/seven_koi_card_art_scale_mock.png](mocks/seven_koi_card_art_scale_mock.png) — use as a **visual pitch** for “same breed, same style, three scale tiers”; replace with final hero assets when Phase 5 runs.
 
+**Glyph crest sheet:** [design/glyphs/seven_crests.svg](glyphs/seven_crests.svg) (and [seven_crests.png](glyphs/seven_crests.png)) — seven **segment crests** for the quick-ID row (section 5).
+
 ---
 
 ## 1. Print specification (card)
@@ -85,16 +87,35 @@ Use **vector masters** where possible; when rasterizing, export at **2×** final
 
 ## 5. Quick-ID glyph row (mandatory)
 
-Seven positions, **left to right = koi 1 … 7** (same as table in section 2).
+Seven **horizontal segments** (narrow rectangles), **left to right = koi 1 … 7** (same as table in section 2). Each segment is either **empty** (koi absent) or shows that breed’s **micro-crest** (koi present). The crest is a **stylized pattern**, not a fish silhouette — it must read at **~2 mm segment height** on the printed card.
 
-- **Present on card:** filled circle using that koi’s **primary hex** (Tancho body may use off-white fill with **red stroke** on crown position only if clearer — test print).
-- **Absent:** empty ring or 20–30% value disk with **1 pt** stroke so empty slots are visible on pale stock.
-- **Diameter (print):** start ~**2.0–2.4 mm**; increase if playtests show misses; never shrink below **1.8 mm** without raising DPI or sheet size.
-- **Contrast:** glyphs must survive **worn sleeves** and **warm indoor light**; avoid placing the row on busy scales — use a **flat matte panel** behind the row if needed.
+**Canonical reference art:** [design/glyphs/seven_crests.svg](glyphs/seven_crests.svg) (vector master) and [design/glyphs/seven_crests.png](glyphs/seven_crests.png) (raster preview, 1600px wide) — all seven **present** states in one row; use the SVG for layout, export, and manufacturer handoff.
 
-**Standard mode (six koi):** the **omitted** species still occupies a slot in the row — use **muted** fill (e.g. 25% opacity of that hex) or a **struck-through** ring per [rules/RULES.md](../rules/RULES.md) production decision.
+### 5.1 Segment geometry (print)
 
-**Accessibility:** do not rely on **hue alone** for empty vs full — shape (ring vs disk) and value contrast must pass a quick grayscale check.
+- **Row placement:** same corner on every front (see §4); optional **flat matte panel** behind the row so art under it does not fight the crests.
+- **Segment size (start point):** each slot roughly **2.0–2.6 mm** tall × **4.5–6.0 mm** wide at trim (tune after proof); **≥1 pt** stroke on the outer slot frame so **absent** slots stay visible on pale stock.
+- **Gap:** **0.25–0.5 mm** between slots so seven reads as seven, not one barcode.
+
+### 5.2 Breed micro-crests (present state)
+
+Use these **motifs** inside the slot (colors = section 2 hexes unless noted). **Grayscale squint test:** each crest must differ by **value layout**, not only hue.
+
+| # | Breed | Crest content |
+|---|--------|----------------|
+| 1 | **Kohaku** | Off-white field with **2–3 bold red blocks** (stepping hi / patch feel). **No** single centered disk (that is Tancho). |
+| 2 | **Showa** | **Tricolor vertical thirds** (or clear black / white / red bands): structured **Gosanke** read, not random blobs. |
+| 3 | **Asagi** | **Indigo reticulated / net center** (fine grid or scale rows) with **narrow red vertical bands** on **left and right** (cheek + belly echo). |
+| 4 | **Ogon** | **Solid metallic gold** with **one soft horizontal highlight** (gradient or very soft ellipse) so it reads **metal**, not flat brown. |
+| 5 | **Chagoi** | **Uniform tea brown** with **subtle vertical grain** or micro-scale crosshatch — **matte**, lower contrast than Asagi’s grid. |
+| 6 | **Tancho** | **Hinomaru:** off-white field, **one centered vermilion disc** (may clip slightly at slot top/bottom). |
+| 7 | **Kumonryu** | **White** ground with **2–3 irregular black sumi swirls** (curved organic shapes) — **calligraphic**, not vertical stripes (contrast with Showa). |
+
+### 5.3 Absent, Standard (six koi), and accessibility
+
+- **Absent (Expert, seven koi):** **empty slot**: outer frame only, or **very light** interior (20–30% neutral) so the cell registers as “off.”
+- **Standard mode (six koi):** the **omitted** species still occupies a slot — **muted crest** (e.g. **~25% opacity**) or **struck-through** frame per [rules/RULES.md](../rules/RULES.md) production decision.
+- **Accessibility:** do not rely on **hue alone** — **frame vs filled interior**, **pattern shape**, and **value** must distinguish breeds and present vs absent under warm light and **worn sleeves**.
 
 ---
 
@@ -150,3 +171,4 @@ Use English **breed** slug: `kohaku`, `showa`, `asagi`, `ogon`, `chagoi`, `tanch
 | Version | Date | Notes |
 |---------|------|--------|
 | 0.1 | 2026-05-03 | Initial style guide: print spec, palette, illustration discipline, scale tiers, glyphs, Standard aid, typography, AI notes. |
+| 0.2 | 2026-05-03 | Glyph row canon: **seven horizontal segment crests** (breed micro-patterns); reference SVG `design/glyphs/seven_crests.svg`; print sizing in §5.1. |

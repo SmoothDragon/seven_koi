@@ -13,7 +13,7 @@ This file lets a fresh AI agent (Claude, Cursor, etc.) recreate the current stat
 - `ThirteenKoi.png` — reference grid of 13 popular koi varieties with English/Japanese names and one-line descriptions. The 13 varieties are: Kohaku, Showa, Asagi, Shusui, Ogon, Chagoi, Utsurimono, Tancho, Kumonryu, Hariwake, Sanke, Bekko, Utsuri. Seven of these will be selected for the game (see Open Decisions).
 - `PLAN.md` — 12-phase publication roadmap.
 - `rules/RULES.md` — player-facing rules (v0.1+); Phase 3 deliverable.
-- `design/style_guide.md` — print, palette, glyphs, illustration tiers; Phase 4. `design/mocks/` — art direction mocks.
+- `design/style_guide.md` — print, palette, **seven segment crests** (glyph row), illustration tiers; Phase 4. `design/glyphs/seven_crests.svg` — canonical crest row reference. `design/mocks/` — art direction mocks.
 - `CLAUDE.md` — this file.
 - `math/NOTES.md` — math claims with corrected status; includes **[CP24]** bibliography (Sidon sets / codes).
 - `math/RESULTS.md` — Monte Carlo simulation report falsifying two of the original spec's claims.
@@ -61,7 +61,7 @@ The designer's earliest spec overstated splitting the residual; details in `math
 ### Standard — six koi
 
 - **`|D| = 32`:** fix one omitted koi; keep only cards that **never** depict that species. Equivalently, all odd-cardinality subsets drawn from the other six (`C(6,1)+C(6,3)+C(6,5)=32`).
-- Glyph row on templates uses **six** filled circles plus one muted column for the dormant species—or omit that column entirely once the omission is finalized.
+- Glyph row on templates uses **six** filled segment crests plus one **muted** slot for the dormant species—or omit that column entirely once the omission is finalized.
 - Graphic production still needs an **inventory split aid** so players can sort a unified print run quickly (corner **dot / icon / color nib** proposals live in Open decisions).
 
 ### Expert — seven koi
