@@ -20,6 +20,8 @@ This file lets a fresh AI agent (Claude, Cursor, etc.) recreate the current stat
 - `math/verify.py` — Python verifier with sanity asserts and Mode A / Mode B Monte Carlo (`python3 math/verify.py --help`).
 - `math/layout_stall_sweep.py` — Mode B stall rates vs layout size **`L`** across odd-weight decks (`n = 4`…`7`); see `math/RESULTS.md` §2.1.
 - `math/explore_sidon_odd_restricted/` — Rust CLI for strict Sidon maxima on odd / even / ambient slices; **`cargo run --release -- --prove-odd-n 7`** (resp. **`6`**) exhaustively certifies **`s_max(O_7)=9`** on the Expert (64-card) slice and **`s_max(O_6)=7`** on the Standard six-koi odd slice (`cd` there first).
+- `math/weight3_no4dep/` — Rust exact search: max subset of the **35** weight-3 vectors in **GF(2)^7** with **no linearly dependent 4-set** (answer **9**); `cargo run --release` after `cd` there.
+- `math/weight5_no4dep/` — same question on all **21** weight-5 vectors (answer **9**); `cargo run --release` after `cd` there.
 - `bonus_web/` — Rust → WebAssembly stub for the Kickstarter digital bonus (`wasm-pack` build). See [bonus_web/README.md](bonus_web/README.md).
 
 ## Game spec (verbatim from designer)

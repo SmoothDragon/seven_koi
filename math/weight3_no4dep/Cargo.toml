@@ -1,0 +1,13 @@
+[package]
+name = "weight3_no4dep"
+version = "0.1.0"
+edition = "2021"
+description = "Max |S| among weight-3 vectors in GF(2)^7 with no linearly dependent 4-set"
+
+[[bin]]
+name = "weight3_no4dep"
+path = "src/main.rs"
+
+[profile.release]
+lto = true
+codegen-units = 1
