@@ -8,10 +8,11 @@ This file lets a fresh AI agent (Claude, Cursor, etc.) recreate the current stat
 
 ## Repo state (as of this writing)
 
-- `README.md` — 3 lines: project name and the tagline "Matching card game".
+- `README.md` — project name, tagline, link to [koi_selection.md](koi_selection.md).
 - `.gitignore` — the standard GitHub Python template (suggests Python tooling is fine for math verification and any card-layout scripts).
-- `ThirteenKoi.png` — reference grid of 13 popular koi varieties with English/Japanese names and one-line descriptions. The 13 varieties are: Kohaku, Showa, Asagi, Shusui, Ogon, Chagoi, Utsurimono, Tancho, Kumonryu, Hariwake, Sanke, Bekko, Utsuri. Seven of these will be selected for the game (see Open Decisions).
+- `ThirteenKoi.png` — reference grid of 13 popular koi varieties with English/Japanese names and one-line descriptions. The 13 varieties are: Kohaku, Showa, Asagi, Shusui, Ogon, Chagoi, Utsurimono, Tancho, Kumonryu, Hariwake, Sanke, Bekko, Utsuri. The seven in play are locked in [koi_selection.md](koi_selection.md) (Phase 1 complete).
 - `PLAN.md` — 12-phase publication roadmap.
+- `koi_selection.md` — Phase 1 deliverable: final seven koi, names, blurbs, primary-color palette.
 - `rules/RULES.md` — player-facing rules (v0.1+); Phase 3 deliverable.
 - `design/style_guide.md` — print, palette, **seven segment crests** (glyph row), illustration tiers; Phase 4. `design/glyphs/seven_crests.svg` — canonical crest row reference. `design/mocks/` — art direction mocks.
 - `CLAUDE.md` — this file.

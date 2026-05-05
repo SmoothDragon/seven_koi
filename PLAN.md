@@ -29,7 +29,7 @@ These block later phases. Make them before sinking time into art or production.
 
 ---
 
-## Phase 1 — Koi selection (7 of 13)
+## Phase 1 — Koi selection (7 of 13) — **Complete**
 
 **Criteria** (in priority order):
 
