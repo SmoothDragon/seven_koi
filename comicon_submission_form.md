@@ -1,4 +1,4 @@
-# Seven Koi — Event Submission Form (Template)
+# Seven Koi — Comic Con Submission Form
 
 ## Game title
 
