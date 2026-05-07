@@ -1,0 +1,14 @@
+[package]
+name = "weight3_n6_residual_split"
+version = "0.1.0"
+edition = "2021"
+description = "Explore residual 8-card splits after removing XOR-0 4-matches in GF(2)^6 weight-3 deck"
+
+[[bin]]
+name = "weight3_n6_residual_split"
+path = "src/main.rs"
+
+[profile.release]
+lto = true
+codegen-units = 1
+
