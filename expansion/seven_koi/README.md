@@ -6,7 +6,7 @@ This folder documents a **possible future expansion** for the base game **Koi** 
 
 | | Base **Koi** (retail) | Seven-species expansion (this folder) |
 |---|------------------------|--------------------------------|
-| Breeds | Six (see [koi_selection.md](../../koi_selection.md)) | **Seven** — the same six plus **Kumonryu** (九紋竜) as the seventh bit / badge |
+| Breeds | Six (see [koi_selection.md](../../koi_selection.md)): Kohaku, Karasu, Asagi, Ogon, Chagoi, Tancho | **Seven** — same six plus **Kumonryu** (九紋竜) as bit / badge **#7** |
 | Deck | **32** cards — every **odd-sized** subset of six breeds **except** the all-six card | **64** cards — every **odd-sized** subset of **seven** breeds, **including** the **all-seven** card once |
 | Baseline tableau `L₀` | **8** | **10** |
 | “Omit one species” dealing | N/A (full six always) | **Not** required — the expansion assumes the **full seven** on every card type, same as the combinatorial deck |

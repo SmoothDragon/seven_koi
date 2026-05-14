@@ -19,7 +19,7 @@ These block later phases. Make them before sinking time into art or production.
    - **Endgame — maximal tableau then consensus stop.** The moment the **facedown** pile **empties** mid-replenish, deal **every** remaining stub **face-up** in **one sweep** — **nothing stays hidden**, even when **`|spread| < L₀`**. Claims continue (**real-time**) until **everyone agrees** **no legal 4-card match** remains (**instant game over**; **tableau fish score nobody**).
    - **Scoring.** Each player totals **every koi (fish)** printed on cards **they claimed**; tiebreakers stay as Phase 3.
    - **Superseded:** fixed **`L = 9, F = 8`** on the legacy 64-card deck remains invalid. **Superseded:** mid-game escalation — replaced by **fixed `L₀ = 8`** on the **32-card** deck with **no** mid-game escalation.
-3. ~~**Final breed roster (retail)**~~ — **resolved** (see [koi_selection.md](koi_selection.md)): Kohaku, Showa, Asagi, Ogon, Chagoi, Tancho (**six** breeds). **Kumonryu** is reserved for the optional **Koi** expansion (seven species) ([`expansion/seven_koi/`](expansion/seven_koi/)), not the base box.
+3. ~~**Final breed roster (retail)**~~ — **resolved** (see [koi_selection.md](koi_selection.md)): Kohaku, Karasu, Asagi, Ogon, Chagoi, Tancho (**six** breeds). **Kumonryu** is reserved for the optional **Koi** expansion (seven species) ([`expansion/seven_koi/`](expansion/seven_koi/)), not the base box.
 4. ~~**Player count and turn structure**~~ — **resolved**:
    - Real-time call-out (everyone scans simultaneously; first to call a valid 4-card match collects it).
    - Call protocol: shout **"Koi!"** then touch the four cards in order.
@@ -37,20 +37,20 @@ These block later phases. Make them before sinking time into art or production.
 1. Visually distinct dominant color/pattern at thumbnail size (the triple and quintuple cards will use small renderings).
 2. Distinct silhouette / pattern density (so the corner glyph isn't the only differentiator).
 3. Cultural recognizability — pick canonical varieties when possible.
-4. Avoid near-duplicates (Asagi vs Shusui, Sanke vs Showa, Utsuri vs Utsurimono vs Bekko).
+4. Avoid near-duplicates (Asagi vs Shusui, Sanke vs Kohaku / tricolor clustering, Utsuri vs Utsurimono vs Bekko).
 
-**Retail six** (max contrast at card scale; Kumonryu cut so two black-forward breeds are not both on the table):
+**Retail six** (max contrast at card scale; **Kumonryu** stays expansion-only so the base box does not stack **uniform Karasu** against **patterned Kumonryu** sumi reads):
 
 | # | English   | Japanese (kanji / romaji) | Dominant look                          | Suggested primary hex |
 |---|-----------|---------------------------|----------------------------------------|----------------------|
 | 1 | Kohaku    | 紅白 / Kōhaku             | Red markings on white                  | `#D7263D`            |
-| 2 | Showa     | 昭和三色 / Shōwa Sanshoku | Black-dominant tricolor (black/red/white) | `#1A1A1A`         |
+| 2 | Karasu    | 烏鯉 / Karasu             | Uniform all-black body                 | `#0D0D0D`            |
 | 3 | Asagi     | 浅黄 / Asagi              | Blue scaled net pattern                | `#2E6F95`            |
 | 4 | Ogon      | 黄金 / Ōgon               | Solid metallic gold                    | `#E0B040`            |
 | 5 | Chagoi    | 茶鯉 / Chagoi             | Solid brown                            | `#7B4B2A`            |
 | 6 | Tancho    | 丹頂 / Tanchō             | White body, single red dot on head     | `#F5F5F0`            |
 
-**Dropped, with reason**: Shusui (too close to Asagi), Sanke (too close to Showa), Utsurimono / Utsuri / Bekko / Hariwake / Kumonryu (cluster or black-heavy overlap at thumbnail — see [koi_selection.md](koi_selection.md)).
+**Dropped, with reason**: Shusui (too close to Asagi), Sanke (too close to Kohaku / Gosanke tricolor clustering at thumbnail), Utsurimono / Utsuri / Bekko / Hariwake / Kumonryu (cluster or reserved expansion breed — see [koi_selection.md](koi_selection.md)).
 
 **Deliverable**: [koi_selection.md](koi_selection.md) with the six chosen koi, English + Japanese (kanji + romaji) names, a 1–2 sentence flavor blurb each, and the primary color hex above for use in card design. **Done.**
 
@@ -132,7 +132,7 @@ Retail ships **one** **32-card** deck (**six breeds**, odd subsets only). **Setu
 - **Shared assets** — card-back pattern, box art, rulebook header art, optional score-pad art.
 - **Consistency checklist** — every koi rendered at the same scale, same camera angle, same water-surface lighting, same stroke style.
 
-**Deliverable**: `art/koi/{kohaku,showa,asagi,ogon,chagoi,tancho}.{png,svg}` (hero + thumbnail), `art/back.png`, `art/box/`, `art/glyphs/` (export **from** `design/glyphs/` masters if duplicated).
+**Deliverable**: `art/koi/{kohaku,karasu,asagi,ogon,chagoi,tancho}.{png,svg}` (hero + thumbnail), `art/back.png`, `art/box/`, `art/glyphs/` (export **from** `design/glyphs/` masters if duplicated).
 
 ---
 

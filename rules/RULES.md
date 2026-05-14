@@ -4,7 +4,7 @@ These rules describe the **base game** (six breeds, 32 cards). An optional **Koi
 
 Player-facing rules. The retail box contains **one** deck of **32** cards featuring **six breeds**. Card size: 2.5" × 3.5" (63 × 88 mm), same idea as Magic-style poker cards.
 
-**Six breeds** (order 1–6 on card badges): Kohaku, Showa, Asagi, Ogon, Chagoi, Tancho — see [koi_selection.md](../koi_selection.md) for full names and art notes.
+**Six breeds** (order 1–6 on card badges): Kohaku, Karasu, Asagi, Ogon, Chagoi, Tancho — see [koi_selection.md](../koi_selection.md) for full names and art notes.
 
 ---
 

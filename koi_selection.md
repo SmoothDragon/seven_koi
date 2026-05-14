@@ -22,11 +22,11 @@ Cards are numbered **1–6** in this order (the koi’s bit position in the **GF
 
 The classic. A pure white body marked with bold patches of red. Kohaku is the oldest of the Gosanke (“big three”) koi and the bloodline against which every other variety is judged — when in doubt, the saying goes, “begin and end with Kohaku”.
 
-### 2. Showa — 昭和三色 (Shōwa Sanshoku)
+### 2. Karasu — 烏鯉 (Karasu)
 
-**Primary hex**: `#1A1A1A` (lacquer black, with red and white)
+**Primary hex**: `#0D0D0D` (near-black body; uniform black read at card scale)
 
-Named for the Shōwa era. A black-dominated tricolor with deep red and crisp white markings wrapping the body — the koi equivalent of a sumi-ink painting that has been splashed with vermilion. Reads jet-black at thumbnail size, which is what we want for contrast against Kohaku and Tancho.
+**All-black koi** (“crow carp”): a single uninterrupted sumi field from nose to tail — no hi, no second color blocks. At thumbnail size it is deliberately **flat black**; optional art direction is a whisper of **scale rows** or a **soft dorsal highlight** so the fish does not read as a silhouette hole. **Not** a tricolor Gosanke layout (that role is intentionally dropped from retail in favor of this cleaner black anchor).
 
 ### 3. Asagi — 浅黄 (Asagi)
 
@@ -58,7 +58,7 @@ Pure white body, single red disc on the head — the Japanese flag rendered in f
 
 The thirteen-way shortlist and cut reasons for **Shusui, Sanke, Utsurimono, Hariwake, Bekko, Utsuri** are unchanged from the earlier seven-species write-up (see git history or [ThirteenKoi.png](ThirteenKoi.png) for the full grid).
 
-**Kumonryu (九紋竜)** — see **section 0** for expansion placement. At card scale Kumonryu and Showa both read **black-heavy**; keeping Showa preserves the classic Gosanke read next to Kohaku while Asagi, Ogon, Chagoi, and Tancho each own a distinct hue or motif.
+**Kumonryu (九紋竜)** — see **section 0** for expansion placement. Retail uses **uniform Karasu** as the black anchor; **Kumonryu** stays expansion-only so players are not asked to separate two **sumi-forward** pattern languages under real-time pressure. Asagi, Ogon, Chagoi, and Tancho each own a distinct hue or motif beside Kohaku and Karasu.
 
 ---
 
@@ -67,7 +67,7 @@ The thirteen-way shortlist and cut reasons for **Shusui, Sanke, Utsurimono, Hari
 | #  | Koi    | Japanese   | Primary hex |
 |----|--------|------------|-------------|
 | 1  | Kohaku | 紅白       | `#D7263D`   |
-| 2  | Showa  | 昭和三色   | `#1A1A1A`   |
+| 2  | Karasu | 烏鯉       | `#0D0D0D`   |
 | 3  | Asagi  | 浅黄       | `#2E6F95`   |
 | 4  | Ogon   | 黄金       | `#E0B040`   |
 | 5  | Chagoi | 茶鯉       | `#7B4B2A`   |
@@ -80,4 +80,4 @@ The six primary colours stay spread around the wheel: warm red, neutral black, c
 ## 4. Open follow-ups
 
 - The corner **glyph row** in `PLAN.md` Phase 4 uses these hexes inside each breed’s **micro-crest** (horizontal segment), left → right in the order above — see `design/style_guide.md` §5 and `design/glyphs/six_crests.svg`.
-- Japanese text: confirm with a native speaker that `紅白 / 昭和三色 / 浅黄 / 黄金 / 茶鯉 / 丹頂` are the canonical kanji forms for card use (sometimes `黄金` is written as `黄金鯉`, etc.).
+- Japanese text: confirm with a native speaker that `紅白 / 烏鯉 / 浅黄 / 黄金 / 茶鯉 / 丹頂` are the canonical kanji forms for card use (sometimes `黄金` is written as `黄金鯉`, etc.).

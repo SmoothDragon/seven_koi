@@ -2,7 +2,7 @@
 <!-- Koi — breed micro-crests (retail, six breeds). Order: slot 1 left to slot 6 right. See design/style_guide.md section 5. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 688 92" width="688" height="92" role="img" aria-labelledby="title desc">
   <title id="title">Koi — breed crests (six breeds, retail)</title>
-  <desc id="desc">Koi retail row — six horizontal slot motifs: Kohaku, Showa, Asagi, Ogon, Chagoi, Tancho.</desc>
+  <desc id="desc">Koi retail row — six horizontal slot motifs: Kohaku, Karasu, Asagi, Ogon, Chagoi, Tancho.</desc>
 
   <defs>
     <linearGradient id="ogonShine" x1="0" y1="0" x2="0" y2="1">
@@ -22,6 +22,15 @@
       <stop offset="45%" stop-color="#f3f1ed"/>
       <stop offset="100%" stop-color="#e9e6e0"/>
     </linearGradient>
+    <linearGradient id="karasuSheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a2a2a" stop-opacity="0.45"/>
+      <stop offset="42%" stop-color="#0D0D0D" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#050505"/>
+    </linearGradient>
+    <pattern id="karasuMicroScale" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="4" fill="#0D0D0D"/>
+      <path d="M0 0 L4 4 M4 0 L0 4" stroke="#242424" stroke-width="0.22" opacity="0.4"/>
+    </pattern>
     <style type="text/css"><![CDATA[
       .slot { fill: none; stroke: #3d3d3d; stroke-width: 1.25; }
       .label { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 10px; fill: #2a2a2a; font-weight: 600; }
@@ -47,14 +56,14 @@
   <text class="label" x="60" y="66" text-anchor="middle">Kohaku</text>
   <text class="sublabel" x="60" y="78" text-anchor="middle">#1</text>
 
-  <!-- 2 Showa -->
+  <!-- 2 Karasu -->
   <g transform="translate(128,14)">
     <rect class="slot" x="0" y="0" width="92" height="38" rx="2"/>
-    <rect x="1" y="1" width="30" height="36" fill="#1A1A1A"/>
-    <rect x="31" y="1" width="30" height="36" fill="#f5f5f0"/>
-    <rect x="61" y="1" width="30" height="36" fill="#D7263D"/>
+    <rect x="1" y="1" width="90" height="36" rx="1" fill="#0D0D0D"/>
+    <rect x="1" y="1" width="90" height="36" rx="1" fill="url(#karasuMicroScale)" opacity="0.5"/>
+    <rect x="1" y="1" width="90" height="36" rx="1" fill="url(#karasuSheen)"/>
   </g>
-  <text class="label" x="174" y="66" text-anchor="middle">Showa</text>
+  <text class="label" x="174" y="66" text-anchor="middle">Karasu</text>
   <text class="sublabel" x="174" y="78" text-anchor="middle">#2</text>
 
   <!-- 3 Asagi -->

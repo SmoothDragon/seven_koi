@@ -31,7 +31,7 @@ Bit order **1 → 6** matches card encoding and **glyph row left → right**. Us
 | # | English | Japanese (card) | Primary hex |
 |---|---------|-----------------|-------------|
 | 1 | Kohaku | 紅白 | `#D7263D` |
-| 2 | Showa | 昭和三色 | `#1A1A1A` |
+| 2 | Karasu | 烏鯉 | `#0D0D0D` |
 | 3 | Asagi | 浅黄 | `#2E6F95` |
 | 4 | Ogon | 黄金 | `#E0B040` |
 | 5 | Chagoi | 茶鯉 | `#7B4B2A` |
@@ -104,7 +104,7 @@ Use these **motifs** inside the slot (colors = section 2 hexes unless noted). **
 | # | Breed | Crest content |
 |---|--------|----------------|
 | 1 | **Kohaku** | Treat the segment as a **horizontal crop from the card’s macro body art**: flank band **adjacent to dorsal + pectoral** (sheen, subtle fin wedges, **hi** continuing past the crop edges). Same **rectangular window** language as the hero fish, not an abstract icon. **No** single centered disk (Tancho). |
-| 2 | **Showa** | **Tricolor vertical thirds** (or clear black / white / red bands): structured **Gosanke** read, not random blobs. |
+| 2 | **Karasu** | **Solid near-black field** (`#0D0D0D`); optional **micro-scale crosshatch** or **one soft top-down sheen** so the slot reads as fish skin, not empty frame. **Not** tricolor vertical thirds (retail dropped Showa-style Gosanke thirds for this anchor).
 | 3 | **Asagi** | **Indigo reticulated / net center** (fine grid or scale rows) with **narrow red vertical bands** on **left and right** (cheek + belly echo). |
 | 4 | **Ogon** | **Solid metallic gold** with **one soft horizontal highlight** (gradient or very soft ellipse) so it reads **metal**, not flat brown. |
 | 5 | **Chagoi** | **Uniform tea brown** with **subtle vertical grain** or micro-scale crosshatch — **matte**, lower contrast than Asagi’s grid. |
@@ -155,7 +155,7 @@ cards/export/<card_id>_front.pdf
 design/mocks/...                   # pitches only, not for press
 ```
 
-Use English **breed** slug: `kohaku`, `showa`, `asagi`, `ogon`, `chagoi`, `tancho`.
+Use English **breed** slug: `kohaku`, `karasu`, `asagi`, `ogon`, `chagoi`, `tancho`.
 
 ---
 
@@ -166,3 +166,4 @@ Use English **breed** slug: `kohaku`, `showa`, `asagi`, `ogon`, `chagoi`, `tanch
 | 0.1 | 2026-05-03 | Initial style guide: print spec, palette, illustration discipline, scale tiers, glyphs, Standard aid, typography, AI notes. |
 | 0.2 | 2026-05-03 | Glyph row canon: **seven horizontal segment crests** (breed micro-patterns); reference SVG `design/glyphs/seven_crests.svg`; print sizing in §5.1. |
 | 0.3 | 2026-05-14 | **Retail 32-card deck (game Koi):** six segment crests; canonical [six_crests.svg](glyphs/six_crests.svg); `seven_crests` marked archival. |
+| 0.4 | 2026-05-14 | Retail breed **#2** is **Karasu** (烏鯉), not Showa; palette + glyph row §5.2 + slugs updated; expansion seven-list aligned (`Kohaku, Karasu, …, Kumonryu`). |

@@ -18,7 +18,7 @@ Cards are labeled by **odd-sized** subsets of **seven** fixed breeds. Encode bre
 | **All-seven** | **1** | The unique card showing **all seven** breeds at once |
 | **Total** | **64** | `7 + 35 + 21 + 1` |
 
-**Breeds (draft roster, bit order):** Kohaku, Showa, Asagi, Ogon, Chagoi, Tancho, **Kumonryu** — the first six match [koi_selection.md](../../koi_selection.md); the seventh is the expansion-only breed. Art and Japanese naming for Kumonryu should follow the same style guide discipline as the base game once this SKU is green-lit.
+**Breeds (draft roster, bit order):** Kohaku, Karasu, Asagi, Ogon, Chagoi, Tancho, **Kumonryu** — the first six match [koi_selection.md](../../koi_selection.md); the seventh is the expansion-only breed. Art and Japanese naming for Kumonryu should follow the same style guide discipline as the base game once this SKU is green-lit.
 
 **No “Standard-style omit-one-species” partition:** unlike older internal prototypes that split seven breeds into parallel sub-decks, this expansion draft assumes **every card uses the full seven-breed universe** as above.
 
