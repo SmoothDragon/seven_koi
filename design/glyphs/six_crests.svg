@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Archival: former seven-species / 64-card row (includes Kumonryu). Retail art uses six_crests.svg. Order: slot 1 left to slot 7 right. See design/style_guide.md section 5. -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 92" width="800" height="92" role="img" aria-labelledby="title desc">
-  <title id="title">Koi — breed crests (archival seven-species row)</title>
-  <desc id="desc">Archival seven-species row — seven horizontal slot motifs: Kohaku, Showa, Asagi, Ogon, Chagoi, Tancho, Kumonryu.</desc>
+<!-- Koi — breed micro-crests (retail, six breeds). Order: slot 1 left to slot 6 right. See design/style_guide.md section 5. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 688 92" width="688" height="92" role="img" aria-labelledby="title desc">
+  <title id="title">Koi — breed crests (six breeds, retail)</title>
+  <desc id="desc">Koi retail row — six horizontal slot motifs: Kohaku, Showa, Asagi, Ogon, Chagoi, Tancho.</desc>
 
   <defs>
     <linearGradient id="ogonShine" x1="0" y1="0" x2="0" y2="1">
@@ -22,10 +22,6 @@
       <stop offset="45%" stop-color="#f3f1ed"/>
       <stop offset="100%" stop-color="#e9e6e0"/>
     </linearGradient>
-    <linearGradient id="kumoFlankSkin" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#f5f4f0"/>
-      <stop offset="100%" stop-color="#e6e4df"/>
-    </linearGradient>
     <style type="text/css"><![CDATA[
       .slot { fill: none; stroke: #3d3d3d; stroke-width: 1.25; }
       .label { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 10px; fill: #2a2a2a; font-weight: 600; }
@@ -33,21 +29,18 @@
     ]]></style>
   </defs>
 
-  <rect width="800" height="92" fill="#f4f2ec"/>
+  <rect width="688" height="92" fill="#f4f2ec"/>
 
-  <!-- 1 Kohaku: rectangular crop of hero flank art (pectoral / dorsal-adjacent band) -->
+  <!-- 1 Kohaku -->
   <g transform="translate(14,14)">
     <rect class="slot" x="0" y="0" width="92" height="38" rx="2"/>
     <rect x="1" y="1" width="90" height="36" rx="1" fill="#f5f5f0"/>
     <g transform="translate(1,1)" clip-path="url(#crestInner)">
       <rect width="90" height="36" fill="url(#kohakuFlankSkin)"/>
-      <!-- dorsal insertion band (top of crop = near dorsal / back) -->
       <path fill="#e3e1db" opacity="0.85" d="M 0 0 L 90 0 Q 90 7 45 10 Q 0 7 0 0 Z"/>
-      <!-- hi: continuation of body patches; edges hard-clipped like a photo window -->
       <path fill="#D7263D" d="M -35 28 C 8 18 48 22 78 30 C 105 36 115 52 95 60 L -40 60 Z"/>
       <path fill="#D7263D" d="M 55 -25 C 100 -12 108 18 88 38 C 62 36 38 20 32 2 C 30 -18 40 -28 55 -25 Z"/>
       <path fill="#D7263D" d="M -20 -15 C 25 -22 52 -5 48 14 C 20 12 -5 5 -20 -15 Z"/>
-      <!-- pectoral base (lower crop; fin enters from outside frame) -->
       <path fill="#ebe9e4" stroke="#d8d6d1" stroke-width="0.5" d="M -6 40 Q 12 18 34 24 Q 28 38 10 42 Q -2 44 -6 40 Z"/>
     </g>
   </g>
@@ -108,20 +101,4 @@
   </g>
   <text class="label" x="630" y="66" text-anchor="middle">Tancho</text>
   <text class="sublabel" x="630" y="78" text-anchor="middle">#6</text>
-
-  <!-- 7 Kumonryu: macro flank crop, doitsu sumi near fins; sumi continues past clip -->
-  <g transform="translate(698,14)">
-    <rect class="slot" x="0" y="0" width="92" height="38" rx="2"/>
-    <rect x="1" y="1" width="90" height="36" rx="1" fill="#f5f5f0"/>
-    <g transform="translate(1,1)" clip-path="url(#crestInner)">
-      <rect width="90" height="36" fill="url(#kumoFlankSkin)"/>
-      <path fill="#dcd9d3" opacity="0.9" d="M 0 0 L 90 0 Q 90 8 45 11 Q 0 8 0 0 Z"/>
-      <path fill="#2B2B2B" d="M 88 -30 C 120 5 100 48 62 46 C 28 44 12 18 40 -8 C 58 -22 78 -28 88 -30 Z"/>
-      <path fill="#2B2B2B" d="M -25 8 C 10 -8 45 0 52 28 C 58 52 35 62 5 55 C -30 48 -45 28 -25 8 Z"/>
-      <path fill="#1a1a1a" opacity="0.88" d="M 30 55 C 55 35 85 40 95 65 L -10 65 C -5 52 12 58 30 55 Z"/>
-      <path fill="#e0ddd8" stroke="#cecbc6" stroke-width="0.45" d="M 52 38 Q 68 22 92 28 Q 82 40 58 40 Q 52 39 52 38 Z"/>
-    </g>
-  </g>
-  <text class="label" x="744" y="66" text-anchor="middle">Kumonryu</text>
-  <text class="sublabel" x="744" y="78" text-anchor="middle">#7</text>
 </svg>

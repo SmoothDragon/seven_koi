@@ -2,7 +2,7 @@
 """
 Explore maximum strict Sidon set size inside GF(2)^n versus odd-weight subsets.
 
-Seven Koi cards use nonzero **odd Hamming weight** vectors. OEIS A394031 cites
+Koi cards use nonzero **odd Hamming weight** vectors. OEIS A394031 cites
 ambient maxima inside the full additive group GF(2)^n (often tabulated with **0**
 included). This script uses the same **nonzero** hypothesis as the card game
 Lemma B in math/NOTES.md, and adds the **odd-parity** slice for comparison.
@@ -196,7 +196,7 @@ def main() -> None:
     banner = """\
 Strict Sidon ( Lemma B XOR conditions ) slices:
 • all_nonzero         — playable mask if every nonzero n-bit glyph existed
-• odd_weight_only      — Expert / Standard legal vectors (odd weight; Standard = omitted-koi analogue)
+• odd_weight_only      — Retail / legacy legal vectors (odd weight; retail = six-breed odd slice)
 • even_nonzero_only    — parity contrast slice"""
     print(banner)
 

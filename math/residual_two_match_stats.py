@@ -3,7 +3,7 @@
 Estimate P(residual tableau has exactly 8 cards AND it splits into two 4-XOR matches)
 under Mode B (fixed L, random legal 4-match in layout, replenish from pile).
 
-Uses the odd-weight decks: n=6 bits => 32-card Standard analogue, n=7 => 64-card Expert.
+Uses the odd-weight decks: n=6 bits => 32-card retail **Koi**, n=7 => 64-card legacy seven-species slice.
 
 For an 8-card set R with xor(R)=0 (always true along these removal paths — see Lemma-style
 conservation), existence of one 4-card XOR-zero subset implies the complement is also a match.
@@ -83,14 +83,14 @@ def main() -> None:
     args = ap.parse_args()
 
     run_block(
-        "Six koi (32-card odd-weight deck, L₀ = 8)",
+        "Six breeds (32-card odd-weight deck, L₀ = 8)",
         odd_deck(6),
         8,
         args.trials,
         args.seed,
     )
     run_block(
-        "Seven koi (64-card odd-weight deck, L₀ = 10)",
+        "Seven species (64-card odd-weight deck, L₀ = 10)",
         odd_deck(7),
         10,
         args.trials,

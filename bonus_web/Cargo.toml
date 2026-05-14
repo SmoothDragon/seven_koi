@@ -1,8 +1,8 @@
 [package]
-name = "seven_koi_bonus"
+name = "koi_bonus"
 version = "0.1.0"
 edition = "2021"
-description = "Seven Koi — Kickstarter digital bonus: Rust compiled to WebAssembly."
+description = "Koi — Kickstarter digital bonus: Rust compiled to WebAssembly."
 license = "MIT OR Apache-2.0"
 
 [lib]

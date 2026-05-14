@@ -1,4 +1,4 @@
-"""math/verify.py - Seven Koi computational verification.
+"""math/verify.py - Koi computational verification.
 
 Implements the checks scheduled in math/NOTES.md §7.4. Currently:
 

@@ -1,4 +1,4 @@
-# Seven Koi — digital bonus (Rust → WebAssembly)
+# Koi — digital bonus (Rust → WebAssembly)
 
 Kickstarter-tier in-browser build. Implements shared deck / match primitives in Rust and compiles them to WASM for use from JavaScript.
 
@@ -28,11 +28,11 @@ cd www
 python3 -m http.server 8080
 ```
 
-Open http://localhost:8080 — the page imports `../pkg/seven_koi_bonus.js`.
+Open http://localhost:8080 — the page imports `../pkg/koi_bonus.js`.
 
 ## Next steps
 
-- Wire `deck_vector()`, shuffling (`rand` + `getrandom` with `wasm_js` features), configurable **fixed baseline spread** (`10` Expert, `8` Standard — no mid-game stock flips; matches `CLAUDE.md` / `PLAN.md` Phase 0), max-tableau bulk reveal on stock-out, UI per project rules.
+- Wire `deck_vector()`, shuffling (`rand` + `getrandom` with `wasm_js` features), **fixed baseline spread** **`L₀ = 8`** (retail 32-card deck; no mid-game stock flips; matches `CLAUDE.md` / `rules/RULES.md`), max-tableau bulk reveal on stock-out, UI per project rules.
 - Decide on frontend approach: vanilla JS, or a Rust framework that targets WASM (Leptos, Yew, etc.) — keeping this crate small as the “logic core” is usually enough for v1.
 
 ## License

@@ -71,7 +71,7 @@ The same Mode B flow (shuffle, fixed layout size **L**, uniform random legal 4-m
 | 5 | 16 | **L = 6**: ~11% | **L₀ = 7** |
 | 4 | 8 | **L = 4**: ~80% (tiny deck — sanity only) | **L₀ = 5** |
 
-Seven Koi ships **Expert seven koi (**`L₀ = 10`**) and Standard six koi (**`L₀ = 8`**)** per **`PLAN.md`** Phase 0.
+**Koi** **retail** ships **six breeds, `|D| = 32`, `L₀ = 8`** per **`PLAN.md`** / **`CLAUDE.md`**. Legacy **seven-species `|D| = 64`, `L₀ = 10`** remains documented in-repo for math comparison.
 
 ```bash
 python3 math/layout_stall_sweep.py --trials 50000 --seed 2 --n-bits 5 6 7 --layout-min 5 --layout-max 10
@@ -106,7 +106,7 @@ python3 math/verify.py --trials 50000 --mode a --seed 1
 
 ## 4. Executive summary — what the game spec requires changing
 
-The original Seven Koi rules rest on two mathematical claims that are now empirically refuted:
+The original **Koi** rules rest on two mathematical claims that are now empirically refuted:
 
 | Claim (original spec)                                                       | Status              |
 |-----------------------------------------------------------------------------|---------------------|

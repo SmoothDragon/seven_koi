@@ -1,8 +1,8 @@
-# Seven Koi — Comic Con Submission Form
+# Koi — Comic Con Submission Form
 
 ## Game title
 
-Seven Koi
+Koi
 
 ## Topics that describe your game:
 
@@ -55,5 +55,5 @@ Easy, Medium, or Advanced?
 
 ## Game description (50 words or less)
 
-Seven Koi is a fast, real-time matching card game about parity. Cards show 1, 3, 5, or 7 koi species. Players race to spot and claim four face-up cards whose koi counts combine so every species appears in pairs. Score by totaling koi on claimed cards.
+Koi is a fast, real-time matching card game about parity. Cards show **1, 3, or 5** breeds from a six-breed deck. Players race to spot and claim four face-up cards whose breed counts combine so every species appears in pairs. Score by totaling koi on claimed cards.
 

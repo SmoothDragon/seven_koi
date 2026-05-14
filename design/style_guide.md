@@ -1,10 +1,12 @@
-# Seven Koi — design & illustration style guide
+# Koi — design & illustration style guide
 
 Living document for **card faces**, **glyphs**, and **print**. Canonical koi list, Japanese names, and flavor copy: [koi_selection.md](../koi_selection.md). Roadmap cross-links: [PLAN.md](../PLAN.md) Phase 4–5.
 
 **Art scale mock (v0):** [design/mocks/seven_koi_card_art_scale_mock.png](mocks/seven_koi_card_art_scale_mock.png) — use as a **visual pitch** for “same breed, same style, three scale tiers”; replace with final hero assets when Phase 5 runs.
 
-**Glyph crest sheet:** [design/glyphs/seven_crests.svg](glyphs/seven_crests.svg) (and [seven_crests.png](glyphs/seven_crests.png)) — seven **segment crests** for the quick-ID row (section 5).
+**Colored breed strip (flow mock):** [design/mocks/koi_six_from_scale_mock_flow_style.png](mocks/koi_six_from_scale_mock_flow_style.png) — six retail breeds in one row, **poses and pattern read** from [seven_koi_card_art_scale_mock.png](mocks/seven_koi_card_art_scale_mock.png) (columns **1–6** only; no seventh), **palette** per section 2 / [koi_selection.md](../koi_selection.md), **line rhythm** (loose brush, tapered fins, splatter energy) keyed to `koi_black_white.jpg` at repo root; illustrative pitch only — not final print art.
+
+**Glyph crest sheet:** the base game uses [six_crests.svg](glyphs/six_crests.svg) for the quick-ID row (section 5); optional **Koi** expansion (seven species) artwork and the seven-breed glyph reference are summarized in [expansion/seven_koi/README.md](../expansion/seven_koi/README.md), with archival art in [seven_crests.svg](glyphs/seven_crests.svg) / [seven_crests.png](glyphs/seven_crests.png).
 
 ---
 
@@ -22,9 +24,9 @@ Export: one PDF per sheet or per card per manufacturer spec; outline fonts where
 
 ---
 
-## 2. The seven breeds (order is fixed)
+## 2. The six breeds (order is fixed)
 
-Bit order **1 → 7** matches card encoding and **glyph row left → right**. Use these **primary hexes** for badges, glyph fills, UI — not necessarily full-body paint (fish stay naturalistic).
+Bit order **1 → 6** matches card encoding and **glyph row left → right**. Use these **primary hexes** for badges, glyph fills, UI — not necessarily full-body paint (fish stay naturalistic).
 
 | # | English | Japanese (card) | Primary hex |
 |---|---------|-----------------|-------------|
@@ -34,7 +36,6 @@ Bit order **1 → 7** matches card encoding and **glyph row left → right**. Us
 | 4 | Ogon | 黄金 | `#E0B040` |
 | 5 | Chagoi | 茶鯉 | `#7B4B2A` |
 | 6 | Tancho | 丹頂 | `#F5F5F0` (body); crown spot `#D7263D` |
-| 7 | Kumonryu | 九紋竜 | `#2B2B2B` |
 
 **Background:** off-white parchment **or** muted pond-water blue — keep value contrast so white-bodied fish (Tancho) do not disappear.
 
@@ -46,9 +47,9 @@ Bit order **1 → 7** matches card encoding and **glyph row left → right**. Us
 
 ### 3.1 Unified “breed bible”
 
-For **each** of the seven breeds, maintain **one approved hero** (pose, lighting, scale detail, outline weight). Every appearance of that breed on **single / triple / quint / all-seven** cards is a **scaled or cropped derivative** of the same art system — not a redraw in a different style.
+For **each** of the six breeds, maintain **one approved hero** (pose, lighting, scale detail, outline weight). Every appearance of that breed on **single / triple / quint** cards is a **scaled or cropped derivative** of the same art system — not a redraw in a different style.
 
-- **View:** three-quarter or slightly top-down; **consistent camera height** and **light direction** across all seven masters.
+- **View:** three-quarter or slightly top-down; **consistent camera height** and **light direction** across all six masters.
 - **Rendering:** clean illustrative look (cel or soft vector); **avoid** photoreal noise, heavy texture, or hyper-real scales that collapse when shrunk.
 - **Outlines:** single coherent stroke weight at **master** scale; when rasterized down, prefer **slightly thicker** inner lines so small fish do not “hairline away.”
 - **Eyes and mouth:** same graphic formula per breed at every scale (big read for tiny triple icons).
@@ -59,12 +60,11 @@ Use **vector masters** where possible; when rasterizing, export at **2×** final
 
 | Card type | Koi count | Approx. height of one fish *(each, if multiple)* | Notes |
 |-----------|-----------|-----------------------------------------------------|--------|
-| **Single** | 1 | **~78–85%** of safe-area height | Hero art; English name top, Japanese bottom, badge 1–7. |
+| **Single** | 1 | **~78–85%** of safe-area height | Hero art; English name top, Japanese bottom, badge 1–6. |
 | **Triple** | 3 | **~38–48%** each | Reuleaux-ish inward composition; **same** style as single. |
 | **Quintuple** | 5 | **~22–30%** each | Pentagonal / pentagram; slight rotation offset so heads stay readable. |
-| **All-seven** | 7 | **~14–20%** each | Mandala / ring; **legibility over decoration** — if a layout fails a “squint test,” simplify background. |
 
-**Mock reference:** the Kohaku column in [seven_koi_card_art_scale_mock.png](mocks/seven_koi_card_art_scale_mock.png) shows **large / medium / small** in one style — replicate that discipline for **all seven** masters.
+**Mock reference:** the Kohaku column in [seven_koi_card_art_scale_mock.png](mocks/seven_koi_card_art_scale_mock.png) shows **large / medium / small** in one style — replicate that discipline for **all six** masters (mock filename is historical).
 
 ---
 
@@ -75,27 +75,27 @@ Use **vector masters** where possible; when rasterizing, export at **2×** final
 - **Top:** English name (small caps or restrained serif).
 - **Center:** hero koi (dominant).
 - **Bottom:** Japanese (kanji + romaji line).
-- **Corner:** koi index badge **1–7** + **glyph row** (section 5).
+- **Corner:** koi index badge **1–6** + **glyph row** (section 5).
 
-### 4.2 Triple, quintuple, all-seven
+### 4.2 Triple and quintuple
 
 - **Center:** fish arrangement (section 3.2).
-- **Per-fish micro-badge:** optional small **1–7** near each head; must not collide with art.
+- **Per-fish micro-badge:** optional small **1–6** near each head; must not collide with art.
 - **Glyph row:** always present in the **same corner** on every card front (habit muscle memory).
 
 ---
 
 ## 5. Quick-ID glyph row (mandatory)
 
-Seven **horizontal segments** (narrow rectangles), **left to right = koi 1 … 7** (same as table in section 2). Each segment is either **empty** (koi absent) or shows that breed’s **micro-crest** (koi present). The crest is a **stylized pattern**, not a fish silhouette — it must read at **~2 mm segment height** on the printed card.
+Six **horizontal segments** (narrow rectangles), **left to right = koi 1 … 6** (same as table in section 2). Each segment is either **empty** (koi absent) or shows that breed’s **micro-crest** (koi present). The crest is a **stylized pattern**, not a fish silhouette — it must read at **~2 mm segment height** on the printed card.
 
-**Canonical reference art:** [design/glyphs/seven_crests.svg](glyphs/seven_crests.svg) (vector master) and [design/glyphs/seven_crests.png](glyphs/seven_crests.png) (raster preview, 1600px wide) — all seven **present** states in one row; use the SVG for layout, export, and manufacturer handoff.
+**Canonical reference art:** [design/glyphs/six_crests.svg](glyphs/six_crests.svg) (vector master) — all six **present** states in one row; use the SVG for layout, export, and manufacturer handoff. Export a raster preview from this SVG if you need a PNG companion.
 
 ### 5.1 Segment geometry (print)
 
 - **Row placement:** same corner on every front (see §4); optional **flat matte panel** behind the row so art under it does not fight the crests.
 - **Segment size (start point):** each slot roughly **2.0–2.6 mm** tall × **4.5–6.0 mm** wide at trim (tune after proof); **≥1 pt** stroke on the outer slot frame so **absent** slots stay visible on pale stock.
-- **Gap:** **0.25–0.5 mm** between slots so seven reads as seven, not one barcode.
+- **Gap:** **0.25–0.5 mm** between slots so six reads as six, not one barcode.
 
 ### 5.2 Breed micro-crests (present state)
 
@@ -109,24 +109,17 @@ Use these **motifs** inside the slot (colors = section 2 hexes unless noted). **
 | 4 | **Ogon** | **Solid metallic gold** with **one soft horizontal highlight** (gradient or very soft ellipse) so it reads **metal**, not flat brown. |
 | 5 | **Chagoi** | **Uniform tea brown** with **subtle vertical grain** or micro-scale crosshatch — **matte**, lower contrast than Asagi’s grid. |
 | 6 | **Tancho** | **Hinomaru:** off-white field, **one centered vermilion disc** (may clip slightly at slot top/bottom). |
-| 7 | **Kumonryu** | Same **macro flank crop** as Kohaku: **doitsu** cream ground, **sumi** as on the hero art (flowing, cropped by the frame), **dorsal / pectoral** cues — not a separate abstract inkblot. Contrast Showa by **pattern language** (sumi on scaleless skin), not by inventing a non-fish graphic. |
 
-### 5.3 Absent, Standard (six koi), and accessibility
+### 5.3 Absent states and accessibility
 
-- **Absent (Expert, seven koi):** **empty slot**: outer frame only, or **very light** interior (20–30% neutral) so the cell registers as “off.”
-- **Standard mode (six koi):** the **omitted** species still occupies a slot — **muted crest** (e.g. **~25% opacity**) or **struck-through** frame per [rules/RULES.md](../rules/RULES.md) production decision.
+- **Absent:** **empty slot**: outer frame only, or **very light** interior (20–30% neutral) so the cell registers as “off.”
 - **Accessibility:** do not rely on **hue alone** — **frame vs filled interior**, **pattern shape**, and **value** must distinguish breeds and present vs absent under warm light and **worn sleeves**.
 
 ---
 
-## 6. Standard subset aid (optional print cue)
+## 6. Print SKU
 
-One retail SKU is **64** cards; Standard uses **32**. Optional **manufacturing** cue so players can sort without reading every face:
-
-- **Micro-mark** in a consistent corner (e.g. only on cards that depict the **canonical omitted** koi for retail Standard — *once that koi is chosen*), **or**
-- **Tuck-box insert** diagram: “Remove all cards showing koi #N.”
-
-Document the final decision here when locked; align with manufacturer registration specs.
+Retail ships **one** **32-card** deck (six breeds, odd-weight subsets only — see [rules/RULES.md](../rules/RULES.md)). No separate “sort this pile from a larger print run” step for players. If you ever reprint legacy **64-card** prototypes for playtests, document any sorting cue here; it is **not** part of the published product.
 
 ---
 
@@ -140,7 +133,7 @@ Document the final decision here when locked; align with manufacturer registrati
 
 ## 8. Card back
 
-Single shared design for the whole product: **water surface + seigaiha** (or similar) at low contrast so **edge wear** does not reveal front patterns. No seven-koi glyph on back (optional publisher logo only).
+Single shared design for the whole product: **water surface + seigaiha** (or similar) at low contrast so **edge wear** does not reveal front patterns. No koi glyph row on back (optional publisher logo only).
 
 ---
 
@@ -162,7 +155,7 @@ cards/export/<card_id>_front.pdf
 design/mocks/...                   # pitches only, not for press
 ```
 
-Use English **breed** slug: `kohaku`, `showa`, `asagi`, `ogon`, `chagoi`, `tancho`, `kumonryu`.
+Use English **breed** slug: `kohaku`, `showa`, `asagi`, `ogon`, `chagoi`, `tancho`.
 
 ---
 
@@ -172,3 +165,4 @@ Use English **breed** slug: `kohaku`, `showa`, `asagi`, `ogon`, `chagoi`, `tanch
 |---------|------|--------|
 | 0.1 | 2026-05-03 | Initial style guide: print spec, palette, illustration discipline, scale tiers, glyphs, Standard aid, typography, AI notes. |
 | 0.2 | 2026-05-03 | Glyph row canon: **seven horizontal segment crests** (breed micro-patterns); reference SVG `design/glyphs/seven_crests.svg`; print sizing in §5.1. |
+| 0.3 | 2026-05-14 | **Retail 32-card deck (game Koi):** six segment crests; canonical [six_crests.svg](glyphs/six_crests.svg); `seven_crests` marked archival. |

@@ -2,7 +2,7 @@
 name = "explore_sidon_odd_restricted"
 version = "0.1.0"
 edition = "2021"
-description = "Max strict Sidon set size in GF(2)^n odd/all/even slices (Seven Koi math tooling)"
+description = "Max strict Sidon set size in GF(2)^n odd/all/even slices (Koi math tooling)"
 readme = "README.md"
 license = "MIT OR Apache-2.0"
 

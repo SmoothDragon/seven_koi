@@ -1,20 +1,26 @@
-# koi_selection.md — the seven koi of Seven Koi
+# koi_selection.md — retail roster for **Koi** (six breeds)
 
-This file freezes the Phase 1 decision from [PLAN.md](PLAN.md): which seven koi varieties (out of the thirteen on [ThirteenKoi.png](ThirteenKoi.png)) appear in the deck. Selection criteria, in priority order: visual distinctness at thumbnail size, distinct silhouette/pattern density, cultural recognizability, and avoidance of near-duplicates.
+This file freezes the **retail** roster from [PLAN.md](PLAN.md): which six breeds (out of the thirteen on [ThirteenKoi.png](ThirteenKoi.png)) appear on the **32-card** deck for the game **Koi**. Selection criteria, in priority order: visual distinctness at thumbnail size, distinct silhouette/pattern density, cultural recognizability, and avoidance of near-duplicates.
 
-The seven dropped varieties (Shusui, Sanke, Utsurimono, Hariwake, Bekko, Utsuri, plus one of the rotation candidates noted in §2) are listed at the bottom along with the reason each was cut.
+**Kumonryu** is **not** on retail **Koi** cards; it is reserved as the seventh breed for the optional **Koi** expansion (seven species) ([`expansion/seven_koi/README.md`](expansion/seven_koi/README.md)). Repository math tools still exercise the seven-bit odd slice for that expansion geometry — see [CLAUDE.md](CLAUDE.md).
 
 ---
 
-## 1. The seven
+## 0. Seventh breed (expansion only)
 
-Cards are numbered 1–7 in this order (the koi's bit position in the F_2^7 encoding from `math/NOTES.md`).
+**Kumonryu (九紋竜)** — held back from the base **six** so thumbnails stay maximally distinct at card scale; reinstated only if the seven-species **Koi** expansion SKU ships. See [`expansion/seven_koi/README.md`](expansion/seven_koi/README.md) and [`expansion/seven_koi/DECK_AND_RULES.md`](expansion/seven_koi/DECK_AND_RULES.md).
+
+---
+
+## 1. The six
+
+Cards are numbered **1–6** in this order (the koi’s bit position in the **GF(2)⁶** encoding used in `math/NOTES.md` for the published odd-weight deck).
 
 ### 1. Kohaku — 紅白 (Kōhaku)
 
 **Primary hex**: `#D7263D` (vermilion red on white)
 
-The classic. A pure white body marked with bold patches of red. Kohaku is the oldest of the Gosanke ("big three") koi and the bloodline against which every other variety is judged — when in doubt, the saying goes, "begin and end with Kohaku".
+The classic. A pure white body marked with bold patches of red. Kohaku is the oldest of the Gosanke (“big three”) koi and the bloodline against which every other variety is judged — when in doubt, the saying goes, “begin and end with Kohaku”.
 
 ### 2. Showa — 昭和三色 (Shōwa Sanshoku)
 
@@ -44,50 +50,34 @@ The friendliest koi in any pond — chagoi are the first to learn to take food f
 
 **Primary hex**: `#F5F5F0` (paper white, with `#D7263D` crown)
 
-Pure white body, single red disc on the head — the Japanese flag rendered in fish form. Named for the red-crowned crane (`tanchō-zuru`). The most visually striking of the seven and the one casual players will recognise instantly.
-
-### 7. Kumonryu — 九紋竜 (Kumonryū)
-
-**Primary hex**: `#2B2B2B` (sumi black on white)
-
-"Nine-marked dragon" — a scaleless (doitsu) koi whose flowing black-and-white pattern is said to shift with the seasons and water temperature, like ink dragging across rice paper. Where Showa is structured tricolor, Kumonryu is loose calligraphy: the contrast in pattern *style* (not just colour) is what earns it the seventh slot over the other black-and-white candidates.
+Pure white body, single red disc on the head — the Japanese flag rendered in fish form. Named for the red-crowned crane (`tanchō-zuru`). The most visually striking of the six and the one casual players will recognise instantly.
 
 ---
 
-## 2. Why these seven and not the others
+## 2. Why these six and not the others
 
-| Dropped       | Reason for cut                                                                                       |
-|---------------|------------------------------------------------------------------------------------------------------|
-| Shusui        | Doitsu (scaleless) version of Asagi — same blue tonality and same red accents. Too close to Asagi.  |
-| Sanke         | White-red-black tricolor; visually overlaps with Showa once shrunk to thumbnail.                    |
-| Utsurimono    | Black with red/white/yellow markings — overlaps with Showa and the Utsuri family.                   |
-| Utsuri        | Black with yellow markings — overlaps with Kumonryu (black-on-white) and the Utsurimono family.     |
-| Bekko         | White body with black spots — overlaps with Kumonryu, with less visual character.                   |
-| Hariwake      | Metallic white with orange/yellow patterning — overlaps with Ogon (metallic) and is less iconic.    |
+The thirteen-way shortlist and cut reasons for **Shusui, Sanke, Utsurimono, Hariwake, Bekko, Utsuri** are unchanged from the earlier seven-species write-up (see git history or [ThirteenKoi.png](ThirteenKoi.png) for the full grid).
 
-Net result: the seven kept span seven distinct hue/pattern niches (red-on-white, black-tricolor, blue-scaled, solid-gold, solid-brown, white-with-red-spot, sumi-black-on-white) with no two confusable at thumbnail size on a triple or quintuple card.
+**Kumonryu (九紋竜)** — see **section 0** for expansion placement. At card scale Kumonryu and Showa both read **black-heavy**; keeping Showa preserves the classic Gosanke read next to Kohaku while Asagi, Ogon, Chagoi, and Tancho each own a distinct hue or motif.
 
 ---
 
 ## 3. Palette summary (for `design/style_guide.md`)
 
-| #  | Koi      | Japanese      | Primary hex |
-|----|----------|---------------|-------------|
-| 1  | Kohaku   | 紅白          | `#D7263D`   |
-| 2  | Showa    | 昭和三色      | `#1A1A1A`   |
-| 3  | Asagi    | 浅黄          | `#2E6F95`   |
-| 4  | Ogon     | 黄金          | `#E0B040`   |
-| 5  | Chagoi   | 茶鯉          | `#7B4B2A`   |
-| 6  | Tancho   | 丹頂          | `#F5F5F0`   |
-| 7  | Kumonryu | 九紋竜        | `#2B2B2B`   |
+| #  | Koi    | Japanese   | Primary hex |
+|----|--------|------------|-------------|
+| 1  | Kohaku | 紅白       | `#D7263D`   |
+| 2  | Showa  | 昭和三色   | `#1A1A1A`   |
+| 3  | Asagi  | 浅黄       | `#2E6F95`   |
+| 4  | Ogon   | 黄金       | `#E0B040`   |
+| 5  | Chagoi | 茶鯉       | `#7B4B2A`   |
+| 6  | Tancho | 丹頂       | `#F5F5F0`   |
 
-The seven primary colours are deliberately spread around the wheel: warm red, neutral black, cool blue, warm yellow, warm brown, neutral white, neutral dark grey. Tancho and Kumonryu are the two close-to-neutral picks; Tancho is differentiated by the red `#D7263D` crown spot it shares with Kohaku.
+The six primary colours stay spread around the wheel: warm red, neutral black, cool blue, warm yellow, warm brown, neutral white with a red crown accent.
 
 ---
 
 ## 4. Open follow-ups
 
-- The corner **glyph row** in `PLAN.md` Phase 4 uses these hexes inside each breed’s **micro-crest** (horizontal segment), left → right in the order above — see `design/style_guide.md` §5 and `design/glyphs/seven_crests.svg`.
-- For the all-seven card, the seven hexes give a natural rainbow-ordering palette (red → black → blue → gold → brown → white → grey is fine; reorder by hue if a clockwise gradient looks cleaner).
-- Japanese text: confirm with a native speaker that `紅白 / 昭和三色 / 浅黄 / 黄金 / 茶鯉 / 丹頂 / 九紋竜` are the canonical kanji forms for card use (sometimes `黄金` is written as `黄金鯉`, etc.).
-- **Standard (six-koi) mode:** rules and `CLAUDE.md` describe a parallel **32-card** deck consisting of odd-weight subsets of **six** koi—the seventh species is omitted on **every** card. **Which of the seven to exclude for production Standard decks is not decided.** Pedagogy likely favours omitting whichever variety is busiest visually for new players (possibly Kumonryu or Showa — revisit after glyph-row playtests).
+- The corner **glyph row** in `PLAN.md` Phase 4 uses these hexes inside each breed’s **micro-crest** (horizontal segment), left → right in the order above — see `design/style_guide.md` §5 and `design/glyphs/six_crests.svg`.
+- Japanese text: confirm with a native speaker that `紅白 / 昭和三色 / 浅黄 / 黄金 / 茶鯉 / 丹頂` are the canonical kanji forms for card use (sometimes `黄金` is written as `黄金鯉`, etc.).

@@ -1,17 +1,17 @@
-//! Seven Koi — browser bonus crate (WebAssembly).
-//! Game rules and layout size (`L = 10`) live in repo root `CLAUDE.md`.
+//! Koi — browser bonus crate (WebAssembly).
+//! Retail rules and baseline layout (`L₀ = 8`) live in repo root `CLAUDE.md`.
 
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
 pub fn package_name() -> String {
-    "seven_koi_bonus".to_string()
+    "Koi".to_string()
 }
 
-/// The 64 odd-weight 7-bit vectors, same convention as `math/verify.py`.
+/// The 32 odd-weight 6-bit vectors (retail deck), same convention as six-breed odd slice in `math/verify.py`.
 #[wasm_bindgen]
 pub fn deck_vector() -> Vec<u32> {
-    (0u32..128)
+    (0u32..64)
         .filter(|&v| v.count_ones() % 2 == 1)
         .collect()
 }
@@ -27,8 +27,8 @@ mod tests {
     use super::*;
 
     #[test]
-    fn deck_has_64_cards() {
-        assert_eq!(deck_vector().len(), 64);
+    fn deck_has_32_cards() {
+        assert_eq!(deck_vector().len(), 32);
     }
 
     #[test]
